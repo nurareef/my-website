@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tree Monitoring Dashboard</title>
+    <style>
+        body {
+            background-image: url('blur-nature-green-park-with-bokeh-sun-light-abstract-background-copy-space-travel-adventure-environment-concept-vintage-tone-filter-color-style.jpg'); /* Replace with your forest background image */
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .dashboard {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .tree-info {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .dashboard-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .search-label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('tree-id');
+            const searchButton = document.getElementById('search-button');
+
+            searchButton.addEventListener('click', async () => {
+                const treeId = searchInput.value;
+
+                const response = await fetch('/getTreeData', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ treeId })
+                });
+
+                if (response.ok) {
+                    const treeData = await response.json();
+                    updateDashboard(treeData);
+                }
+            });
+
+            function updateDashboard(data) {
+                const treeInfo = document.querySelector('.tree-info');
+
+                treeInfo.innerHTML = `
+                    <h1 class="dashboard-title">PLANTERS<br>Monitoring Dashboard</h1>
+                    <p>Tree ID: ${data['Tree ID']}</p>
+                    <p>Height (m): ${data['Height (m)']} meters</p>
+                    <p>Girth (cm): ${data['Girth (cm)']} cm</p>
+                    <p>Condition: ${data['Condition']}</p>
+                `;
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="tree-info">
+            <h1 class="dashboard-title">PLANTERS<br>Monitoring Dashboard</h1>
+            <p>This dashboard provides information about our trees.</p>
+        </div>
+        <div class="search-bar">
+            <label for="tree-id" class="search-label">Key-in Tree ID:</label>
+            <input type="text" id="tree-id" class="search-input" placeholder="Enter Tree ID">
+            <button id="search-button" class="search-button">Search</button>
+        </div>
+    </div>
+</body>
+</html>
+
+
