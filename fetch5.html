@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Data</title>
+</head>
+<body>
+    <h1>Google Sheets Data</h1>
+
+    <!-- Dropdown menu to select the Google Sheets file -->
+    <label for="file-select">Select a file:</label>
+    <select id="file-select">
+        <option value="fileA">File A</option>
+        <option value="fileB">File B</option>
+    </select>
+    
+    <table id="data-table">
+        <!-- Data from the selected Google Sheets file will be displayed here -->
+    </table>
+
+    <script>
+        // Function to fetch and display data from the selected Google Sheets document
+        function fetchData(selectedFile) {
+            // Define the URLs for File A and File B
+            const fileAURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSFI0XmQMAmFgjmQ4eMV472sLJRjaqKPtVCF4pVd2QtaCg_1VvQr6UJejX_W3thrw8OqtchtOl3ZD_G/pubhtml";
+            const fileBURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSEHK_yLZwPekruZf4IrVIr9no_MOlpo5GAu4sRGCMnS6uvAzb9AQAL9BkQo5MQQAikHkQaOIJipAf/pubhtml";
+
+            // Determine the URL based on the selected file
+            const selectedURL = (selectedFile === "fileA") ? fileAURL : fileBURL;
+
+            // Create a cache-busting parameter by appending the current timestamp
+            const cacheBuster = new Date().getTime();
+            const sheetURL = `${selectedURL}?timestamp=${cacheBuster}`;
+
+            // Fetch data from the selected Google Sheets file with cache set to 'no-store'
+            fetch(sheetURL, { cache: 'no-store' })
+                .then(response => response.text())
+                .then(data => {
+                    // Parse the HTML data
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table');
+
+                    // Clear existing data and append the updated table to the body of the HTML document
+                    const dataContainer = document.getElementById("data-table");
+                    dataContainer.innerHTML = '';
+                    
+                    // Filter the table to include only rows 2 to 4 (skipping the header)
+                    const rows = table.querySelectorAll('tr');
+                    for (let i = 1; i < rows.length && i <= 4; i++) {
+                        dataContainer.appendChild(rows[i]);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        // Event listener for the file select dropdown
+        const fileSelect = document.getElementById("file-select");
+        fileSelect.addEventListener("change", () => {
+            const selectedFile = fileSelect.value;
+            fetchData(selectedFile);
+        });
+
+        // Fetch data initially for the default selected file
+        fetchData(fileSelect.value);
+    </script>
+</body>
+</html>
