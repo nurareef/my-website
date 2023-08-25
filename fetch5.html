@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Data</title>
+</head>
+<body>
+    <h1>Google Sheets Data</h1>
+    
+    <!-- Dropdown menu for selecting a name -->
+    <label for="name-dropdown">Select a Name:</label>
+    <select id="name-dropdown">
+        <option value="">Select a Name</option>
+    </select>
+    
+    <table id="data-table">
+        <!-- Data from Google Sheets will be displayed here -->
+    </table>
+
+    <script>
+        // Function to fetch and display data from your Google Sheets document
+        function fetchData() {
+            // Create a cache-busting parameter by appending the current timestamp
+            const cacheBuster = new Date().getTime();
+            const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSFI0XmQMAmFgjmQ4eMV472sLJRjaqKPtVCF4pVd2QtaCg_1VvQr6UJejX_W3thrw8OqtchtOl3ZD_G/pubhtml?timestamp=${cacheBuster}`;
+
+            // Fetch data from Google Sheets with cache set to 'no-store'
+            fetch(sheetURL, { cache: 'no-store' })
+                .then(response => response.text())
+                .then(data => {
+                    // Parse the HTML data
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table');
+
+                    // Clear existing data and append the updated table to the body of the HTML document
+                    const dataContainer = document.getElementById("data-table");
+                    dataContainer.innerHTML = '';
+                    
+                    // Filter the table to include only rows 2 to 4 (skipping the header)
+                    const rows = table.querySelectorAll('tr');
+                    for (let i = 1; i < rows.length && i <= 4; i++) {
+                        dataContainer.appendChild(rows[i]);
+                    }
+
+                    // Populate the dropdown menu based on unique values in column A (Name)
+                    const nameDropdown = document.getElementById("name-dropdown");
+                    const nameColumn = table.querySelectorAll('td:first-child'); // Assuming Name is in the first column
+
+                    // Create a Set to store unique names
+                    const uniqueNames = new Set();
+                    nameColumn.forEach(cell => {
+                        uniqueNames.add(cell.textContent);
+                    });
+
+                    // Clear existing options and add unique names to the dropdown
+                    nameDropdown.innerHTML = '<option value="">Select a Name</option>';
+                    uniqueNames.forEach(name => {
+                        const option = document.createElement("option");
+                        option.value = name;
+                        option.textContent = name;
+                        nameDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        // Fetch data initially and then every 5 minutes (adjust as needed)
+        fetchData();
+        setInterval(fetchData, 300000); // 5 minutes in milliseconds
+    </script>
+</body>
+</html>
