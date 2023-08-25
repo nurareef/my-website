@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Guest 1</title>
+</head>
+<body>
+    <h1>Welcome Guest 1</h1>
+    
+    <!-- Dropdown for selecting Tree ID -->
+    <label for="tree-id-select">Select Tree ID:</label>
+    <select id="tree-id-select">
+    </select>
+    
+    <div id="tree-details">
+        <!-- Tree details will be displayed here -->
+    </div>
+
+    <script>
+        // Function to generate the dropdown options for Tree IDs
+        function generateDropdownOptions() {
+            const selectElement = document.getElementById("tree-id-select");
+
+            // Assuming you want to generate options from D01B0310001 to D01B0312499
+            const startID = 1;
+            const endID = 2499;
+
+            for (let i = startID; i <= endID; i++) {
+                const treeID = `D01B031${i.toString().padStart(4, '0')}`;
+                const option = document.createElement("option");
+                option.value = treeID;
+                option.text = treeID;
+                selectElement.appendChild(option);
+            }
+        }
+
+        // Function to fetch and display data for a selected Tree ID
+        function fetchTreeDetails() {
+            const selectedTreeID = document.getElementById("tree-id-select").value;
+            
+            // Fetch data from Google Sheets with cache set to 'no-store'
+            const cacheBuster = new Date().getTime();
+            const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQSEHK_yLZwPekruZf4IrVIr9no_MOlpo5GAu4sRGCMnS6uvAzb9AQAL9BkQo5MQQAikHkQaOIJipAf/pubhtml?timestamp=${cacheBuster}`;
+
+            fetch(sheetURL, { cache: 'no-store' })
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table');
+                    
+                    // Find the row that matches the selected Tree ID
+                    const rows = table.querySelectorAll('tr');
+                    for (let i = 1; i < rows.length; i++) {
+                        const cells = rows[i].querySelectorAll('td');
+                        if (cells.length === 3 && cells[0].textContent.trim() === selectedTreeID) {
+                            // Display the details for the selected Tree ID
+                            const treeDetails = `
+                                <p><strong>Tree ID:</strong> ${cells[0].textContent.trim()}</p>
+                                <p><strong>Type:</strong> ${cells[1].textContent.trim()}</p>
+                                <p><strong>Height (m):</strong> ${cells[2].textContent.trim()}</p>
+                            `;
+                            document.getElementById("tree-details").innerHTML = treeDetails;
+                            return; // Exit the loop once the match is found
+                        }
+                    }
+                    
+                    // If no match is found, display a message
+                    document.getElementById("tree-details").innerHTML = "<p>No data found for the selected Tree ID.</p>";
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        // Initial fetch when the page loads
+        generateDropdownOptions();
+        fetchTreeDetails();
+
+        // Add an event listener to the dropdown to fetch data when a new Tree ID is selected
+        document.getElementById("tree-id-select").addEventListener("change", fetchTreeDetails);
+    </script>
+</body>
+</html>
