@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tree Monitoring Dashboard</title>
+    <style>
+        body {
+            background-image: url('https://i.imgur.com/sCYdhph.jpeg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .dashboard {
+            background-color: rgba(0, 0, 0, 0.747); /* Semi-transparent black background */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .tree-info {
+            margin-bottom: 10px;
+        }
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 10px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+        .search-label {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .search-input {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .company-logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Position logo on the right */
+            margin-right: 75px; /* Add margin for spacing */
+            margin-bottom: 10px; /* Add margin for spacing */
+
+        }
+        .company-logo img {
+            width: 150px;
+            height: auto;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .search-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('search-button');
+
+            searchButton.addEventListener('click', () => {
+                // Get the entered username, password, and file type
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const fileType = document.getElementById('file').value;
+
+                // Check if the username and password are correct
+                if (username === 'Admin123' && password === '@dmin123' && fileType === 'D01C037') {
+                    // Redirect to the Admin link for D01C037
+                    window.location.href = 'https://raw.githack.com/nurareef/my-website/main/PLANTERS:Admin-v1.5(C).html';
+                } else if (username === 'Admin123' && password === '@dmin123' && fileType === 'D01B031') {
+                    // Redirect to the Admin link for D01B031
+                    window.location.href = 'https://raw.githack.com/nurareef/my-website/main/PLANTERS:Admin-v1.5(B).html';
+                } else if (username === 'Guest_1' && password === 'Guest_1' && fileType === '/////////') {
+                    // Redirect to the Guest_1 link for D01C037
+                    window.location.href = '';
+                } else if (username === 'Guest_1' && password === 'Guest_1' && fileType === '////////') {
+                    // Redirect to the Guest_1 link for D01B031
+                    window.location.href = '';
+                } else {
+                    // Display an error message if login fails or the file type is incorrect
+                    alert('Incorrect username, password, or file type. Please try again.');
+                }
+            });
+        });
+    </script>    
+</head>
+<body>
+    <div class="dashboard">
+        <div class="tree-info">
+            <div class="company-logo">
+                <img src="https://i.imgur.com/QPwwzqZ.png" alt="Company Logo">
+                </div>
+            <h1 class="dashboard-title">Monitoring Dashboard</h1>
+            <p></p>
+        </div>
+        <div class="login-form">
+            <label for="username" class="search-label">Username:</label>
+            <input type="text" id="username" class="search-input" placeholder="Enter Username">
+            <label for="password" class="search-label">Password:</label>
+            <input type="password" id="password" class="search-input" placeholder="Enter Password">
+            <label for="file" class="search-label">File:</label>
+            <input type="text" id="file" class="search-input" placeholder="Tree ID">
+            <button id="search-button" class="search-button">Login</button>
+        </div>
+    </div>
+</body>
+</html>
