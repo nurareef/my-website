@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin 1</title>
+    <style>
+        body {
+            background-image: url('https://i.imgur.com/sCYdhph.jpeg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(255, 255, 255);
+        }
+        .dashboard {
+            background-color: rgba(0, 0, 0, 0.747); /* Semi-transparent black background */
+            padding: 100px;
+            border-radius: 50px;
+            width: 1500px;
+        }
+        .dashboard h2 {
+            text-align: center;
+        }
+        .container h3 {
+            margin-top: 50px;
+            margin-left: 190px;
+        }
+        iframe {
+            height: 500px;
+            border: none;
+            border-radius: 25px; /* Adjust the radius as needed */
+        }
+        .company-logo {
+            text-align: center; /* Center the contents horizontally */
+        }
+
+        /* Apply styles to the logo image */
+        .company-logo img {
+            width: 100px; /* Set your desired width */
+            height: auto; /* Maintain aspect ratio */
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Style the select dropdown */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Style the select dropdown when it's hovered */
+        select:hover {
+            border-color: #555;
+        }
+
+        /* Style the select dropdown when it's focused */
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+    <script>
+        function generateDropdownOptions() {
+            const selectElement = document.getElementById("tree-id-select");
+
+            // Assuming you want to generate options from D01C0370001 to D01C0372499
+            const startID = 1;
+            const endID = 2499;
+
+            for (let i = startID; i <= endID; i++) {
+                const treeID = `D01C037${i.toString().padStart(4, '0')}`;
+                const option = document.createElement("option");
+                option.value = treeID;
+                option.text = treeID;
+                selectElement.appendChild(option);
+            }
+        }
+
+        function fetchTreeDetails() {
+            const selectedTreeID = document.getElementById("tree-id-select").value;
+
+            if (selectedTreeID === "D01C0370001") {
+                // Display the embedded map for D01C0370001
+                const mapHTML = `
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8150000.8538042875!2d104.3214276794181!3d4.123014526389854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3034d3975f6730af%3A0x745969328211cd8!2sMalaysia!5e0!3m2!1sen!2smy!4v1693543629073!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                `;
+                document.getElementById("tree-details").innerHTML = mapHTML;
+            } else if (selectedTreeID === "D01C0370002") {
+                // Display the embedded map for D01C0370002
+                const mapHTML = `
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d73608.66283598739!2d101.92909471161055!3d4.250081132061496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cbd44317006a27%3A0xd711e005e1d65c43!2sGua%2C%20Pahang!5e1!3m2!1sen!2smy!4v1693293679785!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                `;
+                document.getElementById("tree-details").innerHTML = mapHTML;
+            } else {
+                // Handle other cases or display a message if the selected Tree ID is not recognized
+                document.getElementById("tree-details").innerHTML = "<p>No data found for the selected Tree ID.</p>";
+            }
+        }
+
+        // Initial fetch when the page loads
+        generateDropdownOptions();
+        fetchTreeDetails();
+
+        // Add an event listener to the dropdown to fetch data when a new Tree ID is selected
+        document.getElementById("tree-id-select").addEventListener("change", fetchTreeDetails);
+    </script>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="company-logo">
+            <img src="https://i.imgur.com/QPwwzqZ.png" alt="Company Logo">
+        </div>
+        <h2>Admin Monitoring Dashboard</h2>
+
+        <!-- Dropdown for selecting Tree ID -->
+        <label for="tree-id-select">Select Tree ID:</label>
+        <select id="tree-id-select">
+        </select>
+
+        <div id="tree-details">
+            <!-- Content will be displayed here -->
+        </div>
+
+        <div class="container">
+            <h3>Embed Location Map</h3> 
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d73608.66283598739!2d101.92909471161055!3d4.250081132061496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cbd44317006a27%3A0xd711e005e1d65c43!2sGua%2C%20Pahang!5e1!3m2!1sen!2smy!4v1693293679785!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</body>
+</html>
