@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin 1</title>
+    <style>
+        body {
+            background-image: url('https://i.imgur.com/sCYdhph.jpeg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: rgb(255, 255, 255);
+            margin: 0; /* Remove default body margin */
+        }
+        .dashboard {
+            background-color: rgba(0, 0, 0, 0.747); /* Semi-transparent black background */
+            padding: 100px;
+            border-radius: 50px;
+            display: flex; /* Use flexbox to arrange content */
+            flex-direction: row; /* Horizontal arrangement */
+            justify-content: space-between; /* Space between elements */
+            align-items: center; /* Center vertically */
+            width: 1500px;
+            margin: 0 auto; /* Center horizontally */
+        }
+        .dashboard h2 {
+            text-align: center;
+            margin-top : 80px;
+        }
+        .content {
+            flex: 1; /* Take up available space */
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        /* Style the select dropdown */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+            color: #333;
+        }
+        /* Style the select dropdown when it's hovered */
+        select:hover {
+            border-color: #555;
+        }
+        /* Style the select dropdown when it's focused */
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        /* Adjust the video's position to the right */
+        #tree-video {
+            flex: 1; /* Take up available space */
+            margin-left: 20px; /* Add some space between the video and content */
+            margin-top : 140px;
+
+        }
+        /* Center the company logo horizontally and at the top with a max width */
+        .company-logo {
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top : 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        
+        <div class="content">
+            <h2>Admin Monitoring Dashboard</h2>
+            <!-- Dropdown for selecting Tree ID -->
+            <label for="tree-id-select">Select Tree ID:</label>
+            <select id="tree-id-select"></select>
+            <div id="tree-details">
+                <!-- Tree details will be displayed here -->
+            </div>
+        </div>
+        <!-- Embed the .mp4 video to autoplay without controls and muted for autoplay -->
+        <video id="tree-video" width="auto" height="490" autoplay muted>
+            <source src="https://drive.google.com/uc?id=1iZawnPRNPrGVnTf9w1vHCLPJhxx15NCf" type="video/mp4">
+        </video>
+        <div class="company-logo">
+            <img src="https://i.imgur.com/QPwwzqZ.png" alt="Company Logo" style="width: 100px; height: auto;">
+        </div>
+    </div>
+    <script>
+        // Function to generate the dropdown options for Tree IDs
+        function generateDropdownOptions() {
+            const selectElement = document.getElementById("tree-id-select");
+
+            // Assuming you want to generate options from D01C0370001 to D01C0372499
+            const startID = 1;
+            const endID = 2499;
+
+            for (let i = startID; i <= endID; i++) {
+                const treeID = `D01B031${i.toString().padStart(4, '0')}`;
+                const option = document.createElement("option");
+                option.value = treeID;
+                option.text = treeID;
+                selectElement.appendChild(option);
+            }
+        }
+
+        // Function to fetch and display data for a selected Tree ID
+        function fetchTreeDetails() {
+            const selectedTreeID = document.getElementById("tree-id-select").value;
+
+            // Fetch data from Google Sheets with cache set to 'no-store'
+            const cacheBuster = new Date().getTime();
+            const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vRqwxb8aozV6MP6q0QYirtSrIr9__WEomvvjbG4suPVy_C1JueyffCpGVC0Vn4KJ1G_GUTM60yxxvtD/pubhtml?timestamp=${cacheBuster}`;
+
+            fetch(sheetURL, { cache: 'no-store' })
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table');
+
+                    // Find the row that matches the selected Tree ID
+                    const rows = table.querySelectorAll('tr');
+                    for (let i = 1; i < rows.length; i++) {
+                        const cells = rows[i].querySelectorAll('td');
+                        if (cells.length === 13 && cells[0].textContent.trim() === selectedTreeID) {
+                            // Display the details for the selected Tree ID, including Length and Width
+                            const treeDetails = `
+                                <p><strong>Tree ID:</strong> ${cells[0].textContent.trim()}</p>
+                                <p><strong>Easting:</strong> ${cells[1].textContent.trim()}</p>
+                                <p><strong>Northing (m):</strong> ${cells[2].textContent.trim()}</p>
+                                <p><strong>Type:</strong> ${cells[3].textContent.trim()}</p>
+                                <p><strong>Height (m):</strong> ${cells[4].textContent.trim()}</p>
+                                <p><strong>Girth (cm):</strong> ${cells[5].textContent.trim()}</p>
+                                <p><strong>Condition (cm):</strong> ${cells[6].textContent.trim()}</p>
+                                <p><strong>Trunk Biomass (cm):</strong> ${cells[7].textContent.trim()}</p>
+                                <p><strong>Branch Biomass (cm):</strong> ${cells[8].textContent.trim()}</p>
+                                <p><strong>Leaves Biomass (cm):</strong> ${cells[9].textContent.trim()}</p>
+                                <p><strong>Underground Biomass (cm):</strong> ${cells[10].textContent.trim()}</p>
+                                <p><strong>Total Tree Biomass (cm):</strong> ${cells[11].textContent.trim()}</p>
+                                <p><strong>Carbon per Tree (Kg) (cm):</strong> ${cells[12].textContent.trim()}</p>
+                            `;
+                            document.getElementById("tree-details").innerHTML = treeDetails;
+
+                            // Play the video
+                            const video = document.getElementById("tree-video");
+                            video.play();
+
+                            return; // Exit the loop once the match is found
+                        }
+                    }
+
+                    // If no match is found, display a message
+                    document.getElementById("tree-details").innerHTML = "<p>No data found for the selected Tree ID.</p>";
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        // Initial fetch when the page loads
+        generateDropdownOptions();
+        fetchTreeDetails();
+
+        // Add an event listener to the dropdown to fetch data when a new Tree ID is selected
+        document.getElementById("tree-id-select").addEventListener("change", fetchTreeDetails);
+    </script>
+</body>
+</html>
