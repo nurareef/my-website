@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Example</title>
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        /* Set the size of the map container */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for dynamically generated dropdowns -->
+    <div id="dropdownContainer"></div>
+
+    <!-- Button to add a new dropdown -->
+    <button id="addDropdown">Add Tree ID</button>
+
+    <!-- Create a div element to hold the map -->
+    <div id="map"></div>
+
+    <script>
+        // Create a map centered at one of the coordinates (e.g., the first one)
+        var map = L.map('map').setView([5.220508502, 102.1672723], 15); // Adjust the zoom level as needed
+
+        // Add a tile layer (you can choose different map providers)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Create an empty object to store marker groups
+        var markerGroups = {};
+
+        // Function to add a new dropdown
+        function addDropdown() {
+            var dropdownCount = Object.keys(markerGroups).length + 1;
+            var dropdownHTML = `
+                <!-- Create a dropdown menu for ID ${dropdownCount} -->
+                <label for="idSelect${dropdownCount}">Select ID ${dropdownCount}:</label>
+                <select id="idSelect${dropdownCount}"></select>
+                <!-- Display latitude and longitude for ID ${dropdownCount} -->
+                <p>Latitude (ID ${dropdownCount}): <span id="latitude${dropdownCount}"></span></p>
+                <p>Longitude (ID ${dropdownCount}): <span id="longitude${dropdownCount}"></span></p>
+            `;
+
+            // Append the dropdown to the container
+            document.getElementById('dropdownContainer').insertAdjacentHTML('beforeend', dropdownHTML);
+
+            // Create a new marker group for the new dropdown
+            markerGroups[`markerGroup${dropdownCount}`] = L.layerGroup().addTo(map);
+
+            // Fetch data from the Google Sheet in CSV format
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQf0uqyHt2emGtqzHQ7uGWbXE-5xYKF8TIXQL7WzU94A6xHBWhz1Jyq3KZkj2KoTZh7mAAHb49KuMpv/pub?output=csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Split the CSV data into lines
+                    var lines = data.split('\n');
+
+                    // Populate the new dropdown with IDs
+                    var newDropdown = document.getElementById(`idSelect${dropdownCount}`);
+                    for (var i = 1; i < lines.length; i++) {
+                        var line = lines[i].split(',');
+                        var id = line[0]; // Assuming the ID is in the first column
+                        var option = document.createElement('option');
+                        option.value = id;
+                        option.text = id;
+                        newDropdown.appendChild(option);
+                    }
+
+                    // Handle the change event of the new dropdown
+                    newDropdown.addEventListener('change', function() {
+                        var selectedId = newDropdown.value;
+                        addMarkersAndInfo(selectedId, `latitude${dropdownCount}`, `longitude${dropdownCount}`, markerGroups[`markerGroup${dropdownCount}`]);
+                    });
+                });
+        }
+
+        // Add an initial dropdown
+        addDropdown();
+
+        // Button click event to add a new dropdown
+        document.getElementById('addDropdown').addEventListener('click', addDropdown);
+
+        // Function to add markers for an ID and update latitude and longitude
+        function addMarkersAndInfo(id, latitudeId, longitudeId, markerGroup) {
+            markerGroup.clearLayers(); // Clear existing markers
+            for (var i = 1; i < lines.length; i++) {
+                var line = lines[i].split(',');
+                var lineId = line[0]; // Assuming the ID is in the first column
+                var latitude = parseFloat(line[2]); // Assuming latitude is in Column C
+                var longitude = parseFloat(line[1]); // Assuming longitude is in Column B
+                if (lineId === id) {
+                    // Display latitude and longitude for the selected ID
+                    document.getElementById(latitudeId).textContent = latitude;
+                    document.getElementById(longitudeId).textContent = longitude;
+                    // Add a marker for the selected location
+                    var marker = L.marker([latitude, longitude]).addTo(markerGroup);
+                    break; // Stop searching once the ID is found
+                }
+            }
+        }
+    </script>
+</body>
+</html>
