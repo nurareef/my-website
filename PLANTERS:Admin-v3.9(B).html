@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin 1</title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/QPwwzqZ.png">
+<link rel="website icon" type="png"
+href="https://i.imgur.com/QPwwzqZ.png">
     <!-- Include Leaflet CSS and JavaScript -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -38,134 +39,25 @@
             width: 100%; /* Make the header full width */
         }
 
-        .company-logo img {
-            width: 500px;
-            height: auto;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-@media screen and (max-width: 768px) {
-    .company-logo img {
-        width: 300px; /* Adjust the width for smaller screens (e.g., mobile) */
-    }
-}
-        .first-dashboard {
-            display: flex;
-            flex-direction: row; /* Arrange elements horizontally with .dashboard on the right */
-            justify-content: flex-start; /* Align items to the start (left) */
-            align-items: center; /* Center vertically */
-            margin-top: 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight opacity */
-            width: 100%; /* Set the width to 100% to fit the HTML content */
+        .company-logo {
+            margin-top: 20px; /* Add margin to separate the logo from the header */
         }
 
-        .second-dashboard {
-            align-items: center; /* Center vertically */
-            display: flex;
-            justify-content: space-between;
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight opacity */
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-            margin-top: 20px;
-        }
-
-
-        #tree-video {
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-            margin-top: 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 1); /* Add shadow properties here */
-            flex: 0 0 auto; /* Prevent the video from growing and maintain its size */
-        }
-
-        .inside-first-dashboard {
-            padding: 5px;
-            margin-top: 30px;
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-            margin-bottom: 30px;
-            margin-right: 10px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.3); /* Transparent background with slight opacity */
-        }
-
-        .inside-third-dashboard{
-            margin-left: 10px;
-            margin-right: 10px;
-
-        }
-
-
-
-        #Video-info-header {
-            text-align: center; /* Center the text in the header */
-            font-size: 40px; /* Adjust the font size of the header text */
-            margin-right: 10px;
-            line-height: 1.2; /* Set the line spacing to 1.5 */
-            font-weight: bold; /* Make the text bold */
-        }
-
-
-@media screen and (max-width: 780px) {
-        #Video-info-header {
-            text-align: center; /* Center the text in the header */
-            font-size: 10px; /* Adjust the font size of the header text */
-            margin-top: 10px;
-            margin-right: 10px;
-            line-height: 1.2; /* Set the line spacing to 1.5 */
-            font-weight: bold; /* Make the text bold */
-        }
-}
-
-        #Video-info {
-            text-align: center; /* Center the text in the header */
-            font-size: 20px; /* Adjust the font size of the header text */
-            margin-top: 10px;
-            margin-right: 10px;
-            line-height: 1.8; /* Set the line spacing to 1.5 */
-        }
-
-
-
-@media screen and (max-width: 780px) {
-        #Video-info {
-            text-align: center; /* Center the text in the header */
-            font-size: 8px; /* Adjust the font size of the header text */
-            margin-top: 10px;
-            margin-right: 10px;
-            line-height: 1.8; /* Set the line spacing to 1.5 */
-        }
-}
-
-        .inside-second-dashboard {
-            padding: 20px;
-
-            justify-content: center; /* Align items to the start (left) */
-            margin-top: 20px;
-            margin-left: 60px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent background with slight opacity */
-
-        }
-
-        .inside-second-dashboard-2 {
-            padding: 20px;
-
-            border-radius: 10px;
+        .dashboard {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100%; /* Ensure the container takes up the full height of its parent */
-            margin-top: 20px;
-            margin-bottom: 20px;
-            margin-left: 60px;
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent background with slight opacity */
-
+            flex-wrap: wrap;
+            background-color: rgba(0, 0, 0, 1); /* Transparent white background with slight opacity */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        #tree-video {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
 
         .content {
             flex: 1;
@@ -184,299 +76,59 @@
             border-radius: 5px;
         }
 
-    #tree-id-select, #tree-details, #indicator {
-        width: 100%;
-
-        }
-
-        .third-dashboard {
-            display: flex;
-            flex-direction: row; /* Arrange elements horizontally */
-            align-items: center; /* Center vertically */
+        #tree-details {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.9); /* Transparent white background with slight opacity */
             margin-top: 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight opacity */
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-
-        }
-
-
-        #addMapDropdown {
-            margin-bottom: 10px;
-            margin-top: 10px;
-            color: black;
-            font-size: 16px; /* Adjust the font size as needed */
-            font-weight: bold;
-            /* Add more styles as needed */
-        }
-
-@media screen and (max-width: 780px) {
-    #addMapDropdown {
-        font-size: 10px; /* Font size for smaller screens */
-    }
-}
-
-@media screen and (max-width: 780px) {
-    #removeMarkersButton {
-        font-size: 10px; /* Font size for smaller screens */
-    }
-}
-
-@media screen and (max-width: 780px) {
-    #addMarkersButton {
-        font-size: 10px; /* Font size for smaller screens */
-    }
-}
-
-
-        #addMapDropdown:hover {
-            background-color: #2A81CA; /* Slight darkening on hover */
-        }
-
-        #removeMarkersButton:hover {
-            background-color: #2A81CA; /* Slight darkening on hover */
-        }
-
-        #addMarkersButton:hover {
-            background-color: #2A81CA; /* Slight darkening on hover */
-        }
-
-
-        .custom-label {
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex; /* Use flexbox to center content */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-        }
-
-        .custom-label[for="tree-id-select"] {
-            line-height: 3;
-        }
-        
-
-        .custom-paragraph {
-            font-weight: bold;
-            font-size: 14px; /* Adjust the font size as needed */
-            color: white;
-            /* Add more styles as needed */
-        }
-
-        .custom-span {
-            color: #2A81CA;
-            font-size: 14px; /* Adjust the font size as needed */
-            /* Add more styles as needed */
-
-        }
-@media screen and (max-width: 768px) {
-    .custom-label {
-        font-size: 10px; /* Font size for smaller screens */
-    }
-
-    .custom-paragraph {
-        font-size: 8px; /* Font size for smaller screens */
-    }
-
-    .custom-span {
-        font-size: 8px; /* Font size for smaller screens */
-    }
-}
-
-        #dropdownContainer {
-            margin-top: 20px;
-        }
-
-        
-        @media screen and (max-width: 780px) {
-            #tree-video {
-                width: 500px;
-                height: auto;
-            }
-        }
-
-        /* CSS for smaller screens (e.g., phones) */
-        @media screen and (max-width: 780px) {
-            #tree-video {
-                width: 200px;
-                height: auto;
-            }
         }
 
         #map {
-            margin-bottom: 20px;
-            margin-left: 5px;
-            margin-right: 20px;
-            margin-top: 20px;
+            height: 250px;
+            width: 100%;
+            border: 1px solid #ccc;
             border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 1); /* Add shadow properties here */
-        }
-@media screen and (min-width: 780px) {
-    #map {
-        height: 500px;
-        width: 1000px;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 1); /* Add shadow properties here */
-
-    }
-}
-
-/* CSS for smaller screens (e.g., phones) */
-@media screen and (max-width: 780px) {
-    #map {
-        height: 300px;
-        width: 100%;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 1); /* Add shadow properties here */
-
-    }
-}
-
-#tree-details p {
-    font-size: 16px; /* Adjust the font size as needed */
-}
-
-/* CSS for smaller screens (e.g., phones) */
-@media screen and (max-width: 780px) {
-    #tree-details p {
-        font-size: 10px; /* Font size for smaller screens */
-    }
-}
-       
-        .custom-dropdown {
-            font-size: 14px; /* Adjust the font size as needed */
-        }
-@media screen and (max-width: 780px) {
-    .custom-dropdown {
-        font-size: 8px; /* Adjust the font size for smaller screens */
-    }
-}
-
-        #data {
-            text-align: center; /* Center the text in the header */
-            font-size: 30px; /* Adjust the font size of the header text */
             margin-top: 20px;
-            margin-bottom: 40px;
-
-
-        }
-
-        #header {
-            text-align: center; /* Center the text in the header */
-            font-size: 40px; /* Adjust the font size of the header text */
-            margin-top: 40px;
-            font-weight: bold; /* Make the text bold */
-        }
-
-        .forth-dashboard {
-            margin-top: 40px;
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight opacity */
-            width: 100%; /* Set the width to 100% to fit the HTML content */
-            margin-bottom: 40px;
-        }
-
-@media screen and (max-width: 780px) {
-    #data {
-        font-size: 20px; /* Adjust the font size for smaller screens */
-    }
-
-    #header {
-        font-size: 20px; /* Adjust the font size for smaller screens */
-    }
-
-    }
-
-        .social-icon {
-            vertical-align: middle; /* Vertically align the icon within the line */
-        }
-
-        .social-media {
-            display: flex;
-            gap: 10px; /* Adjust the space between icons */
-            flex-direction: row; /* Arrange the icons vertically */
-            margin-bottom: 40px;
-
+            margin-bottom: 50px;
 
         }
 
-
-        a {
-            text-decoration: none;
-            display: inline-block; /* Ensure inline-block display for vertical alignment */
-            vertical-align: middle; /* Vertically align anchor elements */
-        }
-        .email-address {
-            color: green; /* Adjust the color as needed */
-            margin-bottom: 10px;
-
-        }
-
-        .All-show-button {
-            flex-direction: row; /* Arrange elements horizontally */
-            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight opacity */
-            width: 100%; /* Set the width to 100% to fit the HTML content */
+        #addDropdown {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Transparent background with slight darkening */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-#addMarkersButton,
-#removeMarkersButton {
-    display: block; /* Make the buttons visible */
-    margin: 0 auto; /* Center horizontally */
-    text-align: center; /* Center the text within the buttons */
-    color: green;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-        .last-update-css {
-            font-size: 20px; /* Adjust the size as needed */
+        #addDropdown:hover {
+            background-color: rgba(0, 0, 0, 0.9); /* Slight darkening on hover */
+        }
+        #tree-video {
+            margin-top: 50px; /* Add your desired margin-top value */
+        }
+        .custom-label {
+            color: black;
             font-weight: bold;
-            margin-bottom: 10px; /* Adds a 10px margin below the element */
-            display: flex; /* Use flexbox to center content */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            /* Add more styles as needed */
+        }
+        .custom-paragraph {
+            font-weight: bold;
+            color: black;
 
+            /* Add more styles as needed */
         }
-        .good-condition-css {
-            font-size: 15px; /* Adjust the size as needed */
-            margin-bottom: 10px; /* Adds a 10px margin below the element */
+        .custom-span {
+            color: #2A81CA;
+            /* Add more styles as needed */
         }
-        .bad-condition-css {
-            font-size: 15px; /* Adjust the size as needed */
-            margin-bottom: 10px; /* Adds a 10px margin below the element */
-        }
-
-        .chart-container {
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%; /* Ensure the container takes up the full height of its parent */
+        #dropdownContainer {
             margin-top: 20px;
-            width: 100%; /* Set the width to 100% to fit the HTML content */
         }
-
-        .chart-iframe {
-            justify-content: center; /* Align items to the start (left) */
-            margin-top: 20px;
-            margin-left: 10px;
-            margin-right: 10px;
-
-            margin-bottom: 20px;
-            border-radius: 10px;
-            width: 381px; /* Set the width to 100% to fit the HTML content */
-            height: 288px; /* Set the width to 100% to fit the HTML content */
-
-            background-color: rgba(255, 255, 255, 0.6); /* Transparent background with slight opacity */
-        }
-    @media (max-width: 780px) {
-        /* Styles for screens smaller or equal to 780px */
-        .second-dashboard {
-            flex-direction: column;
-        }
-        .inside-second-dashboard {
-            margin-right: 20;
-        }
-    }
-
 
 
     </style>
@@ -484,231 +136,35 @@
 <body>
     
     <div class="company-logo">
-        <a href="https://www.planters.life/" target="_blank">
-            <img src="https://i.imgur.com/Mdj5o7V.png" alt="Company Logo">
-        </a>
+        <img src="https://i.imgur.com/QPwwzqZ.png" alt="Company Logo" style="width: 200px; height: auto; margin-top: 20px; margin-bottom: 50px;
+">
     </div>
 
     <h2>D01B031 Monitoring Dashboard</h2>
-    
-    <div class="first-dashboard">
-        <video id="tree-video" width="auto" height="300" autoplay muted playsinline>
-            <source src="https://drive.google.com/uc?id=1HG_TdVuFSw1qH6cJSoeXXonvDJxqRXmO" type="video/mp4">
+    <div class="dashboard">
+        <video id="tree-video" width="auto" height="500" autoplay muted>
+            <source src="https://drive.google.com/uc?id=1gA3RZfaG160xbwWaIwCjtFm3euK_HQq9" type="video/mp4"> 
         </video>
 
-            <div class="inside-first-dashboard">
-                <div id="Video-info-header"> Welcome to PLANTERS Monitoring Dashboard </div>
-                <div id="Video-info"> Welcome to the D01B031 Monitoring Dashboard, where you can explore our green oasis in Kelantan, Malaysia, from space to the individual trees. Discover the details of 2,400 thriving trees, including type, height, girth, condition, and more, and learn about the rich ecosystem we've created to support the environment !
-                </div>
+        <div class="content">
+            <label for="tree-id-select">Select Tree ID:</label>
+            <select id="tree-id-select"></select>
+            <div id="tree-details">
+                <!-- Tree details will be displayed here -->
             </div>
+        </div>
     </div>
-
-<div class="second-dashboard">
-    <div class="inside-second-dashboard">
-        <label for="tree-id-select" class="custom-label">Select Trees Info Here:</label>
-        <select id="tree-id-select"></select>
-        <div id="tree-details"></div>
-    </div>
-
-    <div class="inside-second-dashboard-2">
-        <div id="indicator"></div>
-    </div>
-
-    <div class="chart-container">
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRqwxb8aozV6MP6q0QYirtSrIr9__WEomvvjbG4suPVy_C1JueyffCpGVC0Vn4KJ1G_GUTM60yxxvtD/pubchart?oid=1840773098&format=interactive" class="chart-iframe"></iframe>
-    </div>
-</div>
-
     
     <!-- Container for dynamically generated dropdowns -->
     <div id="dropdownContainer"></div>
 
-    <div class="third-dashboard">
+    <!-- Button to add a new dropdown -->
+    <button id="addDropdown">Add Tree ID</button>
 
-
-            <div class="inside-third-dashboard">
-                <!-- Add the "Add Tree ID" button here -->
-                <button id="addMapDropdown" class="custom-label">Get Trees Location Here</button>
-
-                <!-- Add the dropdown container inside map-container -->
-                <div id="mapDropdownContainer" class="dropdown-container"></div>
-            </div>
-
-        <!-- Add the map here -->
-        <div id="map"></div>
-    
-    </div>
-
-    <div class="All-show-button">
-        <button id="addMarkersButton" class="custom-label" style="display: none;">Show All D01B031 Trees</button>
-        <button id="removeMarkersButton" class="custom-label" style="display: none;">Remove All D01B031 Trees</button>    
-    </div>
-
-
-
-        
-    <div class="forth-dashboard">
-        <div id="header">Trees Fun facts!</div>
-        <div id="data"></div>
-    </div>
-
-    <div>
-        <!-- Email Link -->
-        <a href="mailto:eva@planters.life" class="email-address">eva@planters.life</a>
-    </div>
-
-<div class="social-media">
-    <div>
-        <!-- Twitter Icon Link -->
-        <a href="http://twitter.com/planters_life" target="_blank" aria-label="Twitter">
-            <img src="https://i.imgur.com/M6iPp5g.png" alt="Twitter Icon" width="30" height="auto" class="social-icon" >
-        </a>
-    </div>
-
-    <div>
-        <!-- Facebook Icon Link -->
-        <a href="http://facebook.com/plantersinternational" target="_blank" aria-label="Facebook">
-            <img src="https://i.imgur.com/eKnkAmf.png" alt="Facebook Icon" width="30" height="auto" class="social-icon" > 
-        </a>
-    </div>
-
-    <div>
-        <!-- Instagram Icon Link -->
-        <a href="https://www.instagram.com/planters.life/" target="_blank" aria-label="Facebook">
-            <img src="https://i.imgur.com/x6jKaD8.png" alt="Facebook Icon" width="30" height="auto" class="social-icon" > 
-        </a>
-    </div>
-</div>
-
+    <!-- Create a div element to hold the map -->
+    <div id="map"></div>
 
     <script>
-
-        // JavaScript code to fetch and display data from your Google Sheet
-        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRqwxb8aozV6MP6q0QYirtSrIr9__WEomvvjbG4suPVy_C1JueyffCpGVC0Vn4KJ1G_GUTM60yxxvtD/pub?output=csv')
-
-            .then(response => response.text())
-            .then(data => {
-                // Parse the data (assuming it's in CSV format)
-                const rows = data.split('\n');
-                const cellA = rows[2418].split(',')[6];
-                const cellB = rows[2421].split(',')[6];
-                const cellC = rows[2424].split(',')[6];
-                const cellD = rows[2427].split(',')[6]; 
-                const cellE = rows[2430].split(',')[6]; 
-
- 
-
-                // Display the data with separate <div> elements
-                document.getElementById('indicator').innerHTML = `
-                    <div class="last-update-css">Last Update: ${cellA}</div>
-                    <div class="good-condition-css">List of Unspecified Condition : "${cellB}"</div>
-                    <div class="bad-condition-css">Total Healthy Condition : "${cellD}"</div>
-                    <div class="bad-condition-css"> Total Threathen Condition : "${cellC}"</div>
-                    <div class="bad-condition-css">List of Threathen Condtion : "${cellE}"</div>
-
-
-                `;
-            })
-            .catch(error => console.error('Error fetching data:', error));
-
-
-var customIcon = L.icon({
-    iconUrl: 'https://i.imgur.com/VSTnGFR.png', // URL to your marker icon image
-    iconSize: [32, 32], // Set the size of your marker icon
-    iconAnchor: [16, 32], // Adjust the anchor point if needed
-});
-
-// Create an array to store the markers for IDs 1 to 2409
-var markersForIDs1To5 = [];
-
-// Function to add markers for tree IDs between 1 and 2409
-function addMarkersForIDs1To5() {
-    var startID = 1;
-    var endID = 2409;
-
-    for (var i = startID; i <= endID; i++) {
-        var treeID = `D01B031${i.toString().padStart(4, '0')}`;
-        addMarkersForTreeID(treeID);
-    }
-}
-
-
-
-
-// Function to add markers for a specific tree ID
-function addMarkersForTreeID(treeID) {
-    for (var i = 1; i < lines.length; i++) {
-        var line = lines[i].split(',');
-        var lineID = line[0]; // Assuming the ID is in the first column
-        var latitude = parseFloat(line[2]); // Assuming latitude is in Column C
-        var longitude = parseFloat(line[1]); // Assuming longitude is in Column B
-        if (lineID === treeID) {
-            // Add a marker for the selected location
-            var marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
-            markersForIDs1To5.push(marker); // Store the marker in the array
-            break; // Stop searching once the ID is found
-        }
-    }
-}
-
-// Function to remove markers for tree IDs from 1 to 5
-function removeMarkersForIDs1To5() {
-    for (var i = 0; i < markersForIDs1To5.length; i++) {
-        map.removeLayer(markersForIDs1To5[i]);
-    }
-    markersForIDs1To5 = []; // Clear the array
-}
-
-// Add a click event listener to the "Add Markers" button
-document.getElementById('addMarkersButton').addEventListener('click', addMarkersForIDs1To5);
-
-
-// Add a click event listener to the "Remove Markers" button
-document.getElementById('removeMarkersButton').addEventListener('click', removeMarkersForIDs1To5);
-
-                // URL of the Google Sheets CSV file
-                const googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9tNsf1XZqfQvTxqNpmLIbG2L0Q0C3RnpRYR8TKIhWAL3mmHKu6cZ8YcXZFJRop7FcMPqkJFmvLByu/pub?output=csv';
-
-// Function to generate a random number between min and max (inclusive)
-function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Function to fetch and display a random row
-async function fetchRandomRow() {
-    try {
-        const response = await fetch(googleSheetsURL);
-        if (!response.ok) {
-            throw new Error('Failed to fetch data from Google Sheets');
-        }
-
-        const csvData = await response.text();
-        const rows = csvData.split('\n');
-        const rowIndex = getRandomNumber(0, 19); // Random row between 1 and 20
-        const rowData = rows[rowIndex].split(',');
-
-        // Create a string containing the data for the random row
-        const randomRowContent = rowData.join(' | ');
-
-        // Display the data on the page
-        document.getElementById('data').textContent = randomRowContent;
-    } catch (error) {
-        console.error(error);
-        document.getElementById('data').textContent = 'Failed to fetch data';
-    }
-}
-
-// Call the fetchRandomRow function when the page loads
-fetchRandomRow();
-
-
-
-        // Define the markerGroups object
-        var markerGroups = {};
-
-        // Declare the lines variable
-        var lines = [];
-
         // Function to generate the dropdown options for Tree IDs
         function generateDropdownOptions() {
             const selectElement = document.getElementById("tree-id-select");
@@ -733,7 +189,6 @@ fetchRandomRow();
             // Fetch data from Google Sheets with cache set to 'no-store'
             const cacheBuster = new Date().getTime();
             const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vRqwxb8aozV6MP6q0QYirtSrIr9__WEomvvjbG4suPVy_C1JueyffCpGVC0Vn4KJ1G_GUTM60yxxvtD/pubhtml?timestamp=${cacheBuster}`;
-
 
             fetch(sheetURL, { cache: 'no-store' })
                 .then(response => response.text())
@@ -813,30 +268,34 @@ fetchRandomRow();
         var dropdownContainer = document.getElementById("dropdownContainer");
 
         // Button click event to add a new dropdown
-document.getElementById('addMapDropdown').addEventListener('click', function () {
-    // Show the "Show All Trees" and "Remove All Trees" buttons
-    document.getElementById('addMarkersButton').style.display = 'block';
-    document.getElementById('removeMarkersButton').style.display = 'block';
+        document.getElementById('addDropdown').addEventListener('click', function () {
+            // Add a new dropdown
+            addDropdown();
 
-    // Add a new dropdown
-    addDropdown();
+            // Reset the map view to the initial coordinates
+            map.setView([5.220508502, 102.1672723], 15);
         });
+
+        // Create an empty object to store marker groups
+        var markerGroups = {};
+
+        // Define the lines variable to hold CSV data
+        var lines = [];
 
         // Function to add a new dropdown
         function addDropdown() {
             var dropdownCount = Object.keys(markerGroups).length + 1;
             var dropdownHTML = `
                 <!-- Create a dropdown menu for ID ${dropdownCount} -->
-                <label for="idSelect${dropdownCount}" class="custom-label">Select ID ${dropdownCount}:</label>
-                <select id="idSelect${dropdownCount}"></select>
+    <label for="idSelect${dropdownCount}" class="custom-label">Select ID ${dropdownCount}:</label>
+    <select id="idSelect${dropdownCount}"></select>
                 <!-- Display latitude and longitude for ID ${dropdownCount} -->
-                <p class="custom-paragraph">Latitude (ID ${dropdownCount}): <span id="latitude${dropdownCount}" class="custom-span"></span></p>
-                <p class="custom-paragraph">Longitude (ID ${dropdownCount}): <span id="longitude${dropdownCount}" class="custom-span"></span></p>
+    <p class="custom-paragraph">Latitude (ID ${dropdownCount}): <span id="latitude${dropdownCount}" class="custom-span"></span></p>
+    <p class="custom-paragraph">Longitude (ID ${dropdownCount}): <span id="longitude${dropdownCount}" class="custom-span"></span></p>
             `;
 
-            // Append the dropdown to the mapDropdownContainer div
-            var mapDropdownContainer = document.getElementById("mapDropdownContainer");
-            mapDropdownContainer.insertAdjacentHTML('beforeend', dropdownHTML);
+            // Append the dropdown to the container
+            dropdownContainer.insertAdjacentHTML('beforeend', dropdownHTML);
 
             // Create a new marker group for the new dropdown
             markerGroups[`markerGroup${dropdownCount}`] = L.layerGroup().addTo(map);
@@ -855,25 +314,24 @@ document.getElementById('addMapDropdown').addEventListener('click', function () 
             }
         }
 
-// Function to populate the dropdown with IDs
-function populateDropdown(dropdownCount) {
-    // Populate the new dropdown with IDs
-    var newDropdown = document.getElementById(`idSelect${dropdownCount}`);
-    newDropdown.classList.add('custom-dropdown'); // Add the custom-dropdown class
-    for (var i = 1; i < lines.length; i++) {
-        var line = lines[i].split(',');
-        var id = line[0]; // Assuming the ID is in the first column
-        var option = document.createElement('option');
-        option.value = id;
-        option.text = id;
-        newDropdown.appendChild(option);
-    }
+        // Function to populate the dropdown with IDs
+        function populateDropdown(dropdownCount) {
+            // Populate the new dropdown with IDs
+            var newDropdown = document.getElementById(`idSelect${dropdownCount}`);
+            for (var i = 1; i < lines.length; i++) {
+                var line = lines[i].split(',');
+                var id = line[0]; // Assuming the ID is in the first column
+                var option = document.createElement('option');
+                option.value = id;
+                option.text = id;
+                newDropdown.appendChild(option);
+            }
 
-    // Handle the change event of the new dropdown
-    newDropdown.addEventListener('change', function () {
-        var selectedId = newDropdown.value;
-        addMarkersAndInfo(selectedId, `latitude${dropdownCount}`, `longitude${dropdownCount}`, markerGroups[`markerGroup${dropdownCount}`]);
-    });
+            // Handle the change event of the new dropdown
+            newDropdown.addEventListener('change', function () {
+                var selectedId = newDropdown.value;
+                addMarkersAndInfo(selectedId, `latitude${dropdownCount}`, `longitude${dropdownCount}`, markerGroups[`markerGroup${dropdownCount}`]);
+            });
         }
 
         // Function to add markers for an ID and update latitude and longitude
@@ -889,8 +347,7 @@ function populateDropdown(dropdownCount) {
                     document.getElementById(latitudeId).textContent = latitude;
                     document.getElementById(longitudeId).textContent = longitude;
                     // Add a marker for the selected location
-                    var marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(markerGroup);
-
+                    var marker = L.marker([latitude, longitude]).addTo(markerGroup);
                     break; // Stop searching once the ID is found
                 }
             }
