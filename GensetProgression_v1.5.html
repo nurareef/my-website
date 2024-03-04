@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreadsheet Data Display</title>
+</head>
+<body>
+    <div id="data-container">
+        <!-- Data will be displayed here -->
+    </div>
+
+    <script>
+        // Fetch data from Google Sheets
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vR1tXarx5xh9zLzbCFGfK2CyxHw2WCBfO_qBfzbN_4Cy9G0uLJ4kia0uwdQ9l4iKBO6HtlyrtxNzppx/pub?gid=876211624&single=true&output=csv')
+            .then(response => response.text())
+            .then(data => {
+                // Split CSV data into rows
+                const rows = data.split('\n');
+                // Extract content of cell M40 (row 40, column M)
+                const cellContent = rows[39].split(',')[12]; // Assuming M is the 13th column (index 12)
+                // Display cell content in the HTML element
+                document.getElementById('data-container').innerHTML = `<p>Data from cell M40: ${cellContent}</p>`;
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    </script>
+</body>
+</html>
