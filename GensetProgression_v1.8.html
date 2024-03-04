@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Data from Spreadsheet</title>
+</head>
+<body>
+    <h1>Data from Spreadsheet</h1>
+    <div id="data-container">
+        <!-- Data will be displayed here -->
+    </div>
+
+    <script>
+        // Fetch data from Google Sheets
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR1tXarx5xh9zLzbCFGfK2CyxHw2WCBfO_qBfzbN_4Cy9G0uLJ4kia0uwdQ9l4iKBO6HtlyrtxNzppx/pubhtml';
+
+        fetch(sheetURL)
+            .then(response => response.text())
+            .then(data => {
+                // Parse the HTML data
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+                
+                // Get the content of column M, row 40
+                const cellContent = doc.querySelector('table tbody tr:nth-child(40) td:nth-child(14)').textContent.trim();
+
+                // Display the data
+                document.getElementById('data-container').innerHTML = `<p>${cellContent}</p>`;
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
+    </script>
+</body>
+</html>
