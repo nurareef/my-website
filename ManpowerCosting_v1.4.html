@@ -1,41 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Maintenance</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Your App Title">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+    <title>IES Manhour Costing</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+    <link rel="stylesheet" href="Google Sheet.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
+        *{
+            box-sizing: border-box;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
+            font-family: 'poppins', sans-serif;
+            font-size: 18px;
+        }
+        body{
+            background-image: url('https://i.imgur.com/Md6Kb3q.png');
+            background-size: cover;
             height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container{
+            width: 500px;
+            padding: 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            position: relative;
+            display: flex;
             flex-direction: column;
+            align-items: center;
         }
-        .container {
-            text-align: center;
+        h4 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #23408F; /* Change font color to #23408F */
+        }        
+        input, select{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
         }
-        h1 {
-            color: #333;
+        #submit{
+            border: none;
+            background-color: orangered;
+            color: white;
+            width: 200px;
+            margin-top: 10px;
+            border-radius: 5px;
         }
-        p {
-            color: #666;
-        }
-        .logo {
-            max-width: 200px;
-            margin-bottom: 20px;
+        #submit:hover{
+            background-color: #333333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img class="logo" src="https://i.imgur.com/XZvd1fv.png" alt="Under Maintenance Logo">
-        <h1>Sorry, we're under maintenance.</h1>
-        <p>We apologize for the inconvenience, but we're performing some maintenance at the moment. We'll be back online shortly.</p>
+        <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="max-width: 100%; height: auto;">
+        <form method="post" action="https://script.google.com/macros/s/AKfycbyZJW5Q7OsF5tfQJBTCcEt1V_xnjw2R61TMLvOdMxBnIQZgAzqMZeYi-LaNXAoMhPGN/exec" name="contact-form" onsubmit="addDateTime()">
+            <h4>MANPOWER HOURS SYSTEM</h4>
+            <select name="Manpower-names" required>
+                <option value="" disabled selected>Your name</option>
+                <option value="Ruth Yap">Ruth Yap</option>
+                <option value="Haeginan">Haeginan</option>
+                <option value="Nur Areef">Nur Areef</option>
+                <option value="Iqbal">Iqbal</option>
+                <option value="Murugesan">Murugesan</option>
+                <option value="Naren">Naren</option>
+                <option value="Thanesh">Thanesh</option>
+                <option value="Theiven">Theiven</option>
+                <option value="Sathiaraj">Sathiaraj</option>
+                <option value="Viknesh">Viknesh</option>
+            </select>
+            <select name="time-start" required>
+                <option value="" disabled selected>Start time</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+            </select>
+            <select name="time-stop" required>
+                <option value="" disabled selected>Stop time</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+            </select>
+            <select name="Project-Type" id="project-type" onchange="toggleProjectNumberDropdown()" required>
+                <option value="" disabled selected>Project type</option>
+                <option value="40kVA">40kVA</option>
+                <option value="M3 Hybrid BESS">M3 Hybrid BESS</option>
+            </select>
+            <select name="Job-Number" id="job-number" style="display: block;">
+                <!-- Options for Job-Number -->
+            </select>
+            <select name="Job-Type" id="job-type" style="display: block;">
+                <!-- Options for Job-Type -->
+            </select>
+            <input type="hidden" name="date" id="date">
+            <input type="hidden" name="day" id="day">
+            <input type="hidden" name="time-submission" id="time-submission">
+            <input type="submit" value="Submit" id="submit">
+        </form>
     </div>
+    <script src="Google Sheet.js"></script>
+    <script>
+        function addDateTime() {
+            var now = new Date();
+            var dateField = document.getElementById("date");
+            var dayField = document.getElementById("day");
+            var timeSubmissionField = document.getElementById("time-submission");
+
+            // Get the date in yyyy-mm-dd format
+            var dateString = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+            dateField.value = dateString;
+
+            // Get the day (e.g., Monday, Tuesday, etc.)
+            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var dayString = days[now.getDay()];
+            dayField.value = dayString;
+
+            // Get the current time in GMT+8
+            var timeZoneOffset = 8; // GMT+8
+            var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            var gmtPlus8Time = new Date(utc + (3600000 * timeZoneOffset));
+            var timeString = gmtPlus8Time.getHours().toString().padStart(2, '0') + ":" + gmtPlus8Time.getMinutes().toString().padStart(2, '0');
+            timeSubmissionField.value = timeString;
+        }
+
+        function toggleProjectNumberDropdown() {
+            var projectTypeDropdown = document.getElementById("project-type");
+            var projectNumberDropdown = document.getElementById("job-number");
+            var jobTypeDropdown = document.getElementById("job-type");
+
+            if (projectTypeDropdown.value === "40kVA") {
+                createProjectNumberOptions("40kVA");
+                createJobTypeOptions("40kVA");
+            } else if (projectTypeDropdown.value === "M3 Hybrid BESS") {
+                createProjectNumberOptions("M3 Hybrid BESS");
+                createJobTypeOptions("M3 Hybrid BESS");
+            } else {
+                projectNumberDropdown.style.display = "none";
+                jobTypeDropdown.style.display = "none";
+            }
+        }
+
+        function createProjectNumberOptions(projectType) {
+            var projectNumberDropdown = document.getElementById("job-number");
+            projectNumberDropdown.innerHTML = "";
+
+            var projectNumbers = [];
+            if (projectType === "40kVA") {
+                projectNumbers = ["1.009.24.1","1.010.24.1","1.011.24.1","1.012.24.1","CABLE 40kVA"];
+            } else if (projectType === "M3 Hybrid BESS") {
+                projectNumbers = ["2.001.24.1", "2.002.24.1", "CABLE M3"];
+            }
+
+            projectNumbers.forEach(function(number) {
+                var option = document.createElement("option");
+                option.value = number;
+                option.text = number;
+                projectNumberDropdown.add(option);
+            });
+        }
+
+        function createJobTypeOptions(projectType) {
+            var jobTypeDropdown = document.getElementById("job-type");
+            jobTypeDropdown.innerHTML = "";
+
+            var jobTypes = [];
+            if (projectType === "40kVA" || projectType === "M3 Hybrid BESS") {
+                jobTypes = ["ELECTRICAL", "MECHANICAL", "TESTING", "QAQC"];
+            }
+
+            jobTypes.forEach(function(type) {
+                var option = document.createElement("option");
+                option.value = type;
+                option.text = type;
+                jobTypeDropdown.add(option);
+            });
+        }
+
+        // Call functions to add date/time on page load
+        window.onload = function() {
+            addDateTime(); // Add date and time
+        };
+
+    </script>
 </body>
 </html>
+
