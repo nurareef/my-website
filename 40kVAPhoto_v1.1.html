@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>REGISTRASI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <div class="input-box">
+        <form id="uploadForm" action="https://script.google.com/macros/s/AKfycbwY1y1nIH94SwKv5HoboO6psJmePYr2OxSBS3V9YRKoA_roGhD6mmzjuwU2HsiXHfWRiA/exec" method="POST">
+          <input type="hidden" value="" name="fileContent" id="fileContent">
+          <input type="hidden" value="" name="filename" id="filename">
+          <div class="input-box">
+            <label for="file" class="form-label">File</label>
+            <input required id="attach" name="attach" type="file"/>
+          </div>
+          <div class="button" style="width: 100%;">
+            <input type="button" value="KIRIM DATA" onclick="UploadFile();" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function UploadFile() {
+      var reader = new FileReader();
+      var file = document.getElementById('attach').files[0];
+      reader.onload = function(){
+        document.getElementById('fileContent').value = reader.result;
+        document.getElementById('filename').value = file.name;
+        document.getElementById('uploadForm').submit();
+      }
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
