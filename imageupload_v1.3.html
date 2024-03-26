@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Upload Form</title>
+</head>
+<body>
+<h2>Upload an Image</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+  <input type="file" id="fileInput" name="file" accept="image/*" required>
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  var formData = new FormData();
+  formData.append('file', document.getElementById('fileInput').files[0]);
+  
+  fetch('https://script.google.com/macros/s/AKfycbx2tP2x6pdAEB001M5rvpvZuuJBjii25BxthbaOdNJI_7pgkEfgAPNR7ZSfXN9BfBN1VA/exec', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Image uploaded successfully!');
+    } else {
+      alert('Error uploading image.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Error uploading image.');
+  });
+});
+</script>
+</body>
+</html>
