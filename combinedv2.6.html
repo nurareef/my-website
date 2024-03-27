@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Combined Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Styles for the table */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #b4aff3;
+    }
+    /* Styles for checkboxes */
+    .checkbox-label {
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .checkbox-group {
+      width: 10%;
+      text-align: center; /* Align checkboxes to the center */
+    }
+    .submit-button {
+      display: block;
+      margin-top: 20px;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .content {
+      width: 100%;
+    }
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .form-label {
+      margin-bottom: 10px;
+    }
+    .button {
+      margin-top: 20px;
+    }
+
+    /* Loading animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Combined Form</h1>
+  <h2>FACTORY ACCEPTANCE TEST, 40kVA - SWITCH BOARD </h2>
+
+  <!-- Loading animation -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <form id="checklistForm" method="post">
+    <input type="hidden" id="controllerValue" name="Controller (DSE7410 MKII)">
+    <input type="hidden" id="checkedByValue" name="Checked By">
+    <table>
+      <tr>
+        <th colspan="3">Main Component</th>
+      </tr>
+      <tr>
+        <th>
+          Controller (DSE7410 MKII) <br> 
+          <input type="text" id="Controller (DSE7410 MKII)" placeholder="Serial No" style="font-style: italic;">
+        </th>
+        <th>Correct</th>
+        <th>Wrong</th>
+      </tr>            
+      <tr>
+        <td>
+          <div class="checkbox-label">a. Pin 45, 46, 47, 49 connected with Current Transformers:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin45-49" name="Pin 45, 46, 47, 49 connected with Current Transformers" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+            <input type="checkbox" id="wrong-checkbox" name="Pin 45, 46, 47, 49 connected with Current Transformers (Wrong)" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <th>
+          Checked by <br> 
+          <input type="text" id="checkedBy" placeholder="Name" style="font-style: italic;">
+        </th>
+      </tr>
+    </table>
+    <div class="container">
+      <div class="content">
+        <div class="input-box">
+          <label for="file" class="form-label">File</label>
+          <input required id="attach" type="file"/>
+        </div>
+        <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    function handleCheckbox(checkbox) {
+      if (checkbox.checked) {
+        checkbox.value = "correct";
+      } else {
+        checkbox.value = ""; // or any other value you want to set when the checkbox is unchecked
+      }
+    }
+
+    function handleCrossbox(crossbox) {
+      if (crossbox.checked) {
+        crossbox.value = "wrong";
+      } else {
+        crossbox.value = ""; // or any other value you want to set when the crossbox is unchecked
+      }
+    }
+
+    function showLoading() {
+      document.getElementById("loadingOverlay").style.display = "flex";
+    }
+
+    function hideLoading() {
+      document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function submitForm() {
+      // Show loading animation
+      showLoading();
+
+      // Your form submission logic here
+
+      // Simulating form submission with setTimeout
+      setTimeout(function() {
+        // Hide loading animation after form submission completes
+        hideLoading();
+      }, 2000); // Adjust timeout as needed
+    }
+  </script>
+</body>
+</html>
