@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Combined Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Styles for the table, checkboxes, etc. */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #b4aff3;
+    }
+    /* Styles for checkboxes */
+    .checkbox-label {
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .checkbox-group {
+      width: 10%;
+      text-align: center; /* Align checkboxes to the center */
+    }
+    .submit-button {
+      display: block;
+      margin-top: 20px;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .content {
+      width: 100%;
+    }
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .form-label {
+      margin-bottom: 10px;
+    }
+    .button {
+      margin-top: 20px;
+    }
+    /* Loading animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Combined Form</h1>
+  <h2>FACTORY ACCEPTANCE TEST, 40kVA - SWITCH BOARD </h2>
+
+  <!-- Loading animation -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <form id="checklistForm" method="post">
+    <input type="hidden" id="controllerValue" name="Controller (DSE7410 MKII)">
+    <input type="hidden" id="checkedByValue" name="Checked By">
+    <table>
+      <tr>
+        <th colspan="3">Main Component</th>
+      </tr>
+      <tr>
+        <th>
+          Controller (DSE7410 MKII) <br> 
+          <input type="text" id="Controller (DSE7410 MKII)" placeholder="Serial No" style="font-style: italic;">
+        </th>
+        <th>Correct</th>
+        <th>Wrong</th>
+      </tr>            
+      <tr>
+        <td>
+          <div class="checkbox-label">a. Pin 45, 46, 47, 49 connected with Current Transformers:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin45-49" name="Pin 45, 46, 47, 49 connected with Current Transformers" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+            <input type="checkbox" id="wrong-checkbox" name="Pin 45, 46, 47, 49 connected with Current Transformers (Wrong)" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Pin 49 connected with EBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin49-EBAR" name="Pin 49 connected with EBAR" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-2" name="Pin 49 connected with EBAR (Wrong)" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">c. Pin 37, 38, 39 connected with MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin37-39-MCB" name="Pin 37, 38, 39 connected with MCB 2A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-3" name="Pin 37, 38, 39 connected with MCB 2A (Wrong)" onchange="handleCrossbox(this)">
+        </td>
+      </tr>  
+      
+      <tr>
+        <td>
+          <div class="checkbox-label">d. Pin 40 connected with NBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin40-NBAR" name="Pin 40 connected with NBAR" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-4" name="Pin 40 connected with NBAR" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">e. Pin 35 & 36 connected:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin35-36" name="Pin 35 & 36 connected" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-5" name="Pin 35 & 36 connected" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">f. Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin27-29" name="Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-6" name="Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">g. Pin 1 connected with S1, MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin1-S1-MCB2A" name="Pin 1 connected with S1, MCB 2A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-7" name="Pin 1 connected with S1, MCB 2A" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">h. Pin 2 connected with Pin 6, MCB 10A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin2-6-MCB10A" name="Pin 2 connected with Pin 6, MCB 10A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-8" name="Pin 2 connected with Pin 6, MCB 10A" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">i. Pin 3 connected with E-Stop:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin3-EStop" name="Pin 3 connected with E-Stop" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-9" name="Pin 3 connected with E-Stop" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">j. Pin 4 contacted with Pin 5:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin4-5" name="Pin 4 contacted with Pin 5" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-10" name="Pin 4 contacted with Pin 5" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">k. Pin 14, 15, 16, 20, 51, 52 direct into terminal block:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin14-52" name="Pin 14, 15, 16, 20, 51, 52 direct into terminal block" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-11" name="Pin 14, 15, 16, 20, 51, 52 direct into terminal block" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">l. Pin 53 connected with MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin53-MCB2A" name="Pin 53 connected with MCB 2A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-12" name="Pin 53 connected with MCB 2A" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">m. Pin 54, 55 direct into terminal block:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin54-55" name="Pin 54, 55 direct into terminal block" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-13" name="Pin 54, 55 direct into terminal block" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">n. Pin 56 connected with S1:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin56-S1" name="Pin 56 connected with S1" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-14" name="Pin 56 connected with S1" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        Battery Charger (DSE9470MKII) <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Pin N (Neutral) connected with NBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinN-NBAR" name="Pin N (Neutral) connected with NBAR" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-15" name="Pin N (Neutral) connected with NBAR" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Pin L1 (Life) connected with MCB 6A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinL1-MCB" name="Pin L1 (Life) connected with MCB 6A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-16" name="Pin L1 (Life) connected with MCB 6A" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">c. Pin E (Earth) connected with EBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinE-EBAR" name="Pin E (Earth) connected with EBAR" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-17" name="Pin E (Earth) connected with EBAR" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">d. Pin B, A, SCR (27, 28, 29) connected with Controller:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinB-CTRL" name="Pin B, A, SCR (27, 28, 29) connected with Controller" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-18" name="Pin B, A, SCR (27, 28, 29) connected with Controller" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">e. Pin OP- connected with Fuse 6.3A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinOP-FUSE" name="Pin OP- connected with Fuse 6.3A" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-19" name="Pin OP- connected with Fuse 6.3A" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">f. Pin OP+ connected with Pin 1:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinOP-1" name="Pin OP+ connected with Pin 1" onchange="handleCheckbox(this)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-20" name="Pin OP+ connected with Pin 1" onchange="handleCrossbox(this)">
+        </td>
+      </tr>
+
+
+      <tr>
+        <th>
+          Checked by <br> 
+          <input type="text" id="checkedBy" placeholder="Name" style="font-style: italic;">
+        </th>
+      </tr>
+    </table>
+    <div class="container">
+      <div class="content">
+        <div class="input-box">
+          <label for="file" class="form-label">Upload 'Controller (DSE7410 MKII)' wiring image. Example image on the right side</label>
+          <input required id="attach" type="file"/>
+        </div>
+        <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    function showLoading() {
+      document.getElementById("loadingOverlay").style.display = "flex";
+    }
+
+    function hideLoading() {
+      document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function handleCheckbox(checkbox) {
+      if (checkbox.checked) {
+        checkbox.value = "correct";
+      } else {
+        checkbox.value = ""; // or any other value you want to set when the checkbox is unchecked
+      }
+    }
+
+    function handleCrossbox(crossbox) {
+      if (crossbox.checked) {
+        crossbox.value = "wrong";
+      } else {
+        crossbox.value = ""; // or any other value you want to set when the crossbox is unchecked
+      }
+    }
+
+    function submitForm() {
+      // Show loading animation
+      showLoading();
+
+      var controllerText = document.getElementById("Controller (DSE7410 MKII)").value;
+      var checkedByText = document.getElementById("checkedBy").value;
+      var fileInput = document.getElementById('attach').files[0];
+      var reader = new FileReader();
+
+      var pinChecked = document.getElementById("pin45-49").checked;
+      var pinValue = pinChecked ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked = document.getElementById("wrong-checkbox").checked;
+      var pinWrongValue = pinWrongChecked ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedEBAR = document.getElementById("pin49-EBAR").checked;
+      var pinValueEBAR = pinCheckedEBAR ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedEBAR = document.getElementById("wrong-checkbox-2").checked;
+      var pinWrongValueEBAR = pinWrongCheckedEBAR ? "wrong" : ""; // Default to empty string if not checked
+      
+      var pinChecked37_39_MCB = document.getElementById("pin37-39-MCB").checked;
+      var pinValue37_39_MCB = pinChecked37_39_MCB ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked37_39_MCB = document.getElementById("wrong-checkbox-3").checked;
+      var pinWrongValue37_39_MCB = pinWrongChecked37_39_MCB ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked40_NBAR = document.getElementById("pin40-NBAR").checked;
+      var pinValue40_NBAR = pinChecked40_NBAR ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked40_NBAR = document.getElementById("wrong-checkbox-4").checked;
+      var pinWrongValue40_NBAR = pinWrongChecked40_NBAR ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked35_36 = document.getElementById("pin35-36").checked;
+      var pinValue35_36 = pinChecked35_36 ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked35_36 = document.getElementById("wrong-checkbox-5").checked;
+      var pinWrongValue35_36 = pinWrongChecked35_36 ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked27_BC = document.getElementById("pin27-29").checked;
+      var pinValue27_BC = pinChecked27_BC ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked27_BC = document.getElementById("wrong-checkbox-6").checked;
+      var pinWrongValue27_BC = pinWrongChecked27_BC ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedS1_MCB = document.getElementById("pin1-S1-MCB2A").checked;
+      var pinValueS1_MCB = pinCheckedS1_MCB ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedS1_MCB = document.getElementById("wrong-checkbox-7").checked;
+      var pinWrongValueS1_MCB = pinWrongCheckedS1_MCB ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked2_MCB = document.getElementById("pin2-6-MCB10A").checked;
+      var pinValue2_MCB = pinChecked2_MCB ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked2_MCB = document.getElementById("wrong-checkbox-8").checked;
+      var pinWrongValue2_MCB = pinWrongChecked2_MCB ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked3_stop = document.getElementById("pin3-EStop").checked;
+      var pinValue3_stop = pinChecked3_stop ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked3_stop = document.getElementById("wrong-checkbox-9").checked;
+      var pinWrongValue3_stop = pinWrongChecked3_stop ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked4_5 = document.getElementById("pin4-5").checked;
+      var pinValue4_5 = pinChecked4_5 ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked4_5 = document.getElementById("wrong-checkbox-10").checked;
+      var pinWrongValue4_5 = pinWrongChecked4_5 ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked14_tb = document.getElementById("pin14-52").checked;
+      var pinValue14_tb = pinChecked14_tb ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked14_tb = document.getElementById("wrong-checkbox-11").checked;
+      var pinWrongValue14_tb = pinWrongChecked14_tb ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked53_MCB = document.getElementById("pin53-MCB2A").checked;
+      var pinValue53_MCB = pinChecked53_MCB ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked53_MCB = document.getElementById("wrong-checkbox-12").checked;
+      var pinWrongValue53_MCB = pinWrongChecked53_MCB ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked54_tb = document.getElementById("pin54-55").checked;
+      var pinValue54_tb = pinChecked54_tb ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked54_tb = document.getElementById("wrong-checkbox-13").checked;
+      var pinWrongValue54_tb = pinWrongChecked54_tb ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinChecked56_S1 = document.getElementById("pin56-S1").checked;
+      var pinValue56_S1 = pinChecked56_S1 ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongChecked56_S1 = document.getElementById("wrong-checkbox-14").checked;
+      var pinWrongValue56_S1 = pinWrongChecked56_S1 ? "wrong" : ""; // Default to empty string if not checked
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      var pinCheckedN_NBAR = document.getElementById("pinN-NBAR").checked;
+      var pinValueN_NBAR = pinCheckedN_NBAR ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedN_NBAR = document.getElementById("wrong-checkbox-15").checked;
+      var pinWrongValueN_NBAR = pinWrongCheckedN_NBAR ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedL1_MCB = document.getElementById("pinL1-MCB").checked;
+      var pinValueL1_MCB = pinCheckedL1_MCB ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedL1_MCB = document.getElementById("wrong-checkbox-16").checked;
+      var pinWrongValueL1_MCB = pinWrongCheckedL1_MCB ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedE_EBAR = document.getElementById("pinE-EBAR").checked;
+      var pinValueE_EBAR = pinCheckedE_EBAR ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedE_EBAR = document.getElementById("wrong-checkbox-17").checked;
+      var pinWrongValueE_EBAR = pinWrongCheckedE_EBAR ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedB_CTRL = document.getElementById("pinB-CTRL").checked;
+      var pinValueB_CTRL = pinCheckedB_CTRL ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedB_CTRL = document.getElementById("wrong-checkbox-18").checked;
+      var pinWrongValueB_CTRL = pinWrongCheckedB_CTRL ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedOP_FUSE = document.getElementById("pinOP-FUSE").checked;
+      var pinValueOP_FUSE = pinCheckedOP_FUSE ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedOP_FUSE = document.getElementById("wrong-checkbox-19").checked;
+      var pinWrongValueOP_FUSE = pinWrongCheckedOP_FUSE ? "wrong" : ""; // Default to empty string if not checked
+
+      var pinCheckedOP_1 = document.getElementById("pinOP-1").checked;
+      var pinValueOP_1 = pinCheckedOP_1 ? "correct" : ""; // Default to empty string if not checked
+      var pinWrongCheckedOP_1 = document.getElementById("wrong-checkbox-20").checked;
+      var pinWrongValueOP_1 = pinWrongCheckedOP_1 ? "wrong" : ""; // Default to empty string if not checked
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+      reader.onload = function() {
+        var fileContent = reader.result;
+        var filename = fileInput.name;
+
+        // Prepare form data
+        var formData = new FormData();
+        formData.append('fileContent', fileContent);
+        formData.append('filename', filename);
+        formData.append('Controller (DSE7410 MKII)', controllerText);
+        formData.append('Checked By', checkedByText);
+        formData.append('Pin 45, 46, 47, 49 connected with Current Transformers', pinChecked ? pinValue : pinWrongValue);
+        formData.append('Pin 49 connected with EBAR', pinCheckedEBAR ? pinValueEBAR : pinWrongValueEBAR);
+        formData.append('Pin 37, 38, 39 connected with MCB 2A', pinChecked37_39_MCB ? pinValue37_39_MCB : pinWrongValue37_39_MCB);
+        formData.append('Pin 40 connected with NBAR', pinChecked40_NBAR ? pinValue40_NBAR : pinWrongValue40_NBAR);
+        formData.append('Pin 35 & 36 connected', pinChecked35_36 ? pinValue35_36 : pinWrongValue35_36);
+        formData.append('Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger', pinChecked27_BC ? pinValue27_BC : pinWrongValue27_BC);
+        formData.append('Pin 1 connected with S1, MCB 2A', pinCheckedS1_MCB ? pinValueS1_MCB : pinWrongValueS1_MCB);
+        formData.append('Pin 2 connected with Pin 6, MCB 10A', pinChecked2_MCB ? pinValue2_MCB : pinWrongValue2_MCB);
+        formData.append('Pin 3 connected with E-Stop', pinChecked3_stop ? pinValue3_stop : pinWrongValue3_stop);
+        formData.append('Pin 4 contacted with Pin 5', pinChecked4_5 ? pinValue4_5 : pinWrongValue4_5);
+        formData.append('Pin 14, 15, 16, 20, 51, 52 direct into terminal block', pinChecked14_tb ? pinValue14_tb : pinWrongValue14_tb);
+        formData.append('Pin 53 connected with MCB 2A', pinChecked53_MCB ? pinValue53_MCB : pinWrongValue53_MCB);
+        formData.append('Pin 54, 55 direct into terminal block', pinChecked54_tb ? pinValue54_tb : pinWrongValue54_tb);
+        formData.append('Pin 56 connected with S1', pinChecked56_S1 ? pinValue56_S1 : pinWrongValue56_S1);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        formData.append('Pin N (Neutral) connected with NBAR', pinCheckedN_NBAR ? pinValueN_NBAR : pinWrongValueN_NBAR);
+        formData.append('Pin L1 (Life) connected with MCB 6A', pinCheckedL1_MCB ? pinValueL1_MCB : pinWrongValueL1_MCB);
+        formData.append('Pin E (Earth) connected with EBAR', pinCheckedE_EBAR ? pinValueE_EBAR : pinWrongValueE_EBAR);
+        formData.append('Pin B, A, SCR (27, 28, 29) connected with Controller', pinCheckedB_CTRL ? pinValueB_CTRL : pinWrongValueB_CTRL);
+        formData.append('Pin OP- connected with Fuse 6.3A', pinCheckedOP_FUSE ? pinValueOP_FUSE : pinWrongValueOP_FUSE);
+        formData.append('Pin OP+ connected with Pin 1', pinCheckedOP_1 ? pinValueOP_1 : pinWrongValueOP_1);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        // Submit form data
+        fetch('https://script.google.com/macros/s/AKfycbxW1tzTRMS9xio9WsrebV_n0xJQccFVNtRDy4IsK54lQmAcHGBhyisxghgM9Q0-el1M/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Form submitted successfully');
+          } else {
+            console.error('Form submission failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        })
+        .finally(() => {
+          // Hide loading animation after form submission completes or fails
+          hideLoading();
+        });
+     
+      };
+
+      reader.readAsDataURL(fileInput);
+    }
+  </script>
+</body>
+</html>
