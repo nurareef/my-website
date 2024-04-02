@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Combined Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Styles for the table, checkboxes, etc. */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #b4aff3;
+    }
+    /* Styles for checkboxes */
+    .checkbox-label {
+      display: inline-block;
+      width: 100%;
+      white-space: nowrap;
+    }
+    .checkbox-group {
+      width: 10%;
+      text-align: center; /* Align checkboxes to the center */
+    }
+    .submit-button {
+      display: block;
+      margin-top: 20px;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .content {
+      width: 100%;
+    }
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .form-label {
+      margin-bottom: 10px;
+    }
+    .button {
+      margin-top: 20px;
+    }
+    /* Loading animation */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Combined Form</h1>
+  <h2>FACTORY ACCEPTANCE TEST, 40kVA - SWITCH BOARD </h2>
+
+  <!-- Loading animation -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <form id="checklistForm" method="post">
+    <input type="hidden" id="controllerValue" name="Controller (DSE7410 MKII)">
+    <input type="hidden" id="checkedByValue" name="Checked By">
+    <table>
+      <tr>
+        <th colspan="3">Main Component</th>
+      </tr>
+      <tr>
+        <th>
+          Controller (DSE7410 MKII) <br> 
+          <input type="text" id="Controller (DSE7410 MKII)" placeholder="Serial No" style="font-style: italic;">
+        </th>
+        <th>Correct</th>
+        <th>Wrong</th>
+      </tr>            
+      <tr>
+        <td>
+          <div class="checkbox-label">a. Pin 45, 46, 47, 49 connected with Current Transformers:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin45-49" name="Pin 45, 46, 47, 49 connected with Current Transformers">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox" name="Pin 45, 46, 47, 49 connected with Current Transformers (Wrong)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Pin 49 connected with EBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin49-EBAR" name="Pin 49 connected with EBAR">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-2" name="Pin 49 connected with EBAR (Wrong)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">c. Pin 37, 38, 39 connected with MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin37-39-MCB" name="Pin 37, 38, 39 connected with MCB 2A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-3" name="Pin 37, 38, 39 connected with MCB 2A (Wrong)">
+        </td>
+      </tr>
+      
+      
+      <tr>
+        <td>
+          <div class="checkbox-label">d. Pin 40 connected with NBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin40-NBAR" name="Pin 40 connected with NBAR">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-4" name="Pin 40 connected with NBAR">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">e. Pin 35 & 36 connected:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin35-36" name="Pin 35 & 36 connected">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-5" name="Pin 35 & 36 connected">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">f. Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin27-29" name="Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-6" name="Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">g. Pin 1 connected with S1, MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin1-S1-MCB2A" name="Pin 1 connected with S1, MCB 2A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-7" name="Pin 1 connected with S1, MCB 2A">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">h. Pin 2 connected with Pin 6, MCB 10A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin2-6-MCB10A" name="Pin 2 connected with Pin 6, MCB 10A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-8" name="Pin 2 connected with Pin 6, MCB 10A">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">i. Pin 3 connected with E-Stop:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin3-EStop" name="Pin 3 connected with E-Stop">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-9" name="Pin 3 connected with E-Stop">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">j. Pin 4 contacted with Pin 5:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin4-5" name="Pin 4 contacted with Pin 5">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-10" name="Pin 4 contacted with Pin 5">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">k. Pin 14, 15, 16, 20, 51, 52 direct into terminal block:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin14-52" name="Pin 14, 15, 16, 20, 51, 52 direct into terminal block">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-11" name="Pin 14, 15, 16, 20, 51, 52 direct into terminal block">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">l. Pin 53 connected with MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin53-MCB2A" name="Pin 53 connected with MCB 2A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-12" name="Pin 53 connected with MCB 2A">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">m. Pin 54, 55 direct into terminal block:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin54-55" name="Pin 54, 55 direct into terminal block">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-13" name="Pin 54, 55 direct into terminal block">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">n. Pin 56 connected with S1:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin56-S1" name="Pin 56 connected with S1">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-14" name="Pin 56 connected with S1">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        Battery Charger (DSE9470MKII) <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Pin N (Neutral) connected with NBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinN-NBAR" name="Pin N (Neutral) connected with NBAR">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-15" name="Pin N (Neutral) connected with NBAR">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Pin L1 (Life) connected with MCB 6A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinL1-MCB" name="Pin L1 (Life) connected with MCB 6A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-16" name="Pin L1 (Life) connected with MCB 6A">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">c. Pin E (Earth) connected with EBAR:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinE-EBAR" name="Pin E (Earth) connected with EBAR">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-17" name="Pin E (Earth) connected with EBAR">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">d. Pin B, A, SCR (27, 28, 29) connected with Controller:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinB-CTRL" name="Pin B, A, SCR (27, 28, 29) connected with Controller">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-18" name="Pin B, A, SCR (27, 28, 29) connected with Controller">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">e. Pin OP- connected with Fuse 6.3A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinOP-FUSE" name="Pin OP- connected with Fuse 6.3A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-19" name="Pin OP- connected with Fuse 6.3A">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">f. Pin OP+ connected with Pin 1:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinOP-1" name="Pin OP+ connected with Pin 1">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-20" name="Pin OP+ connected with Pin 1">
+        </td>
+      </tr>
+      
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        Fuse 6.3A <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with Battery Charger (OP-), Terminal Block 2+:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinOP-TB" name="Connected with Battery Charger (OP-), Terminal Block 2+">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-21" name="Connected with Battery Charger (OP-), Terminal Block 2+">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        Selector Switch <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with Pin 56, Pin 1:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin56-1" name="Connected with Pin 56, Pin 1">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-22" name="Connected with Pin 56, Pin 1">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        E-Stop (Emergency Stop Switch) <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with Pin 3, MCB 16 A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin3-MCB" name="Connected with Pin 3, MCB 16 A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-23" name="Connected with Pin 3, MCB 16 A">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        MCB 2A <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with [Pin 53, Pin 1], [Pin 37, MCCB L1, MCB 6A], [Pin 38, MCCB L2], [Pin 39, MCCB L3]:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin[53]-[mccb]" name="Connected with [Pin 53, Pin 1], [Pin 37, MCCB L1, MCB 6A], [Pin 38, MCCB L2], [Pin 39, MCCB L3]">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-24" name="Connected with [Pin 53, Pin 1], [Pin 37, MCCB L1, MCB 6A], [Pin 38, MCCB L2], [Pin 39, MCCB L3]">
+        </td>
+      </tr>
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        MCB 6A <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with Pin L1 (Battery Charger):</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinL1-BC" name="Connected with Pin L1 (Battery Charger)">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-25" name="Connected with Pin L1 (Battery Charger)">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Jumper with MCB 2A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinJ-MCB2A" name="Jumper with MCB 2A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-26" name="Jumper with MCB 2A">
+        </td>
+      </tr>
+
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        MCB 10A <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with Pin 2:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pin2" name="Connected with Pin 2">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-27" name="Connected with Pin 2">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Connected with terminal block 2+:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinTB2+" name="Connected with terminal block 2+">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-28" name="Connected with terminal block 2+">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">c. Jumper with MCB 16A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinJ-MCB16A" name="Jumper with MCB 16A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-29" name="Jumper with MCB 16A">
+        </td>
+      </tr>
+
+
+      <tr>
+    </tr>
+    <tr>
+      <th>
+        MCB 16A <br> 
+      </th>
+      <th>Correct</th>
+      <th>Wrong</th>
+    </tr>            
+    <tr>
+        <td>
+          <div class="checkbox-label">a. Connected with E-Stop:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinESTOP" name="Connected with E-Stop">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-30" name="Connected with E-Stop">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div class="checkbox-label">b. Jumper with MCB 10A:</div>
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="pinJ-MCB10AR" name="Jumper with MCB 10A">
+        </td>
+        <td class="checkbox-group">
+          <input type="checkbox" id="wrong-checkbox-31" name="Jumper with MCB 10A">
+        </td>
+      </tr>
+
+
+
+      <tr>
+        <th>
+          Checked by <br> 
+          <input type="text" id="checkedBy" placeholder="Name" style="font-style: italic;">
+        </th>
+      </tr>
+    </table>
+    <div class="container">
+      <div class="content">
+        <div class="input-box">
+          <label for="file" class="form-label">File</label>
+          <input required id="attach" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file2" class="form-label">File2</label>
+          <input required id="attach2" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file3" class="form-label">File3</label>
+          <input required id="attach3" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file4" class="form-label">File4</label>
+          <input required id="attach4" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file5" class="form-label">File5</label>
+          <input required id="attach5" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file6" class="form-label">File6</label>
+          <input required id="attach6" type="file"/>
+        </div>
+        <div class="input-box">
+          <label for="file7" class="form-label">File7</label>
+          <input required id="attach7" type="file"/>
+        </div>
+
+
+        <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+  </form>
+
+<script>
+  function showLoading() {
+    document.getElementById("loadingOverlay").style.display = "flex";
+  }
+
+  function hideLoading() {
+    document.getElementById("loadingOverlay").style.display = "none";
+  }
+
+  function submitForm() {
+    // Show loading animation
+    showLoading();
+
+    var controllerText = document.getElementById("Controller (DSE7410 MKII)").value;
+    var checkedByText = document.getElementById("checkedBy").value;
+    var fileInput1 = document.getElementById('attach').files[0];
+    var fileInput2 = document.getElementById('attach2').files[0];
+    var fileInput3 = document.getElementById('attach3').files[0];
+    var fileInput4 = document.getElementById('attach4').files[0];
+    var fileInput5 = document.getElementById('attach5').files[0];
+    var fileInput6 = document.getElementById('attach6').files[0];
+    var fileInput7 = document.getElementById('attach7').files[0];
+
+    var reader1 = new FileReader();
+    var reader2 = new FileReader();
+    var reader3 = new FileReader();
+    var reader4 = new FileReader();
+    var reader5 = new FileReader();
+    var reader6 = new FileReader();
+    var reader7 = new FileReader();
+
+
+
+    // Handle file upload for File 1
+    reader1.onload = function() {
+      var fileContent1 = reader1.result;
+      var filename1 = fileInput1.name;
+
+      // Handle file upload for File 2
+      reader2.onload = function() {
+        var fileContent2 = reader2.result;
+        var filename2 = fileInput2.name;
+
+        reader3.onload = function() {
+          var fileContent3 = reader3.result;
+          var filename3 = fileInput3.name;
+
+          reader4.onload = function() {
+            var fileContent4 = reader4.result;
+            var filename4 = fileInput4.name;
+
+            reader5.onload = function() {
+              var fileContent5 = reader5.result;
+              var filename5 = fileInput5.name;
+
+              reader6.onload = function() {
+                var fileContent6 = reader6.result;
+                var filename6 = fileInput6.name;
+
+                reader7.onload = function() {
+                  var fileContent7 = reader7.result;
+                  var filename7 = fileInput7.name;
+
+
+        // Prepare form data
+        var formData = new FormData();
+        formData.append('fileContent1', fileContent1);
+        formData.append('filename1', filename1);
+        formData.append('fileContent2', fileContent2);
+        formData.append('filename2', filename2);
+        formData.append('fileContent3', fileContent3);
+        formData.append('filename3', filename3);
+        formData.append('fileContent4', fileContent4);
+        formData.append('filename4', filename4);
+        formData.append('fileContent5', fileContent5);
+        formData.append('filename5', filename5);
+        formData.append('fileContent6', fileContent6);
+        formData.append('filename6', filename6);
+        formData.append('fileContent7', fileContent7);
+        formData.append('filename7', filename7);
+
+        formData.append('Controller (DSE7410 MKII)', controllerText);
+        formData.append('Checked By', checkedByText);
+        formData.append('Pin 45, 46, 47, 49 connected with Current Transformers', document.getElementById("pin45-49").checked ? "correct" : "wrong");
+        formData.append('Pin 49 connected with EBAR', document.getElementById("pin49-EBAR").checked ? "correct" : "wrong");
+        formData.append('Pin 37, 38, 39 connected with MCB 2A', document.getElementById("pin37-39-MCB").checked ? "correct" : "wrong");
+        formData.append('Pin 40 connected with NBAR', document.getElementById("pin40-NBAR").checked ? "correct" : "wrong");
+        formData.append('Pin 35 & 36 connected', document.getElementById("pin35-36").checked ? "correct" : "wrong");
+        formData.append('Pin 27, 28, 29 (B, A, SCR) connected with Battery Charger', document.getElementById("pin27-29").checked ? "correct" : "wrong");
+        formData.append('Pin 1 connected with S1, MCB 2A', document.getElementById("pin1-S1-MCB2A").checked ? "correct" : "wrong");
+        formData.append('Pin 2 connected with Pin 6, MCB 10A', document.getElementById("pin2-6-MCB10A").checked ? "correct" : "wrong");
+        formData.append('Pin 3 connected with E-Stop', document.getElementById("pin3-EStop").checked ? "correct" : "wrong");
+        formData.append('Pin 4 contacted with Pin 5', document.getElementById("pin4-5").checked ? "correct" : "wrong");
+        formData.append('Pin 14, 15, 16, 20, 51, 52 direct into terminal block', document.getElementById("pin14-52").checked ? "correct" : "wrong");
+        formData.append('Pin 53 connected with MCB 2A', document.getElementById("pin53-MCB2A").checked ? "correct" : "wrong");
+        formData.append('Pin 54, 55 direct into terminal block', document.getElementById("pin54-55").checked ? "correct" : "wrong");
+        formData.append('Pin 56 connected with S1', document.getElementById("pin56-S1").checked ? "correct" : "wrong");
+        formData.append('Pin N (Neutral) connected with NBAR', document.getElementById("pinN-NBAR").checked ? "correct" : "wrong");
+        formData.append('Pin L1 (Life) connected with MCB 6A', document.getElementById("pinL1-MCB").checked ? "correct" : "wrong");
+        formData.append('Pin E (Earth) connected with EBAR', document.getElementById("pinE-EBAR").checked ? "correct" : "wrong");
+        formData.append('Pin B, A, SCR (27, 28, 29) connected with Controller', document.getElementById("pinB-CTRL").checked ? "correct" : "wrong");
+        formData.append('Pin OP- connected with Fuse 6.3A', document.getElementById("pinOP-FUSE").checked ? "correct" : "wrong");
+        formData.append('Pin OP+ connected with Pin 1', document.getElementById("pinOP-1").checked ? "correct" : "wrong");
+        formData.append('Connected with Battery Charger (OP-), Terminal Block 2+', document.getElementById("pinOP-TB").checked ? "correct" : "wrong");
+        formData.append('Connected with Pin 56, Pin 1', document.getElementById("pin56-1").checked ? "correct" : "wrong");
+        formData.append('Connected with Pin 3, MCB 16 A', document.getElementById("pin3-MCB").checked ? "correct" : "wrong");
+        formData.append('Connected with [Pin 53, Pin 1], [Pin 37, MCCB L1, MCB 6A], [Pin 38, MCCB L2], [Pin 39, MCCB L3]', document.getElementById("pin[53]-[mccb]").checked ? "correct" : "wrong");
+        formData.append('Connected with Pin L1 (Battery Charger)', document.getElementById("pinL1-BC").checked ? "correct" : "wrong");
+        formData.append('Jumper with MCB 2A', document.getElementById("pinJ-MCB2A").checked ? "correct" : "wrong");
+        formData.append('Connected with Pin 2', document.getElementById("pin2").checked ? "correct" : "wrong");
+        formData.append('Connected with terminal block 2+', document.getElementById("pinTB2+").checked ? "correct" : "wrong");
+        formData.append('Jumper with MCB 16A', document.getElementById("pinJ-MCB16A").checked ? "correct" : "wrong");
+        formData.append('Connected with E-Stop', document.getElementById("pinESTOP").checked ? "correct" : "wrong");
+        formData.append('Jumper with MCB 10A', document.getElementById("pinJ-MCB10AR").checked ? "correct" : "wrong");
+
+        // Submit form data
+        fetch('https://script.google.com/macros/s/AKfycbwdSUoVwHApxYN7FQH6RoJMDZYU3kr0_cZ4NGPrbFKMQwo7UUPlfAHTje3k2wjTQ0OD/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Form submitted successfully');
+            alert('Form submitted successfully');
+          } else {
+            console.error('Form submission failed');
+            alert('Form submission failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error:', error);
+        })
+        .finally(() => {
+          // Hide loading animation after form submission completes or fails
+          hideLoading();
+        });
+
+
+            };
+
+            reader7.readAsDataURL(fileInput7);
+           };
+
+           reader6.readAsDataURL(fileInput6);
+          };
+
+          reader5.readAsDataURL(fileInput5);
+         };
+
+         reader4.readAsDataURL(fileInput4);
+        };
+
+        reader3.readAsDataURL(fileInput3);
+      };
+      
+      reader2.readAsDataURL(fileInput2);
+    };
+
+    reader1.readAsDataURL(fileInput1);
+  }
+</script>
+</body>
+</html>
