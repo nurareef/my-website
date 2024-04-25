@@ -163,9 +163,6 @@
                 <option value="40kVA">40kVA</option>
                 <option value="M3 Hybrid BESS">M3 Hybrid BESS</option>
             </select>
-            <select name="Job-Number" id="job-number" style="display: none;">
-                <!-- Options for Job-Number -->
-            </select>
             <select name="Job-Type" id="job-type" style="display: none;">
                 <!-- Options for Job-Type -->
             </select>
@@ -212,40 +209,17 @@
 
         function toggleProjectNumberDropdown() {
             var projectTypeDropdown = document.getElementById("project-type");
-            var projectNumberDropdown = document.getElementById("job-number");
             var jobTypeDropdown = document.getElementById("job-type");
 
             if (projectTypeDropdown.value === "40kVA" || projectTypeDropdown.value === "M3 Hybrid BESS") {
-                projectNumberDropdown.style.display = "block";
                 jobTypeDropdown.style.display = "block";
-                createProjectNumberOptions(projectTypeDropdown.value);
-                createJobTypeOptions(projectTypeDropdown.value);
+                createJobTypeOptions();
             } else {
-                projectNumberDropdown.style.display = "none";
                 jobTypeDropdown.style.display = "none";
             }
         }
 
-        function createProjectNumberOptions(projectType) {
-            var projectNumberDropdown = document.getElementById("job-number");
-            projectNumberDropdown.innerHTML = "";
-
-            var projectNumbers = [];
-            if (projectType === "40kVA") {
-                projectNumbers = ["1.009.24.1", "1.010.24.1", "1.011.24.1", "1.012.24.1", "CABLE 40kVA"];
-            } else if (projectType === "M3 Hybrid BESS") {
-                projectNumbers = ["2.001.24.1", "2.002.24.1", "CABLE M3"];
-            }
-
-            projectNumbers.forEach(function(number) {
-                var option = document.createElement("option");
-                option.value = number;
-                option.text = number;
-                projectNumberDropdown.add(option);
-            });
-        }
-
-        function createJobTypeOptions(projectType) {
+        function createJobTypeOptions() {
             var jobTypeDropdown = document.getElementById("job-type");
             jobTypeDropdown.innerHTML = "";
 
