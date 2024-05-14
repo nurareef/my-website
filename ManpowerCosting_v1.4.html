@@ -29,17 +29,21 @@
         h4 {
             text-align: center;
             margin-bottom: 20px; /* Add some space below the heading */
+            background-color: rgba(128, 128, 128, 0.7); /* Grey transparent background */
+            color: #fff; /* Text color */
+            padding: 10px; /* Padding to create some space around the text */
+            border-radius: 10px; /* Border radius */
         }
 
         .container{
-            width: auto;
-        padding: 10px;
-        border: 1px solid #eeeeee;
-        border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.5);
-        position: relative;
-        margin: 50px auto; 
-        }
+            width: 500px;
+            padding: 10px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            position: relative;
+            margin: 50px auto; 
+            }
         .name-buttons {
             width: auto;
             padding: 30px;
@@ -97,16 +101,16 @@
         }
         .project-selection-button {
             background-color: #23408F;
-        color: rgb(255, 255, 255);
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        width: calc(50% - 10px); /* 50% width minus 10px for margin */
-        display: inline-block; /* Display inline-block to create a 2-column layout */
-        margin-right: 10px; /* Add some margin between buttons */
-        margin-bottom: 10px; /* Add some margin between rows */
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            width: calc(50% - 10px); /* 50% width minus 10px for margin */
+            display: inline-block; /* Display inline-block to create a 2-column layout */
+            margin-right: 10px; /* Add some margin between buttons */
+            margin-bottom: 10px; /* Add some margin between rows */
         }
 
         .job-type-button {
@@ -165,28 +169,67 @@
 
         #submit{
             display: block;
-    margin: 10px auto 10px; /* Adjust the top margin as needed */
-    padding: 10px 20px;
-    background-color: orangered;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 200px;
-    font-size: 16px;
-    line-height: 1.5;
+            margin: 10px auto 10px; /* Adjust the top margin as needed */
+            padding: 10px 20px;
+            background-color: orangered;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 200px;
+            font-size: 16px;
+            line-height: 1.5;
         }
         #submit:hover{
             background-color: #333333;
         }
 
-        /* Block style for project type and job type */
-
-		
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @media screen and (max-width: 380px) {
+            .name-selection-button {
+                /* Adjust the font size and padding to make the buttons smaller */
+                font-size: 12px;
+                padding: 4px 6px;
+                width: 100px; /* Adjust width as needed */
+                Height: 30px; /* Adjust width as needed */
+            }
         }
+        @media screen and (max-width: 380px) {
+            .project-selection-button {
+                /* Adjust the font size and padding to make the buttons smaller */
+                font-size: 12px;
+                width: 180px; /* Adjust width as needed */
+                Height: 30px; /* Adjust width as needed */
+            }
+        }
+        @media screen and (max-width: 380px) {
+            .job-type-button {
+                /* Adjust the font size and padding to make the buttons smaller */
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+        @media screen and (max-width: 380px) {
+            .time-container select {
+                /* Adjust the font size and padding to make the dropdowns smaller */
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+        @media screen and (max-width: 380px) {
+            h4 {
+                font-size: 12px; /* Adjust font size as needed */
+            }
+        }
+
+        @media screen and (max-width: 380px) {
+            .container img {
+                width: 250px; /* Adjust the maximum width of the image */
+                height: auto; /* Maintain the aspect ratio */
+                display: block; /* Make the image a block element */
+                margin: 0 auto; /* Center the image horizontally */
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -307,7 +350,7 @@
             timeSubmissionField.value = timeString;
 
             // Show confirmation message
-            alert("Form submitted, Click OK to continue");
+            alert("Thank you");
         }
 
         function selectName(button, name) {
