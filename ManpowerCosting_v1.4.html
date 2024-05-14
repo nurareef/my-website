@@ -33,23 +33,22 @@
 
         .container{
             width: auto;
-    padding: 30px;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.7);
-    position: relative;
-    margin: 50px auto; /* Adjust the top and bottom margin for vertical centering */
-    /* Remove margin-right: 20px; to ensure it's centered */
+        padding: 10px;
+        border: 1px solid #eeeeee;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.5);
+        position: relative;
+        margin: 50px auto; 
         }
-        .name-buttons{
+        .name-buttons {
             width: auto;
             padding: 30px;
             border: 1px solid #eeeeee;
             border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            background-color: rgba(128, 128, 128, 0.5); /* Grey transparent background */
             position: relative;
-            display: inline-block; /* Display inline to stay side by side */
-            margin-right: 20px; /* Add some margin between containers */
+            display: inline-block;
+            margin-right: 20px;
         }
         #name-buttons {
             text-align: center;
@@ -76,9 +75,13 @@
             padding: 30px;
             border: 1px solid #eeeeee;
             border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            background-color: rgba(128, 128, 128, 0.5); /* Grey transparent background */
             position: relative;
-            margin-right: 20px; /* Add some margin between containers */
+            display: inline-block;
+            margin-right: 20px;
+        }
+        #job-type-options {
+            text-align: center;
         }
 
 
@@ -107,38 +110,25 @@
         }
 
         .job-type-button {
-        background-color: #23408F;
-        color: rgb(255, 255, 255);
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 10px;
-        width: calc(50% - 10px); /* 50% width minus 10px for margin */
-        display: inline-block; /* Display inline-block to create a 2-column layout */
-        margin-right: 10px; /* Add some margin between buttons */
-        margin-bottom: 10px; /* Add some margin between rows */
-    }
+            background-color:  #23408F;
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            width: 160px; /* Adjust width as needed */
+        }
 
-/* Clear the margin for the last button in each row */
-.job-type-button:nth-child(2n) {
-    margin-right: 0;
-}
 
 /* Clear the margin for the last button in each column */
-.job-type-button:nth-last-child(-n+2) {
-    margin-bottom: 0;
-}
 
         .name-selection-button:hover,
-        .project-selection-button:hover{
-            background-color: #e6d6d6;
+        .job-type-button:hover,
+        .project-selection-button:hover {
+        background-color: rgb(255, 255, 255);
+        color: #23408F; /* Black font color */
         }
-
-        .job-type-button:hover {
-            background-color: #e6d6d6;
-        }
-
 
         .selected {
             background-color: #ff0000;
@@ -147,12 +137,13 @@
 
         .job-type-button.selected {
             background-color: orangered;
+            color: white; /* Change font color to white */
         }
 
         select[name="time-start"],
         select[name="time-stop"] {
             display: block;
-            margin: 0 auto;
+            margin-top: 10px;
             padding: 10px;
             width: 200px;
             border: 1px solid #ccc;
@@ -161,6 +152,16 @@
             line-height: 1.5;
         }
 
+        .time-container {
+            text-align: center; /* Center the content horizontally */
+            margin: 0 auto; /* Center the container horizontally */
+        }
+
+        .time-container select {
+            /* Styles for the dropdowns */
+            display: inline-block; /* Display the dropdowns in a row */
+            margin: 10px; /* Adjust margin as needed */
+        }
 
         #submit{
             display: block;
@@ -182,29 +183,6 @@
         /* Block style for project type and job type */
 
 		
-		/* Custom loading screen styles */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .loading-spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -236,58 +214,60 @@
             <div id="job-type-options" style="display: none;">
                 <!-- Job type options will be dynamically added here -->
             </div>
-            <select name="time-start" required>
-                <option value="" disabled selected>Start time</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-                <option value="13:30">13:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-            </select>
-            <select name="time-stop" required>
-                <option value="" disabled selected>Stop time</option>
-                <option value="08:00">08:00</option>
-                <option value="08:30">08:30</option>
-                <option value="09:00">09:00</option>
-                <option value="09:30">09:30</option>
-                <option value="10:00">10:00</option>
-                <option value="10:30">10:30</option>
-                <option value="11:00">11:00</option>
-                <option value="11:30">11:30</option>
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-                <option value="13:30">13:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-                <option value="15:30">15:30</option>
-                <option value="16:00">16:00</option>
-                <option value="16:30">16:30</option>
-                <option value="17:00">17:00</option>
-                <option value="17:30">17:30</option>
-                <option value="18:00">18:00</option>
-                <option value="18:30">18:30</option>
-                <option value="19:00">19:00</option>
-            </select>
+            <div class="time-container">
+                <select name="time-start" required>
+                    <option value="" disabled selected>Start time</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                    <option value="15:30">15:30</option>
+                    <option value="16:00">16:00</option>
+                    <option value="16:30">16:30</option>
+                    <option value="17:00">17:00</option>
+                    <option value="17:30">17:30</option>
+                    <option value="18:00">18:00</option>
+                    <option value="18:30">18:30</option>
+                    <option value="19:00">19:00</option>
+                </select>
+                <select name="time-stop" required>
+                    <option value="" disabled selected>Stop time</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                    <option value="15:30">15:30</option>
+                    <option value="16:00">16:00</option>
+                    <option value="16:30">16:30</option>
+                    <option value="17:00">17:00</option>
+                    <option value="17:30">17:30</option>
+                    <option value="18:00">18:00</option>
+                    <option value="18:30">18:30</option>
+                    <option value="19:00">19:00</option>
+                </select>
+            </div> 
             <input type="hidden" name="Manpower-names" id="manpower-names">
             <input type="hidden" name="date" id="date">
             <input type="hidden" name="day" id="day">
