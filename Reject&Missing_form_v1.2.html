@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="40kVA Switch Board Checklist">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Missing/Broken Parts Form</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+    h2 {
+      font-size: 1.2em;
+      font-style: italic;
+      color: #666;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #f3bf95;
+    }
+    td {
+      background-color: #fff;
+    }
+    .submit-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      text-align: center;
+    }
+    .submit-button:hover {
+      background-color: #2980b9;
+    }
+    .form-label {
+      margin-bottom: 5px;
+      display: block;
+      font-weight: bold;
+    }
+    .input-box {
+      margin-bottom: 15px;
+    }
+    .input-box input, 
+    .input-box select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Missing/Broken Parts Reporting Form</h1>
+    <h2 class="adjustable-italic">Recording missing or broken parts is a key part of quality assurance and efficient factory operations</h2>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <form id="checklistForm" method="post">
+      <input type="hidden" id="controllerValue" name="Part No./Part Description">
+      <input type="hidden" id="projectValue" name="Related Project">
+      <input type="hidden" id="quantityValue" name="Quantity">
+      <input type="hidden" id="reportedByValue" name="Reported By">
+      <input type="hidden" id="suspectedValue" name="Suspected Cause">
+      <input type="hidden" id="replacementValue" name="immediate replacement">
+      <input type="hidden" id="submissionTime" name="Submission Time">
+      <table>
+        <tr>
+          <th colspan="2">Basic Information</th>
+        </tr>
+        <tr>
+          <td>
+            <label for="Part No./Part Description" class="form-label">Part No./Part Description</label>
+            <input type="text" id="Part No./Part Description" placeholder="Specific identification">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="Related Project" class="form-label">Related Project</label>
+            <select id="Related Project">
+              <option value="40kVA">40kVA</option>
+              <option value="M3">M3</option>
+              <option value="Deutz">Deutz</option>
+              <option value="PowerCore">PowerCore</option>
+              <option value="Consumables">Consumables</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="Quantity" class="form-label">Quantity</label>
+            <input type="text" id="Quantity" placeholder="Number of parts">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="reportedBy" class="form-label">Reported by</label>
+            <input type="text" id="reportedBy" placeholder="Name">
+          </td>
+        </tr>
+        <tr>
+          <th colspan="2">Cause and Impact</th>
+        </tr>
+        <tr>
+          <td>
+            <label for="Suspected Cause" class="form-label">Suspected Cause</label>
+            <input type="text" id="Suspected Cause" placeholder="Possible cause of the issue, if known">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="immediate replacement" class="form-label">Immediate Replacement</label>
+            <select id="immediate replacement">
+              <option value="Yes,Urgent">Yes,Urgent</option>
+              <option value="Yes,Not urgent">Yes,Not urgent</option>
+              <option value="No">No</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <div class="input-box">
+        <label for="file" class="form-label">Photo Attachments</label>
+        <input required id="attach" type="file"/>
+      </div>
+      <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function showLoading() {
+      document.getElementById("loadingOverlay").style.display = "flex";
+    }
+
+    function hideLoading() {
+      document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function submitForm() {
+      showLoading();
+
+      var controllerText = document.getElementById("Part No./Part Description").value;
+      var relatedprojectText = document.getElementById("Related Project").value;
+      var reportedByText = document.getElementById("reportedBy").value;
+      var QuantityText = document.getElementById("Quantity").value;
+      var suspectedText = document.getElementById("Suspected Cause").value;
+      var replacementText = document.getElementById("immediate replacement").value;
+      var fileInput1 = document.getElementById('attach').files[0];
+
+      var reader1 = new FileReader();
+
+      // Get the current date and time in Malaysia time zone
+      var now = new Date();
+      var malaysiaTime = now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+      reader1.onload = function() {
+        var fileContent1 = reader1.result;
+        var filename1 = fileInput1.name;
+
+        var formData = new FormData();
+        formData.append('fileContent1', fileContent1);
+        formData.append('filename1', filename1);
+        formData.append('Part No./Part Description', controllerText);
+        formData.append('Related Project', relatedprojectText);
+        formData.append('Quantity', QuantityText);
+        formData.append('Reported By', reportedByText);
+        formData.append('Suspected Cause', suspectedText);
+        formData.append('immediate replacement', replacementText);
+        formData.append('Submission Time', malaysiaTime);
+
+        fetch('https://script.google.com/macros/s/AKfycbwVcmXmc6o5MhzfDgM-sSSdpm2uSL_H_HfFfXQKsCdpuZYFEf_9zHAzB5-LTSHoAPZzUg/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Form submitted successfully');
+            alert('Form submitted successfully');
+          } else {
+            console.error('Form submission failed');
+            alert('Form submission failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error:', error);
+        })
+        .finally(hideLoading);
+      };
+
+      reader1.readAsDataURL(fileInput1);
+    }
+  </script>
+  
+</body>
+</html>
