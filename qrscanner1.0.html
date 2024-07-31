@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.1/jsQR.min.js"></script>
+    <style>
+        #qr-reader {
+            width: 300px;
+            height: 300px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+    <video id="qr-reader"></video>
+    <div id="result">Scan a QR code</div>
+
+    <script>
+        // Replace with your Google Sheets API key and Sheet ID
+        const API_KEY = 'YOUR_GOOGLE_SHEETS_API_KEY';
+        const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID';
+        const RANGE = 'Sheet1!A:B'; // Example range
+
+        function fetchData(query) {
+            $.getJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`, function(data) {
+                let rows = data.values;
+                let result = rows.find(row => row[0] === query);
+                if (result) {
+                    $('#result').text('Data: ' + result[1]);
+                } else {
+                    $('#result').text('No data found.');
+                }
+            });
+        }
+
+        function startScanner() {
+            const video = document.getElementById('qr-reader');
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const qrCodeScanner = new QrScanner(video, result => {
+                fetchData(result);
+            });
+            qrCodeScanner.start();
+        }
+
+        $(document).ready(function() {
+            startScanner();
+        });
+    </script>
+</body>
+</html>
