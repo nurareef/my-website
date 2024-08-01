@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="40kVA Switch Board Checklist">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Warehouse Key-in System</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          margin: 20px;
+      }
+      label {
+          font-weight: bold;
+      }
+      .dropdown-container {
+          position: relative;
+          width: 100%;
+      }
+      input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+      .dropdown-options {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          background-color: #fff;
+          max-height: 200px;
+          overflow-y: auto;
+          z-index: 1000;
+          display: none;
+      }
+      .dropdown-options div {
+          padding: 10px;
+          cursor: pointer;
+      }
+      .dropdown-options div:hover {
+          background-color: #f0f0f0;
+      }
+      #item-details {
+          border: 1px solid #ccc;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: #fff;
+      }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+    <h2>Warehouse Key-in System</h2>
+    
+    <label for="item-id-input">Enter Part No:</label>
+    <div class="dropdown-container">
+        <input type="text" id="item-id-input" placeholder="Type to search or enter Part No">
+        <div class="dropdown-options" id="dropdown-options"></div>
+    </div>
+
+    <div id="scanner-container"></div> <!-- Scanner Video Feed -->
+
+    <div id="item-details"></div>
+
+    <script>
+                let allOptions = [];
+
+        function fetchDropdownOptions() {
+            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pub?output=csv';
+
+            fetch(sheetURL)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n');
+                    allOptions = rows.slice(1).map(row => row.split(',')[0]).filter(itemID => itemID);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function updateDropdownOptions(filterText) {
+            const dropdown = document.getElementById('dropdown-options');
+            dropdown.innerHTML = '';
+
+            const filteredOptions = allOptions.filter(option => option.toLowerCase().includes(filterText.toLowerCase()));
+            
+            filteredOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.textContent = option;
+                div.onclick = () => selectOption(option);
+                dropdown.appendChild(div);
+            });
+
+            dropdown.style.display = filteredOptions.length > 0 ? 'block' : 'none';
+        }
+
+        function selectOption(option) {
+            document.getElementById('item-id-input').value = option;
+            document.getElementById('dropdown-options').style.display = 'none';
+            fetchItemDetails();
+        }
+
+        function fetchItemDetails() {
+            const selectedItemID = document.getElementById('item-id-input').value;
+            const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?timestamp=${new Date().getTime()}`;
+
+            fetch(sheetURL, { cache: 'no-store' })
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table');
+
+                    const rows = table.querySelectorAll('tr');
+                    for (let i = 1; i < rows.length; i++) {
+                        const cells = rows[i].querySelectorAll('td');
+                        if (cells.length === 4 && cells[0].textContent.trim() === selectedItemID) {
+                            // Extract image URL
+                            let imageUrl = '';
+                            const imgElement = cells[1].querySelector('img');
+                            if (imgElement) {
+                                imageUrl = imgElement.src;
+                            } else {
+                                imageUrl = cells[1].textContent.trim();
+                            }
+                            
+                            const itemDetails = `
+                                <p><strong>Part Number:</strong> ${cells[0].textContent.trim()}</p>
+                                <p><strong>Image:</strong> <img src="${imageUrl}" alt="Part Image" style="max-width: 100%; height: auto;"></p>
+                                <p><strong>Part Description:</strong> ${cells[2].textContent.trim()}</p>
+                                <p><strong>Expected Received Quantity:</strong> ${cells[3].textContent.trim()}</p>
+                            `;
+                            document.getElementById('item-details').innerHTML = itemDetails;
+                            return; // Exit the loop once the match is found
+                        }
+                    }
+
+                    document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        document.getElementById('item-id-input').addEventListener('input', (event) => {
+            updateDropdownOptions(event.target.value);
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!document.querySelector('.dropdown-container').contains(event.target)) {
+                document.getElementById('dropdown-options').style.display = 'none';
+            }
+        });
+
+        // Initial setup
+        fetchDropdownOptions();
+
+        function startScanner() {
+            Quagga.init({
+                inputStream: {
+                    type: "LiveStream",
+                    target: document.querySelector('#scanner-container'), // Or '#yourElement' (optional)
+                    constraints: {
+                        width: 640,
+                        height: 480,
+                        facingMode: "environment" // or user for front camera
+                    },
+                },
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
+                }
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+            });
+
+            Quagga.onDetected(function(data) {
+                document.getElementById('item-id-input').value = data.codeResult.code;
+                fetchItemDetails();
+                Quagga.stop(); // Stop the scanner after detecting a barcode
+            });
+        }
+
+        // Start the scanner on page load or on button click
+        window.addEventListener('load', startScanner);
+    </script>
+</body>
+</html>
