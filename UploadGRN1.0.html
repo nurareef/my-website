@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Photo Upload">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Photo Upload Form</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Photo Upload Form</h1>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <form id="photoUploadForm" method="post">
+      <div class="input-box">
+        <label for="file" class="form-label">Photo Attachments</label>
+        <input required id="attach" type="file"/>
+      </div>
+      <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function showLoading() {
+      document.getElementById("loadingOverlay").style.display = "flex";
+    }
+
+    function hideLoading() {
+      document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function submitForm() {
+      showLoading();
+
+      var fileInput1 = document.getElementById('attach').files[0];
+
+      var reader1 = new FileReader();
+
+      // Get the current date and time in Malaysia time zone
+      var now = new Date();
+      var malaysiaTime = now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+      reader1.onload = function() {
+        var fileContent1 = reader1.result;
+        var filename1 = fileInput1.name;
+
+        var formData = new FormData();
+        formData.append('fileContent1', fileContent1);
+        formData.append('filename1', filename1);
+        formData.append('Submission Time', malaysiaTime);
+
+        fetch('https://script.google.com/macros/s/AKfycbx9syXBAx9ZZ13O8BXJ0ci0O4CFCMFOHts3IsfAa1Tcoj3i9FMJQOWjE5GY-NK6Fqbsgg/exec', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Form submitted successfully');
+            alert('Form submitted successfully');
+          } else {
+            console.error('Form submission failed');
+            alert('Form submission failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error:', error);
+        })
+        .finally(hideLoading);
+      };
+
+      reader1.readAsDataURL(fileInput1);
+    }
+  </script>
+  
+</body>
+</html>
