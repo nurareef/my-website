@@ -215,7 +215,8 @@
       <input type="hidden" id="partDescription" name="Part Description">
       <input type="hidden" id="controllerValue" name="DO No.">
       <input type="hidden" id="projectValue" name="Quantity Received">
-      <input type="hidden" id="submissionTime" name="Submission Time">
+      <input type="hidden" id="submissionDate" name="Submission Date">
+      <input type="hidden" id="submissionClock" name="Submission Clock">      
       <input type="hidden" id="submissionName" name="submission Name">
       <input type="hidden" id="NameSupplier" name="Supplier Name">
       <input type="hidden" id="TypeUOM" name="UOM">
@@ -371,6 +372,10 @@ function submitForm() {
 
   const now = new Date();
   const malaysiaTime = now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+  const submissionDate = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+  const submissionClock = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
   const NameSubmission = 'Viknesh';
   const SupplierName = 'TOYOMI ENGINEERING SDN BHD';
   const UOMType = 'PCS';
@@ -380,12 +385,14 @@ function submitForm() {
   formData.append('Quantity Received', quantityText);
   formData.append('Part Number', partNumber);
   formData.append('Part Description', partDescription);
-  formData.append('Submission Time', malaysiaTime);
+  formData.append('Submission Date', submissionDate);
+  formData.append('Submission Clock', submissionClock);
   formData.append('submission Name', NameSubmission);
   formData.append('Supplier Name', SupplierName);
   formData.append('UOM', UOMType);
 
-  // Get file input and append file data
+  // File upload handling and submission remains the same...
+
   const fileInput = document.getElementById('fileInput');
   const file = fileInput.files[0];
   if (file) {
@@ -437,6 +444,7 @@ function submitForm() {
     .finally(hideLoading);
   }
 }
+
 
 
 function startScanner() {
