@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Warehouse Check-in">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Warehouse Stock Control System</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://i.imgur.com/aofHitA.png');
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for a better background blend */
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif; /* Use a consistent font */
+  line-height: 1.6;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  font-weight: bold;
+  color: #34495e;
+}
+
+input, select, textarea {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #3498db; /* Highlight on focus */
+}
+
+button.submit-button {
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  text-align: center;
+}
+
+
+
+.submit-button:hover {
+  background-color: #2980b9;
+}
+
+.file-upload-container {
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  form {
+    gap: 15px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  button.submit-button {
+    padding: 12px;
+    font-size: 1.1em;
+  }
+}
+
+
+.loading-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.box-selection {
+  display: flex;
+  gap: 10px;
+}
+
+.status-box {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s, border-color 0.3s;
+  flex: 1;
+}
+
+.status-box:hover {
+  background-color: #e0e0e0;
+}
+
+.status-box.selected {
+  border-color: #3498db;
+  background-color: #3498db;
+  color: white;
+}
+
+#relatedProject {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+/* Style for dropdown list with vertical scroll */
+#dropdown-list {
+  max-height: 150px; /* Adjust this value based on your preference */
+  overflow-y: auto; /* Enables vertical scroll */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  background-color: white; /* Ensure the dropdown has a white background */
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+.dropdown-options {
+  max-height: 150px; /* Adjust as needed */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: white;
+  position: absolute; /* Position it relative to the parent container */
+  width: 100%; /* Ensure it takes the full width of its container */
+  z-index: 1000; /* Ensure it’s above other elements */
+  display: none; /* Initially hidden */
+}
+
+.dropdown-container {
+  position: relative; /* So that the dropdown options can be positioned absolutely */
+}
+
+
+
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+	
+	    <div class="container">
+
+            <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+
+
+  <h2>Stock Control (Project items)</h2>
+
+  <div class="container">
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <form id="checklistForm" method="post">
+      <input type="hidden" id="partNumber" name="Rack Number">
+      <input type="hidden" id="partDescription" name="Part Description">
+      <input type="hidden" id="controllerValue" name="Status">
+      <input type="hidden" id="projectValue" name="Quantity">
+      <input type="hidden" id="submissionDate" name="Submission Date">
+      <input type="hidden" id="submissionClock" name="Submission Clock">      
+      <input type="hidden" id="SupplierNa" name="Supplier Name">
+      <input type="hidden" id="RelatedPro" name="Related Project">
+      <input type="hidden" id="ItemDesc" name="Item Description">
+      <input type="hidden" id="TypeUOM" name="UOM">
+
+      <table>
+        <tr>
+            <td>
+                <label for="Status" class="form-label">Status</label>
+                <div class="box-selection">
+                  <div class="status-box" id="restock-box" onclick="selectStatus('In')">In</div>
+                  <div class="status-box" id="refill-box" onclick="selectStatus('Out')">Out</div>
+                </div>
+                <input type="hidden" id="Status" name="Status" value="Out">
+            </td>
+          </tr>
+        
+          <tr id="supplierRow" style="display: none;">
+            <td>
+              <label for="ItemDescription" class="form-label">Part Number & Item Description</label>
+              <input type="text" id="ItemDescription" name="Item Description" placeholder="Enter Part Number & Item Description">
+            </td>
+          </tr>    
+
+          <tr id="supplierNameRow" style="display: none;">
+            <td>
+              <label for="SupplierName" class="form-label">Supplier Name</label>
+              <input type="text" id="SupplierName" name="Supplier Name" placeholder="Enter Supplier Name">
+            </td>
+          </tr>
+
+          <tr id="supplierRelatedProRow" style="display: none;">
+            <td>
+              <label for="relatedProject">Related Project</label>
+              <select id="relatedProject" name="relatedProject" class="form-control">
+                <option value="">Select a project</option>
+                <option value="40kVA Project">40kVA Project</option>
+                <option value="M3 Project">M3 Project</option>
+                <option value="PC100 Project">PC100 Project</option>
+                <option value="Others Project">Others Project</option>
+              </select>
+            </td>
+          </tr>
+
+        
+        <tr>
+          <td>
+            <label for="Quantity" class="form-label">Quantity</label>
+            <input type="number" id="Quantity" placeholder="Enter quantity">
+          </td>
+        </tr>
+      </table>
+
+      <tr>
+        <td>
+          <label for="item-id-input" id="rackLabel">Enter Part Number or Part Description:</label>
+          <div class="dropdown-container">
+            <input type="text" id="item-id-input" placeholder="Enter Part No" pattern="[A-Za-z0-9\-]+" title="Only alphanumeric characters and dashes are allowed">
+            <div class="dropdown-options" id="dropdown-options"></div>
+          </div>
+        </td>
+      </tr>
+            
+      <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+  <div id="item-details"></div>
+
+  <div class="file-upload-container">
+    <form id="photoUploadForm" method="post">
+      <label for="file" class="form-label">Photo Attachments</label>
+      <input type="file" id="fileInput" required>
+      <button type="button" class="submit-button" onclick="uploadFile()">Upload Photo</button>
+    </form>
+    <div class="loading-overlay" id="uploadLoadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+			
+</div>
+
+  
+  <script>
+let allOptions = [];
+let currentStatus = 'Out'; // Default value
+
+function fetchDropdownOptions() {
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShfj3V9xGmT0O1aNjOJlL3_drY5wDpUiXrDIcxD8sPn2vQ6o_6Ilob91fAPIFwQAuSxrclbZZVja-E/pub?output=csv';
+
+  fetch(sheetURL)
+    .then(response => response.text())
+    .then(data => {
+      const rows = data.split('\n');
+      
+      // Conditional logic based on currentStatus
+      if (currentStatus === 'In') {
+        allOptions = rows.slice(1).map(row => row.split(',')[1]).filter(itemID => itemID);
+      } else {
+        allOptions = rows.slice(1).map(row => row.split(',')[0]).filter(itemID => itemID);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}
+
+function selectStatus(status) {
+  document.getElementById('Status').value = status;
+  currentStatus = status; // Update the current status
+
+  const refillBox = document.getElementById('refill-box');
+  const restockBox = document.getElementById('restock-box');
+  const supplierRow = document.getElementById('supplierRow');
+  const supplierNameRow = document.getElementById('supplierNameRow'); // New row for Supplier Name
+  const supplierRelatedProRow = document.getElementById('supplierRelatedProRow'); // New row for Related Project
+  const rackLabel = document.getElementById('rackLabel');
+  const itemIdInput = document.getElementById('item-id-input');
+  const itemDetails = document.getElementById('item-details');
+  
+  if (status === 'Out') {
+    refillBox.classList.add('selected');
+    restockBox.classList.remove('selected');
+    supplierRow.style.display = 'none';
+    supplierNameRow.style.display = 'none'; // Hide the "Supplier Name" row for Out
+    supplierRelatedProRow.style.display = 'none'; // Hide the "Related Project" row for Out
+    rackLabel.textContent = 'Enter Part Number or Part Description:';
+    itemIdInput.placeholder = 'Part Number or Part Description';
+    itemDetails.style.display = 'block'; // Show item details for Out
+  } else {
+    restockBox.classList.add('selected');
+    refillBox.classList.remove('selected');
+    supplierRow.style.display = 'table-row'; // Show the "Item Description" row
+    supplierNameRow.style.display = 'table-row'; // Show the "Supplier Name" row for In
+    supplierRelatedProRow.style.display = 'table-row'; // Show the "Related Project" row for In
+
+    rackLabel.textContent = 'Enter Rack Location:';
+    itemIdInput.placeholder = 'X-X-X-X';
+    itemDetails.style.display = 'none'; // Hide item details for In
+  }
+
+  fetchDropdownOptions(); // Fetch dropdown options based on new status
+}
+
+function updateDropdownOptions(filterText) {
+  const dropdown = document.getElementById('dropdown-options');
+  dropdown.innerHTML = '';
+
+  const filteredOptions = allOptions.filter(option => option.toLowerCase().includes(filterText.toLowerCase()));
+  
+  filteredOptions.forEach(option => {
+    const div = document.createElement('div');
+    div.textContent = option;
+    div.onclick = () => selectOption(option);
+    dropdown.appendChild(div);
+  });
+
+  dropdown.style.display = filteredOptions.length > 0 ? 'block' : 'none';
+}
+
+function selectOption(option) {
+  document.getElementById('item-id-input').value = option;
+  document.getElementById('partNumber').value = option; 
+  document.getElementById('dropdown-options').style.display = 'none';
+  fetchItemDetails();
+}
+
+function fetchItemDetails() {
+const selectedItemID = document.getElementById('item-id-input').value;
+const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vShfj3V9xGmT0O1aNjOJlL3_drY5wDpUiXrDIcxD8sPn2vQ6o_6Ilob91fAPIFwQAuSxrclbZZVja-E/pubhtml?timestamp=${new Date().getTime()}`;
+
+fetch(sheetURL, { cache: 'no-store' })
+    .then(response => response.text())
+    .then(data => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, 'text/html');
+    const table = doc.querySelector('table');
+
+    const rows = table.querySelectorAll('tr');
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].querySelectorAll('td');
+        if (cells.length === 12 && cells[0].textContent.trim() === selectedItemID) {
+        let imageUrl = '';
+        const imgElement = cells[1].querySelector('img');
+        if (imgElement) {
+            imageUrl = imgElement.src;
+        } else {
+            imageUrl = cells[1].textContent.trim();
+        }
+        
+        const itemDetails = `
+            <p><strong>Item Description:</strong> ${cells[0].textContent.trim()}</p>
+            <p><strong>Rack Number:</strong> ${cells[1].textContent.trim()}</p>
+            <p><strong>Quantity:</strong> ${cells[2].textContent.trim()}</p>
+            <p><strong>UOM:</strong> ${cells[3].textContent.trim()}</p>
+            <p><strong>Supplier Name:</strong> ${cells[5].textContent.trim()}</p>
+            <p><strong>Related Project:</strong> ${cells[6].textContent.trim()}</p>
+            <p><strong>submission Name:</strong> ${cells[7].textContent.trim()}</p>
+            <p><strong>Submission Clock:</strong> ${cells[8].textContent.trim()}</p>
+            <p><strong>Date:</strong> ${cells[9].textContent.trim()}</p>
+        `;
+        document.getElementById('item-details').innerHTML = itemDetails;
+        document.getElementById('partDescription').value = cells[2].textContent.trim(); // Set hidden field
+        return;
+        }
+    }
+
+    document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
+    })
+    .catch(error => {
+    console.error('Error fetching data:', error);
+    });
+}
+
+document.getElementById('ItemDescription').addEventListener('input', (event) => {
+  const input = event.target;
+  const validPattern = /^[A-Za-z0-9\- .]*$/; // Only allow alphanumeric and dash
+
+  if (!validPattern.test(input.value)) {
+    input.value = input.value.replace(/[^A-Za-z0-9\- .]/g, ''); // Remove invalid characters
+  }
+});
+
+
+document.getElementById('item-id-input').addEventListener('input', (event) => {
+  const input = event.target;
+  const validPattern = /^[A-Za-z0-9\- .]*$/; // Only allow alphanumeric and dash
+
+  if (!validPattern.test(input.value)) {
+    input.value = input.value.replace(/[^A-Za-z0-9\- .]/g, ''); // Remove invalid characters
+  }
+  updateDropdownOptions(input.value);
+});
+
+
+document.getElementById('item-id-input').addEventListener('input', (event) => {
+  updateDropdownOptions(event.target.value);
+});
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+document.getElementById("Status").addEventListener("change", function() {
+  const statusValue = this.value;
+  const supplierRow = document.getElementById("supplierRow");
+
+  if (statusValue === "In") {
+    supplierRow.style.display = "table-row";
+  } else {
+    supplierRow.style.display = "none";
+  }
+});
+
+// Initially hide the supplier dropdown if the page loads with "Out" selected
+window.onload = function() {
+  const statusValue = document.getElementById("Status").value;
+  const supplierRow = document.getElementById("supplierRow");
+  const supplierNameRow = document.getElementById("supplierNameRow"); // New Supplier Name row
+  const supplierRelatedProRow = document.getElementById("supplierNameRow"); // New Related Project row
+
+  if (statusValue !== "In") {
+    supplierRow.style.display = "none";
+    supplierNameRow.style.display = "none"; // Hide the "Supplier Name" row initially
+    supplierRelatedProRow.style.display = "none"; // Hide the "Related Project" row initially
+  }
+};
+
+
+function submitForm() {
+  showLoading();
+  
+  const partNumber = document.getElementById('item-id-input').value; 
+  const partDescription = document.getElementById('partDescription').value;
+  const controllerText = document.getElementById("Status").value;
+  let quantityText = document.getElementById("Quantity").value;
+
+  // Convert quantity to a negative number if status is 'Out'
+  if (controllerText === 'Out') {
+    quantityText = -Math.abs(quantityText); // Ensure it's negative
+  }
+
+  const now = new Date();
+  const submissionDate = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+  const submissionClock = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+  const NameSubmission = 'Viknesh';
+  const UOMType = 'PCS';
+
+  const formData = new FormData();
+  formData.append('Status', controllerText);
+  formData.append('Quantity', quantityText); // Now the quantity will be negative for 'Out'
+  formData.append('Part Description', partDescription);
+  formData.append('Submission Date', submissionDate);
+  formData.append('Submission Clock', submissionClock);
+  formData.append('submission Name', NameSubmission);
+  formData.append('UOM', UOMType);
+
+  // Ensure only one field is appended based on the status
+  if (controllerText === 'Out') {
+    formData.append('Item Description', partNumber);
+  } else if (controllerText === 'In') {
+    formData.append('Rack Number', partNumber);
+  }
+
+  // Handle dropdown field
+  const relatedProjectValue = document.getElementById("relatedProject").value;
+  formData.append('Related Project', relatedProjectValue); // Add selected option
+
+  const supplierRow = document.getElementById("supplierRow");
+  if (supplierRow.style.display !== "none") {
+    const ItemDescription = document.getElementById("ItemDescription").value;
+    formData.append('Item Description', ItemDescription);
+  }
+
+  const supplierNameRow = document.getElementById("supplierNameRow");
+  if (supplierNameRow.style.display !== "none") {
+    const SupplierName = document.getElementById("SupplierName").value;
+    formData.append('Supplier Name', SupplierName);
+  }
+
+  const supplierRelatedProRow = document.getElementById("supplierRelatedProRow");
+  if (supplierRelatedProRow.style.display !== "none") {
+    const RelatedProject = document.getElementById("relatedProject").value;
+    formData.append('Related Project', RelatedProject); // Correctly append selected value
+  }
+
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function() {
+      const fileContent = reader.result;
+      formData.append('fileContent', fileContent);
+      formData.append('filename', file.name);
+
+      fetch('https://script.google.com/macros/s/AKfycbwF6kPgJp_5Rm72frx4bcNC2aMxVwsHlR8eqjNFVIvOedisaUBqtGkTiQtThMOAZMFFLQ/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Form submitted successfully');
+          alert('Form submitted successfully');
+        } else {
+          console.error('Form submission failed');
+          alert('Form submission failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error:', error);
+      })
+      .finally(hideLoading);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    fetch('https://script.google.com/macros/s/AKfycbwF6kPgJp_5Rm72frx4bcNC2aMxVwsHlR8eqjNFVIvOedisaUBqtGkTiQtThMOAZMFFLQ/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Form submitted successfully');
+        alert('Form submitted successfully');
+      } else {
+        console.error('Form submission failed');
+        alert('Form submission failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error:', error);
+    })
+    .finally(hideLoading);
+  }
+}
+
+
+fetchDropdownOptions();
+
+function uploadFile() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const uploadLoadingOverlay = document.getElementById('uploadLoadingOverlay');
+  const reader = new FileReader();
+
+  // Show loading spinner
+  uploadLoadingOverlay.style.display = 'flex';
+
+  reader.onload = function() {
+    const fileContent = reader.result;
+    const filename = file.name;
+
+    const formData = new FormData();
+    formData.append('fileContent', fileContent);
+    formData.append('filename', filename);
+    formData.append('Submission Time', new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
+
+    fetch('https://script.google.com/macros/s/AKfycbwF6kPgJp_5Rm72frx4bcNC2aMxVwsHlR8eqjNFVIvOedisaUBqtGkTiQtThMOAZMFFLQ/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('File uploaded successfully');
+        alert('File uploaded successfully');
+      } else {
+        console.error('File upload failed');
+        alert('File upload failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error:', error);
+    })
+    .finally(() => {
+      // Hide loading spinner
+      uploadLoadingOverlay.style.display = 'none';
+    });
+  };
+
+  reader.readAsDataURL(file);
+}
+
+    fetchDropdownOptions();
+  </script>
+</body>
+</html>
