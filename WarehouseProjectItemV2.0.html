@@ -245,7 +245,7 @@ button.submit-button {
           <tr id="supplierRow" style="display: none;">
             <td>
               <label for="ItemDescription" class="form-label">Item Description Part No./Serial No.</label>
-              <input type="text" id="ItemDescription" name="Item Description" placeholder="Enter Item Description with Part No. and Serial No. (if necessary)">
+              <input type="text" id="ItemDescription" name="Item Description" placeholder="Part No. and Serial No. (if necessary)">
             </td>
           </tr>    
 
@@ -273,7 +273,7 @@ button.submit-button {
         <tr>
           <td>
             <label for="Quantity" class="form-label">Quantity</label>
-            <input type="number" id="Quantity" placeholder="Enter quantity (The quantity is set to 1 for each recorded serial number.)">
+            <input type="number" id="Quantity" placeholder="The quantity is set to 1 for each recorded serial number">
           </td>
         </tr>
       </table>
@@ -362,7 +362,7 @@ function selectStatus(status) {
     supplierRelatedProRow.style.display = 'table-row'; // Show the "Related Project" row for In
 
     rackLabel.textContent = 'Hall or Rack Location:';
-    itemIdInput.placeholder = 'Enter Hall or Specific Rack Loaction "X-X-X-X"';
+    itemIdInput.placeholder = 'Hall or Specific Rack Loaction "X-X-X-X"';
     itemDetails.style.display = 'none'; // Hide item details for In
   }
 
