@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Warehouse Check-in">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Integrated Warehouse Stock Control System</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://i.imgur.com/1gP2COf.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo {
+            max-width: 100%;
+            height: auto;
+        }
+        h1 {
+            margin: 0;
+            color: #3a3a3a;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .button-container a {
+            display: block;
+            width: 200px;
+            height: 50px;
+        }
+        .button-container button {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #23408f;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #fcb620;
+            color: #000;
+        }
+        /* Active button indicator */
+        .button-container .active {
+            background-color: #fcb620; /* Highlight color */
+            color: #000; /* Change text color to black */
+        }
+
+        /* Additional styling for "Warehouse Use" and "Office Use" buttons */
+        .usage-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .usage-buttons button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            background-color: #23408f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .usage-buttons button:hover {
+            background-color: #fcb620;
+            color: #000;
+        }
+
+        /* Active state color for clicked buttons */
+        .usage-buttons .selected {
+            background-color: #fcb620; /* Yellow to indicate active */
+            color: #000; /* Change text color to black */
+            border: 2px solid #23408f; /* Optional border for emphasis */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" class="logo">
+        <h1>Warehouse Stock Control System</h1>
+        
+        <!-- New buttons to select between Warehouse Use and Office Use -->
+        <div class="usage-buttons">
+            <button id="warehouseBtn" onclick="showWarehouse()">Warehouse Use</button>
+            <button id="officeBtn" onclick="showOffice()">Office Use</button>
+        </div>
+        
+        <!-- Section for Warehouse Use -->
+        <div class="button-container" id="warehouse-buttons" style="display: none;">
+            <a href="https://raw.githack.com/nurareef/my-website/main/WarehouseRefill&RestockV1.5.html">
+                <button class="button-Consumables">Consumables Stock</button>
+            </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/WarehouseProjectItemV2.6.html">
+                <button class="button-ProjectItem">Project Item Stock</button>
+            </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/WarehouseSystemScanner1.8.html">
+                <button class="button-MainSupplier">Main Supplier Stock</button>
+            </a>
+        </div>
+
+        <!-- Section for Office Use -->
+        <div class="button-container" id="office-buttons" style="display: none;">
+            <a href="">
+                <button class="button-Consumables">Consumables Monitoring</button>
+            </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/WarehouseProjectItemDashboardV1.7.html">
+                <button class="button-ProjectItem">Project Item Monitoring</button>
+            </a>
+            <a href="">
+                <button class="button-MainSupplier">Main Supplier Monitoring</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Show the Warehouse Use buttons and set the active button
+        function showWarehouse() {
+            document.getElementById('warehouse-buttons').style.display = 'flex';
+            document.getElementById('office-buttons').style.display = 'none';
+
+            // Set active button style
+            document.getElementById('warehouseBtn').classList.add('selected');
+            document.getElementById('officeBtn').classList.remove('selected');
+        }
+
+        // Show the Office Use buttons and set the active button
+        function showOffice() {
+            document.getElementById('warehouse-buttons').style.display = 'none';
+            document.getElementById('office-buttons').style.display = 'flex';
+
+            // Set active button style
+            document.getElementById('officeBtn').classList.add('selected');
+            document.getElementById('warehouseBtn').classList.remove('selected');
+        }
+    </script>
+</body>
+</html>
