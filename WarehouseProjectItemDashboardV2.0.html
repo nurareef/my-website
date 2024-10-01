@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Inventory Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        input[type="text"], button {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 5px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            position: relative;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        tr.hidden {
+            display: none;
+        }
+
+        .filter-icon {
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            padding: 2px;
+            margin-left: 5px;
+            color: #007bff;
+        }
+
+        th select {
+            display: none;
+            width: 100px;
+            position: absolute;
+            z-index: 10;
+            right: 0;
+        }
+
+        th:hover select, .filter-icon:hover + select {
+            display: inline-block;
+        }
+
+        .clear-filters {
+            background-color: #ff4757;
+            color: white;
+            margin-left: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .clear-filters:hover {
+            background-color: #ff6b81;
+        }
+
+        @media only screen and (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+            }
+
+            button, input[type="text"] {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Warehouse Inventory Monitor</h1>
+
+    <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
+    <button onclick="downloadCsv()">Download CSV</button>
+    <button class="clear-filters" onclick="clearAllFilters()">Clear Filters</button>
+
+    <table id="inventoryTable">
+        <thead>
+            <tr>
+                <th>Serial Number <span class="filter-icon">🔽</span>
+                    <select id="serialNumberFilter" onchange="filterTableByDropdown(0)"></select></th>
+                <th>Item Description <span class="filter-icon">🔽</span>
+                    <select id="descriptionFilter" onchange="filterTableByDropdown(1)"></select></th>
+                <th>Rack Number <span class="filter-icon">🔽</span>
+                    <select id="rackFilter" onchange="filterTableByDropdown(2)"></select></th>
+                <th>Quantity <span class="filter-icon">🔽</span>
+                    <select id="quantityFilter" onchange="filterTableByDropdown(3)"></select></th>
+                <th>UOM <span class="filter-icon">🔽</span>
+                    <select id="uomFilter" onchange="filterTableByDropdown(4)"></select></th>
+                <th>Status <span class="filter-icon">🔽</span>
+                    <select id="statusFilter" onchange="filterTableByDropdown(5)"></select></th>
+                <th>Supplier Name <span class="filter-icon">🔽</span>
+                    <select id="supplierFilter" onchange="filterTableByDropdown(6)"></select></th>
+                <th>Related Project <span class="filter-icon">🔽</span>
+                    <select id="projectFilter" onchange="filterTableByDropdown(7)"></select></th>
+                <th>Request by <span class="filter-icon">🔽</span>
+                    <select id="requestByFilter" onchange="filterTableByDropdown(8)"></select></th>
+                <th>Submission Name <span class="filter-icon">🔽</span>
+                    <select id="submissionNameFilter" onchange="filterTableByDropdown(9)"></select></th>
+                <th>Submission Clock <span class="filter-icon">🔽</span>
+                    <select id="submissionClockFilter" onchange="filterTableByDropdown(10)"></select></th>
+                <th>Date <span class="filter-icon">🔽</span>
+                    <select id="dateFilter" onchange="filterTableByDropdown(11)"></select></th>
+                <th>File <span class="filter-icon">🔽</span>
+                    <select id="fileFilter" onchange="filterTableByDropdown(12)"></select></th>
+            </tr>
+        </thead>
+        <tbody id="sheetData"></tbody>
+    </table>
+
+    <script>
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/1EXprwjuwSOWHfA3c8jKVbQzsrFFw09ybUoCsBzSlzgY/pubhtml?gid=0&single=true&timestamp=' + new Date().getTime();
+    
+        let allDataRows = [];
+        let activeFilters = Array(13).fill('');
+
+        async function fetchSheetData() {
+            try {
+                const response = await fetch(sheetURL);
+                const text = await response.text();
+    
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+    
+                const tableRows = doc.querySelectorAll('table tbody tr');
+                const sheetData = document.getElementById('sheetData');
+    
+                tableRows.forEach(row => {
+                    const columns = row.querySelectorAll('td');
+                    const newRow = document.createElement('tr');
+    
+                    columns.forEach(col => {
+                        const newCol = document.createElement('td');
+                        newCol.innerHTML = col.innerHTML;
+                        newRow.appendChild(newCol);
+                    });
+    
+                    sheetData.appendChild(newRow);
+                    allDataRows.push(newRow);
+                });
+    
+                for (let i = 0; i < 13; i++) {
+                    populateFilterOptions(i, `${getColumnFilterId(i)}Filter`);
+                }
+            } catch (error) {
+                console.error('Error fetching the sheet:', error);
+                document.getElementById('sheetData').innerHTML = '<tr><td colspan="13">Failed to load sheet data.</td></tr>';
+            }
+        }
+    
+        function getColumnFilterId(index) {
+            const filterIds = [
+                "serialNumber", "description", "rack", "quantity", "uom",
+                "status", "supplier", "project", "requestBy", "submissionName",
+                "submissionClock", "date", "file"
+            ];
+            return filterIds[index];
+        }
+    
+        function populateFilterOptions(colIndex, filterId, filtered = false) {
+            const filterDropdown = document.getElementById(filterId);
+            const uniqueValues = new Set();
+
+            // If 'filtered' is true, populate the dropdown with options only from visible rows
+            const rowsToConsider = filtered
+                ? allDataRows.filter(row => row.style.display !== 'none')
+                : allDataRows;
+
+            rowsToConsider.forEach(row => {
+                const cell = row.getElementsByTagName('td')[colIndex];
+                if (cell) {
+                    uniqueValues.add(cell.innerText);
+                }
+            });
+
+            filterDropdown.innerHTML = '<option value="">All</option>';
+            uniqueValues.forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.text = value;
+                filterDropdown.appendChild(option);
+            });
+        }
+    
+        function filterTableByDropdown(colIndex) {
+            const filterId = getColumnFilterId(colIndex);
+            const filterValue = document.getElementById(`${filterId}Filter`).value.toLowerCase();
+
+            activeFilters[colIndex] = filterValue;
+            applyFilters(); // Reapply all filters, including search
+        }
+
+        function applyFilters() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+            allDataRows.forEach(row => {
+                let isVisible = true;
+
+                // Apply column filters
+                for (let i = 0; i < activeFilters.length; i++) {
+                    const filterValue = activeFilters[i];
+                    const cellText = row.getElementsByTagName('td')[i]?.innerText.toLowerCase();
+
+                    if (filterValue && (!cellText || !cellText.includes(filterValue))) {
+                        isVisible = false;
+                        break;
+                    }
+                }
+
+                // Apply search filter
+                if (isVisible) {
+                    const rowText = Array.from(row.getElementsByTagName('td'))
+                        .map(td => td.innerText.toLowerCase())
+                        .join(' ');
+
+                    if (searchInput && !rowText.includes(searchInput)) {
+                        isVisible = false;
+                    }
+                }
+
+                row.style.display = isVisible ? '' : 'none';
+            });
+
+            // After filtering, update the dropdown options to match the visible rows
+            updateFilterDropdowns();
+        }
+
+        function updateFilterDropdowns() {
+            for (let i = 0; i < 13; i++) { // Assuming 13 columns
+                populateFilterOptions(i, `${getColumnFilterId(i)}Filter`, true);
+            }
+        }
+
+    
+        function clearAllFilters() {
+            for (let i = 0; i < 13; i++) {
+                const filterId = getColumnFilterId(i);
+                document.getElementById(`${filterId}Filter`).value = '';
+                activeFilters[i] = '';
+            }
+            applyFilters();
+        }
+    
+        function filterTableBySearch() {
+            applyFilters(); // Call the combined filter function when typing in the search bar
+        }
+    
+function downloadCsv() {
+    const headers = [
+        "Serial Number", "Item Description", "Rack Number", "Quantity", 
+        "UOM", "Status", "Supplier Name", "Related Project", 
+        "Request by", "Submission Name", "Submission Clock", "Date", "File"
+    ];
+
+    // Select only visible rows (those that don't have 'display: none')
+    const rows = Array.from(document.querySelectorAll('#inventoryTable tbody tr')).filter(row => {
+        return row.style.display !== 'none';
+    });
+
+    // Prepare CSV content
+    const csvContent = [headers.join(',')].concat(
+        rows.map(row => {
+            const cols = Array.from(row.querySelectorAll('td'));
+            return cols.map(col => col.innerText).join(','); // Join each column's text with commas
+        })
+    ).join('\n'); // Join each row with a new line
+
+    // Create a blob and a link for download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'warehouse_inventory.csv'); // Set the file name
+    document.body.appendChild(link);
+    link.click(); // Trigger the download
+    document.body.removeChild(link); // Clean up
+}
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchSheetData(); // Load the initial data and populate the filters
+
+        // After the data is loaded, populate the dropdowns based on the full dataset
+        setTimeout(() => {
+            updateFilterDropdowns();
+        }, 500); // Delay to ensure data is fetched before updating dropdowns
+    });
+    </script>
+
+</body>
+</html>
