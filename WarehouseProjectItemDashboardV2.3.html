@@ -44,7 +44,16 @@
             background-color: white;
             border-radius: 5px;
             table-layout: fixed;
+            position: relative;
         }
+
+        thead {
+            position: sticky; /* Make the header sticky */
+            top: 0; /* Stick to the top */
+            z-index: 10; /* Ensure it stays above other elements */
+            background-color: white; /* Background color for the header */
+        }
+
 
         th, td {
             border: 1px solid #ddd;
@@ -57,7 +66,8 @@
         }
 
         th {
-            position: relative;
+            background-color: #f1f1f1; /* Header background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for a better effect */
         }
 
         th .resizer {
@@ -131,11 +141,74 @@
                 font-size: 14px;
             }
         }
+
+        /* Styling the checkbox container */
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Make it responsive */
+            gap: 10px; /* Add spacing between checkboxes */
+            margin: 20px 0; /* Add space above and below the container */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Styling for individual checkboxes and their labels */
+        .checkbox-container label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: normal;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkbox-container label:hover {
+            background-color: #e0e0e0;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2); /* Make the checkbox slightly larger */
+        }
+
+        /* For responsive design */
+        @media only screen and (max-width: 768px) {
+            .checkbox-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust for smaller screens */
+            }
+        }
+
     </style>
 </head>
 <body>
 
     <h1>Warehouse Inventory Monitor</h1>
+
+    <!-- Checkboxes for toggling column visibility -->
+    <div class="checkbox-container">
+        <label><input type="checkbox" id="toggleSerialNumber" checked onchange="toggleColumn(0)"> Serial Number</label>
+        <label><input type="checkbox" id="toggleDescription" checked onchange="toggleColumn(1)"> Item Description</label>
+        <label><input type="checkbox" id="toggleRack" checked onchange="toggleColumn(2)"> Rack Number</label>
+        <label><input type="checkbox" id="toggleQuantity" checked onchange="toggleColumn(3)"> Quantity</label>
+        <label><input type="checkbox" id="toggleUOM" checked onchange="toggleColumn(4)"> UOM</label>
+        <label><input type="checkbox" id="toggleStatus" checked onchange="toggleColumn(5)"> Status</label>
+        <label><input type="checkbox" id="toggleSupplier" checked onchange="toggleColumn(6)"> Supplier Name</label>
+        <label><input type="checkbox" id="toggleProject" checked onchange="toggleColumn(7)"> Related Project</label>
+        <label><input type="checkbox" id="toggleRequestBy" checked onchange="toggleColumn(8)"> Request By</label>
+        <label><input type="checkbox" id="toggleDONo" checked onchange="toggleColumn(9)"> DO No</label>
+        <label><input type="checkbox" id="togglePONo" checked onchange="toggleColumn(10)"> PO No</label>
+        <label><input type="checkbox" id="togglePRNo" checked onchange="toggleColumn(11)"> PR No</label>
+        <label><input type="checkbox" id="toggleSubmissionName" checked onchange="toggleColumn(12)"> Submission Name</label>
+        <label><input type="checkbox" id="toggleSubmissionClock" checked onchange="toggleColumn(13)"> Submission Clock</label>
+        <label><input type="checkbox" id="toggleDate" checked onchange="toggleColumn(14)"> Date</label>
+        <label><input type="checkbox" id="toggleFile" checked onchange="toggleColumn(15)"> File</label>
+        </div>
+
 
     <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
     <button onclick="downloadCsv()">Download CSV</button>
@@ -399,13 +472,31 @@
             });
         }
 
-// Call this function when the page loads to store original column widths
+        // Call this function when the page loads to store original column widths
         document.addEventListener('DOMContentLoaded', function() {
             storeOriginalColumnWidths(); // Store original widths
             makeColumnsResizable(); // Make columns resizable
         });
 
     
+        function toggleColumn(colIndex) {
+            const table = document.getElementById('inventoryTable');
+            
+            // Get all the header and row cells for the given column index
+            const headers = table.querySelectorAll(`thead th:nth-child(${colIndex + 1})`);
+            const rows = table.querySelectorAll(`tbody td:nth-child(${colIndex + 1})`);
+            
+            // Check if the corresponding checkbox is checked
+            const isChecked = document.querySelectorAll('input[type=checkbox]')[colIndex].checked;
+            
+            // Toggle display of the column based on the checkbox state
+            const displayStyle = isChecked ? '' : 'none';
+            
+            headers.forEach(th => th.style.display = displayStyle);
+            rows.forEach(td => td.style.display = displayStyle);
+        }
+
+
         function downloadCsv() {
             const headers = [
                 "Serial Number", "Item Description", "Rack Number", "Quantity", 
@@ -414,16 +505,27 @@
                 "Submission Name", "Submission Clock", "Date", "File"
             ];
 
+            // Get checkboxes to know which columns are visible
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Create an array to keep track of which columns are visible
+            const visibleColumns = Array.from(checkboxes).map(checkbox => checkbox.checked);
+
+            // Filter headers to only include visible columns
+            const filteredHeaders = headers.filter((header, index) => visibleColumns[index]);
+
             // Select only visible rows (those that don't have 'display: none')
             const rows = Array.from(document.querySelectorAll('#inventoryTable tbody tr')).filter(row => {
                 return row.style.display !== 'none';
             });
 
-            // Prepare CSV content
-            const csvContent = [headers.join(',')].concat(
+            // Prepare CSV content by only including visible columns
+            const csvContent = [filteredHeaders.join(',')].concat(
                 rows.map(row => {
                     const cols = Array.from(row.querySelectorAll('td'));
-                    return cols.map(col => col.innerText).join(','); // Join each column's text with commas
+                    return cols
+                        .filter((col, index) => visibleColumns[index]) // Only include visible columns
+                        .map(col => col.innerText).join(','); // Join each column's text with commas
                 })
             ).join('\n'); // Join each row with a new line
 
@@ -437,7 +539,7 @@
             link.click(); // Trigger the download
             document.body.removeChild(link); // Clean up
         }
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 fetchSheetData(); // Load the initial data and populate the filters
 
