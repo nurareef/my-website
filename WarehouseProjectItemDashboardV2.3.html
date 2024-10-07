@@ -131,7 +131,14 @@
 
         @media only screen and (max-width: 768px) {
             th, td {
-                font-size: 12px;
+                font-size: 10px; /* Font size adjustment */
+            }
+
+            table {
+                width: 100%; /* Ensure it stays within its container */
+                max-width: 100%; /* Optional: prevent table from growing larger than the viewport */
+                overflow-x: auto; /* Allow horizontal scrolling */
+                display: block; /* Change to block to enable scrolling */
             }
 
             button, input[type="text"] {
@@ -146,7 +153,7 @@
 
         .checkbox-group {
             display: grid;
-            grid-template-columns: repeat(8, 1fr); /* Create 8 equal columns */
+            grid-template-columns: repeat(4, 1fr); /* Create 8 equal columns */
             gap: 15px; /* Space between checkboxes */
         }
 
@@ -177,24 +184,16 @@
 
     <div class="column-visibility-controls">
         <div class="checkbox-group">
-            <label><input type="checkbox" class="column-toggle" data-column="0" checked> Serial Number</label>
-            <label><input type="checkbox" class="column-toggle" data-column="1" checked> Item Description</label>
-            <label><input type="checkbox" class="column-toggle" data-column="2" checked> Rack Number</label>
-            <label><input type="checkbox" class="column-toggle" data-column="3" checked> Quantity</label>
-            <label><input type="checkbox" class="column-toggle" data-column="4" checked> UOM</label>
-            <label><input type="checkbox" class="column-toggle" data-column="5" checked> Status</label>
-            <label><input type="checkbox" class="column-toggle" data-column="6" checked> Supplier Name</label>
-            <label><input type="checkbox" class="column-toggle" data-column="7" checked> Related Project</label>
-            <label><input type="checkbox" class="column-toggle" data-column="8" checked> Request by</label>
-            <label><input type="checkbox" class="column-toggle" data-column="9" checked> DO No</label>
-            <label><input type="checkbox" class="column-toggle" data-column="10" checked> PO No</label>
-            <label><input type="checkbox" class="column-toggle" data-column="11" checked> PR No</label>
-            <label><input type="checkbox" class="column-toggle" data-column="12" checked> Submission Name</label>
-            <label><input type="checkbox" class="column-toggle" data-column="13" checked> Submission Clock</label>
-            <label><input type="checkbox" class="column-toggle" data-column="14" checked> Date</label>
-            <label><input type="checkbox" class="column-toggle" data-column="15" checked> File</label>
+            <label><input type="checkbox" class="column-toggle" data-column="0" checked> Item Description</label>
+            <label><input type="checkbox" class="column-toggle" data-column="1" checked> Rack Number</label>
+            <label><input type="checkbox" class="column-toggle" data-column="2" checked> Quantity</label>
+            <label><input type="checkbox" class="column-toggle" data-column="3"> UOM</label>
+            <label><input type="checkbox" class="column-toggle" data-column="4"> Supplier Name</label>
+            <label><input type="checkbox" class="column-toggle" data-column="5"> Related Project</label>
+            <label><input type="checkbox" class="column-toggle" data-column="6"> Request by</label>
+            <label><input type="checkbox" class="column-toggle" data-column="7"> Date</label>
         </div>
-    </div>
+            </div>
         
     
     <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
@@ -204,68 +203,36 @@
     <table id="inventoryTable">
         <thead>
             <tr>
-                <th>Serial Number <span class="filter-icon">🔽</span>
-                    <select id="serialNumberFilter" onchange="filterTableByDropdown(0)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
                 <th>Item Description <span class="filter-icon">🔽</span>
-                    <select id="descriptionFilter" onchange="filterTableByDropdown(1)"></select>
+                    <select id="descriptionFilter" onchange="filterTableByDropdown(0)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Rack Number <span class="filter-icon">🔽</span>
-                    <select id="rackFilter" onchange="filterTableByDropdown(2)"></select>
+                    <select id="rackFilter" onchange="filterTableByDropdown(1)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Quantity <span class="filter-icon">🔽</span>
-                    <select id="quantityFilter" onchange="filterTableByDropdown(3)"></select>
+                    <select id="quantityFilter" onchange="filterTableByDropdown(2)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>UOM <span class="filter-icon">🔽</span>
-                    <select id="uomFilter" onchange="filterTableByDropdown(4)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>Status <span class="filter-icon">🔽</span>
-                    <select id="statusFilter" onchange="filterTableByDropdown(5)"></select>
+                    <select id="uomFilter" onchange="filterTableByDropdown(3)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Supplier Name <span class="filter-icon">🔽</span>
-                    <select id="supplierFilter" onchange="filterTableByDropdown(6)"></select>
+                    <select id="supplierFilter" onchange="filterTableByDropdown(4)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Related Project <span class="filter-icon">🔽</span>
-                    <select id="projectFilter" onchange="filterTableByDropdown(7)"></select>
+                    <select id="projectFilter" onchange="filterTableByDropdown(5)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Request by <span class="filter-icon">🔽</span>
-                    <select id="requestByFilter" onchange="filterTableByDropdown(8)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>DO No <span class="filter-icon">🔽</span>
-                    <select id="DONoFilter" onchange="filterTableByDropdown(9)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>PO No <span class="filter-icon">🔽</span>
-                    <select id="PONoFilter" onchange="filterTableByDropdown(10)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>PR No <span class="filter-icon">🔽</span>
-                    <select id="PRNoFilter" onchange="filterTableByDropdown(11)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>Submission Name <span class="filter-icon">🔽</span>
-                    <select id="submissionNameFilter" onchange="filterTableByDropdown(12)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>Submission Clock <span class="filter-icon">🔽</span>
-                    <select id="submissionClockFilter" onchange="filterTableByDropdown(13)"></select>
+                    <select id="requestByFilter" onchange="filterTableByDropdown(6)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
                 <th>Date <span class="filter-icon">🔽</span>
-                    <select id="dateFilter" onchange="filterTableByDropdown(14)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
-                </th>
-                <th>File <span class="filter-icon">🔽</span>
-                    <select id="fileFilter" onchange="filterTableByDropdown(15)"></select>
+                    <select id="dateFilter" onchange="filterTableByDropdown(7)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
             </tr>
@@ -275,10 +242,10 @@
 
 
     <script>
-        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShfj3V9xGmT0O1aNjOJlL3_drY5wDpUiXrDIcxD8sPn2vQ6o_6Ilob91fAPIFwQAuSxrclbZZVja-E/pubhtml?gid=2125463512&single=true&timestamp=' + new Date().getTime();
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShfj3V9xGmT0O1aNjOJlL3_drY5wDpUiXrDIcxD8sPn2vQ6o_6Ilob91fAPIFwQAuSxrclbZZVja-E/pubhtml?gid=6197354&single=true&timestamp=' + new Date().getTime();
 
         let allDataRows = [];
-        let activeFilters = Array(16).fill('');
+        let activeFilters = Array(8).fill('');
     
         async function fetchSheetData() {
             try {
@@ -305,12 +272,12 @@
                     allDataRows.push(newRow);
                 });
     
-                for (let i = 0; i < 16; i++) {
+                for (let i = 0; i < 8; i++) {
                     populateFilterOptions(i, `${getColumnFilterId(i)}Filter`);
                 }
             } catch (error) {
                 console.error('Error fetching the sheet:', error);
-                document.getElementById('sheetData').innerHTML = '<tr><td colspan="16">Failed to load sheet data.</td></tr>';
+                document.getElementById('sheetData').innerHTML = '<tr><td colspan="8">Failed to load sheet data.</td></tr>';
             }
         }
     
@@ -337,9 +304,9 @@
     
         function getColumnFilterId(index) {
             const filterIds = [
-                "serialNumber", "description", "rack", "quantity", "uom",
-                "status", "supplier", "project", "requestBy", "DONo", "PONo", "PRNo", "submissionName",
-                "submissionClock", "date", "file"
+                "description", "rack", "quantity", "uom",
+                "supplier", "project", "requestBy", 
+                "date"
             ];
             return filterIds[index];
         }
@@ -408,13 +375,13 @@
         }
     
         function updateFilterDropdowns() {
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 8; i++) {
                 populateFilterOptions(i, `${getColumnFilterId(i)}Filter`, true);
             }
         }
     
         function clearAllFilters() {
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 8; i++) {
                 const filterId = getColumnFilterId(i);
                 document.getElementById(`${filterId}Filter`).value = '';
                 activeFilters[i] = '';
@@ -473,16 +440,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             fetchSheetData().then(() => {
                 storeOriginalColumnWidths(); 
-                makeColumnsResizable(); 
+                makeColumnsResizable();
+                // Set the initial visibility of columns based on checkbox states
+                document.querySelectorAll('.column-toggle').forEach(checkbox => {
+                    const columnIndex = checkbox.getAttribute('data-column');
+                    toggleColumnVisibility(columnIndex, checkbox.checked);
+                });
             });
         });
 
+
         function downloadCsv() {
     const headers = [
-        "Serial Number", "Item Description", "Rack Number", "Quantity", 
-        "UOM", "Status", "Supplier Name", "Related Project", 
-        "Request by", "DO No", "PO No", "PR No", 
-        "Submission Name", "Submission Clock", "Date", "File"
+        "Item Description", "Rack Number", "Quantity", 
+        "UOM", "Supplier Name", "Related Project", 
+        "Request by", "Date"
     ];
 
     const rows = Array.from(document.querySelectorAll('#inventoryTable tbody tr')).filter(row => {
