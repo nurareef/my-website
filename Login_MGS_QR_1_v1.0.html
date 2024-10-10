@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Dashboard</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/XZvd1fv.png">
+    <style>
+        /* Global Styles */
+        body {
+            background-image: url('https://i.imgur.com/PXesaFX.png');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for buttons */
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8); /* White background with some transparency */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Model Buttons */
+        button {
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        /* Indicate Selected Button */
+        .selected {
+            background-color: #FFC107; /* Yellow background for selected button */
+            color: black;
+        }
+
+        /* Child Buttons */
+        .child-buttons {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .child-buttons button {
+            background-color: #28A745; /* Bootstrap success color */
+            margin: 5px;
+        }
+
+        .child-buttons button:hover {
+            background-color: #218838; /* Darker shade on hover */
+        }
+
+        /* Serial Number Title */
+        .serial-number-title {
+            display: none;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3>Select a Model Item:</h3>
+        <button onclick="showChildButtons('PC100D', this)">PC100D</button>
+        <button onclick="showChildButtons('PC100E', this)">PC100E</button>
+        <button onclick="showChildButtons('PC100F', this)">PC100F</button>
+
+        <h4 class="serial-number-title">Select a Serial Number:</h4>
+
+        <div id="PC100D" class="child-buttons">
+            <button>P-100-D-0001</button>
+            <button>P-100-D-0002</button>
+            <button>P-100-D-0003</button>
+            <button>P-100-D-0004</button>
+            <button>P-100-D-0005</button>
+        </div>
+        <div id="PC100E" class="child-buttons">
+            <button>P-100-E-0001</button>
+            <button>P-100-E-0002</button>
+            <button>P-100-E-0003</button>
+            <button>P-100-E-0004</button>
+            <button>P-100-E-0005</button>
+        </div>
+        <div id="PC100F" class="child-buttons">
+            <button>P-100-F-0001</button>
+            <button>P-100-F-0002</button>
+            <button>P-100-F-0003</button>
+            <button>P-100-F-0004</button>
+            <button>P-100-F-0005</button>
+        </div>
+    </div>
+
+    <script>
+        function showChildButtons(ModelId, button) {
+            // Hide all child button groups
+            let childGroups = document.querySelectorAll('.child-buttons');
+            childGroups.forEach(group => group.style.display = 'none');
+
+            // Show the child buttons for the clicked Model button
+            document.getElementById(ModelId).style.display = 'block';
+
+            // Show the serial number selection title
+            document.querySelector('.serial-number-title').style.display = 'block';
+
+            // Remove 'selected' class from all buttons
+            let buttons = document.querySelectorAll('.container > button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+
+            // Add 'selected' class to the clicked button
+            button.classList.add('selected');
+        }
+    </script>
+
+</body>
+</html>
