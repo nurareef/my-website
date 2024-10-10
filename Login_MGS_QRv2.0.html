@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Dashboard</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-image: url('https://i.imgur.com/PXesaFX.png');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow for more depth */
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .company-logo img {
+            width: 250px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Form Styles */
+        .Find-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .search-input {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        /* Button Styles */
+        .search-button {
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-button:hover {
+            background-color: #218838;
+        }
+
+        /* Results Styles */
+        .results {
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            display: none;
+        }
+
+        .results h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .results-list {
+            list-style-type: none;
+            padding: 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .results-list li {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .results-list li:last-child {
+            border-bottom: none;
+        }
+
+        .results-list span {
+            display: inline-block;
+            font-weight: bold;
+            color: #4CAF50;
+            width: 40%; /* Adjust width for label text */
+        }
+
+        .results-list span.value {
+            font-weight: normal;
+            color: #555;
+            width: 60%; /* Adjust width for value text */
+            display: inline-block;
+        }
+
+        /* Adding subtle hover effect on list items */
+        .results-list li:hover {
+            background-color: #f8f8f8;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .dashboard {
+                width: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            .company-logo img {
+                width: 120px;
+            }
+
+            .dashboard-title {
+                font-size: 22px;
+            }
+
+            .search-label {
+                font-size: 14px;
+            }
+
+            .search-input {
+                font-size: 14px;
+            }
+
+            .search-button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="company-logo">
+            <img src="https://i.imgur.com/8bRoSVX.png" alt="Company Logo">
+        </div>
+        <h1 class="dashboard-title">OPERATING MANUAL</h1>
+        <div class="Find-form">
+            <label for="Model" class="search-label">Model:</label>
+            <input type="text" id="Model" class="search-input" placeholder="Enter Model">
+            <label for="Serial" class="search-label">Serial:</label>
+            <input type="text" id="Serial" class="search-input" placeholder="Enter Serial">
+            <button id="search-button" class="search-button">Find</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('search-button');
+
+            searchButton.addEventListener('click', () => {
+                // Get the entered Model and Serial
+                const Model = document.getElementById('Model').value;
+                const Serial = document.getElementById('Serial').value;
+
+                // Check if the Model and Serial are correct
+                if (Model === 'PC100B' && Serial === 'P-2407-0100-G-00001') {
+                    // Fetch data from the first Google Sheets URL
+                    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQqWvkSo3HRYwYNiSuKwiSztv7t5Q6_G0LXbtLS3O9Rd0KivW0pfR87I3YgIqkAMChXyCbeOYoTfMaD/pubhtml?gid=0&single=true')
+                        .then(response => response.text())
+                        .then(data => {
+                            // Handle data parsing and displaying for Admin123
+                            handleDataFetch(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data for Admin123:', error);
+                            alert('Failed to fetch data. Please try again later.');
+                        });
+                } else if (Model === 'PC100B' && Serial === 'P-2407-0100-G-00002') {
+                    // Fetch data from the second Google Sheets URL
+                    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQqWvkSo3HRYwYNiSuKwiSztv7t5Q6_G0LXbtLS3O9Rd0KivW0pfR87I3YgIqkAMChXyCbeOYoTfMaD/pubhtml?gid=1359998868&single=true')
+                        .then(response => response.text())
+                        .then(data => {
+                            // Handle data parsing and displaying for Admin234
+                            handleDataFetch(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data for Admin234:', error);
+                            alert('Failed to fetch data. Please try again later.');
+                        });
+                } else {
+                    // Display an error message if Find fails
+                    alert('Incorrect Model or Serial. Please try again.');
+                }
+            });
+
+            // Function to handle data fetching and displaying
+            function handleDataFetch(data) {
+                // Parse the HTML response to extract table data
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+                const table = doc.querySelector('table');
+
+                // Clear any existing results section
+                const existingResults = document.querySelector('.results');
+                if (existingResults) {
+                    existingResults.remove();  // Remove previous results before displaying new ones
+                }
+
+                // Create a new results section to display the data
+                const resultsSection = document.createElement('div');
+                resultsSection.classList.add('results');
+
+                // Add a title to the results section
+                const title = document.createElement('h2');
+                title.textContent = 'Fetched Data';
+                resultsSection.appendChild(title);
+
+                // Create a list to display the data
+                const resultsList = document.createElement('ul');
+                resultsList.classList.add('results-list');
+
+                // Iterate through the rows of the table, starting from row 2 (index 1)
+                const rows = table.querySelectorAll('tr');
+                rows.forEach((row, index) => {
+                    if (index <= 1) return; // Skip the header row
+                    const cells = row.querySelectorAll('td');
+                    const keys = [
+                        "Model", "Display", "Processor", "Storage Options",
+                        "Rear Cameras", "Front Camera", "Battery Life",
+                        "Operating System", "5G Support", "Dimensions",
+                        "Weight", "Colors Available"
+                    ];
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = keys.map((key, i) => `<span>${key}:</span><span class="value">${cells[i] ? cells[i].innerText : 'N/A'}</span>`).join('');
+                    resultsList.appendChild(listItem);
+                });
+
+                // Append the results list to the results section
+                resultsSection.appendChild(resultsList);
+
+                // Append the results section to the dashboard
+                document.querySelector('.dashboard').appendChild(resultsSection);
+
+                // Show the results section
+                resultsSection.style.display = 'block';
+            }
+
+        });
+    </script>
+</body>
+</html>
