@@ -57,13 +57,8 @@
             margin-top: 10px;
         }
 
-        .child-buttons button {
-            background-color: #28A745; /* Bootstrap success color */
-            margin: 5px;
-        }
-
         .child-buttons button:hover {
-            background-color: #218838; /* Darker shade on hover */
+            background-color: #0056b3; /* Darker shade on hover */
         }
 
         /* Serial Number Title */
@@ -72,38 +67,72 @@
             font-size: 1.5em;
             margin-top: 20px;
         }
+
+        /* Data Display Section */
+        .data-display {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .data-display table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-display th, .data-display td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .data-display th {
+            background-color: #f2f2f2;
+        }
+
+        /* Indicate Selected Serial Button */
+        .selected-serial {
+            background-color: #FFC107; /* Yellow background for selected serial button */
+            color: black;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <h3>Select a Model Item:</h3>
-        <button onclick="showChildButtons('PC100A', this)" aria-label="Select PC100A">PC100A</button>
-        <button onclick="showChildButtons('PC100B', this)" aria-label="Select PC100B">PC100B</button>
-        <button onclick="showChildButtons('PC100C', this)" aria-label="Select PC100C">PC100C</button>
+        <button onclick="showChildButtons('PC100A', this)">PC100A</button>
+        <button onclick="showChildButtons('PC100B', this)">PC100B</button>
+        <button onclick="showChildButtons('PC100C', this)">PC100C</button>
 
         <h4 class="serial-number-title">Select a Serial Number:</h4>
 
         <div id="PC100A" class="child-buttons">
-            <button>P-100-A-0001</button>
-            <button>P-100-A-0002</button>
-            <button>P-100-A-0003</button>
-            <button>P-100-A-0004</button>
-            <button>P-100-A-0005</button>
+            <button onclick="fetchData('P-100-A-0001', this)">P-100-A-0001</button>
+            <button onclick="fetchData('P-100-A-0002', this)">P-100-A-0002</button>
+            <button onclick="fetchData('P-100-A-0003', this)">P-100-A-0003</button>
+            <button onclick="fetchData('P-100-A-0004', this)">P-100-A-0004</button>
+            <button onclick="fetchData('P-100-A-0005', this)">P-100-A-0005</button>
         </div>
+
         <div id="PC100B" class="child-buttons">
-            <button>P-100-B-0001</button>
-            <button>P-100-B-0002</button>
-            <button>P-100-B-0003</button>
-            <button>P-100-B-0004</button>
-            <button>P-100-B-0005</button>
+            <button onclick="fetchData('P-100-B-0001', this)">P-100-B-0001</button>
+            <button onclick="fetchData('P-100-B-0002', this)">P-100-B-0002</button>
+            <button onclick="fetchData('P-100-B-0003', this)">P-100-B-0003</button>
+            <button onclick="fetchData('P-100-B-0004', this)">P-100-B-0004</button>
+            <button onclick="fetchData('P-100-B-0005', this)">P-100-B-0005</button>
         </div>
+
         <div id="PC100C" class="child-buttons">
-            <button>P-100-C-0001</button>
-            <button>P-100-C-0002</button>
-            <button>P-100-C-0003</button>
-            <button>P-100-C-0004</button>
-            <button>P-100-C-0005</button>
+            <button onclick="fetchData('P-100-C-0001', this)">P-100-C-0001</button>
+            <button onclick="fetchData('P-100-C-0002', this)">P-100-C-0002</button>
+            <button onclick="fetchData('P-100-C-0003', this)">P-100-C-0003</button>
+            <button onclick="fetchData('P-100-C-0004', this)">P-100-C-0004</button>
+            <button onclick="fetchData('P-100-C-0005', this)">P-100-C-0005</button>
+        </div>
+
+        <div class="data-display" id="data-display">
+            <!-- Data from Google Sheets will be displayed here -->
         </div>
     </div>
 
@@ -126,6 +155,93 @@
             // Add 'selected' class to the clicked button
             button.classList.add('selected');
         }
+
+        function fetchData(serialNumber, button) {
+            // Show loading message
+            document.getElementById('data-display').innerHTML = 'Loading data...';
+
+            // Add selected class to the clicked serial number button
+            let serialButtons = document.querySelectorAll('.child-buttons button');
+            serialButtons.forEach(btn => btn.classList.remove('selected-serial')); // Remove class from all buttons
+            button.classList.add('selected-serial'); // Add class to the clicked button
+
+            let sheetUrl = '';
+
+            // Use if-else to determine which URL to fetch based on the clicked serial number
+            if (serialNumber === 'P-100-A-0001') {
+                sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqWvkSo3HRYwYNiSuKwiSztv7t5Q6_G0LXbtLS3O9Rd0KivW0pfR87I3YgIqkAMChXyCbeOYoTfMaD/pubhtml?gid=2091435126&single=true'; // Replace with actual URL
+            } else if (serialNumber === 'P-100-A-0002') {
+                sheetUrl = 'https://example.com/sheetA2'; // Replace with actual URL
+            } else if (serialNumber === 'P-100-B-0001') {
+                sheetUrl = 'https://example.com/sheetB1'; // Replace with actual URL
+            } else if (serialNumber === 'P-100-B-0002') {
+                sheetUrl = 'https://example.com/sheetB2'; // Replace with actual URL
+            } else if (serialNumber === 'P-100-C-0001') {
+                sheetUrl = 'https://example.com/sheetC1'; // Replace with actual URL
+            } else if (serialNumber === 'P-100-C-0002') {
+                sheetUrl = 'https://example.com/sheetC2'; // Replace with actual URL
+            } else {
+                console.error('Invalid serial number or no data available for this serial number');
+                return;
+            }
+
+            fetch(sheetUrl)
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const table = doc.querySelector('table'); // Get the first table in the HTML response
+
+                    if (table) {
+                        // Create a new table for displaying results
+                        const resultsTable = document.createElement('table');
+                        resultsTable.style.width = '100%'; // Set table width to 100%
+                        resultsTable.style.borderCollapse = 'collapse'; // Collapse borders
+                        resultsTable.innerHTML = `
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Value</th>
+                            </tr>
+                        `; // Add header row
+
+                        const keys = [
+                            "Model", "Display", "Processor", "Storage Options",
+                            "Rear Cameras", "Front Camera", "Battery Life",
+                            "Operating System", "5G Support", "Dimensions",
+                            "Weight", "Colors Available"
+                        ];
+
+                        // Add data rows
+                        keys.forEach((key, i) => {
+                            const row = document.createElement('tr');
+                            const rows = table.querySelectorAll('tr'); // Get all rows in the table
+
+                            // Check if there are at least 2 rows (first row is the header)
+                            if (rows.length > 1) {
+                                const cells = rows[2].querySelectorAll('td'); // Get cells from the second row
+
+                                // Use N/A if the cell is empty
+                                const value = cells[i] ? cells[i].innerText : 'N/A';
+
+                                row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+                                resultsTable.appendChild(row);
+                            } else {
+                                // Handle case where there is no second row
+                                row.innerHTML = `<td>${key}</td><td>N/A</td>`;
+                                resultsTable.appendChild(row);
+                            }
+                        });
+
+                        // Clear previous data and display the new results
+                        document.getElementById('data-display').innerHTML = ''; // Clear previous content
+                        document.getElementById('data-display').appendChild(resultsTable); // Append new results
+                    } else {
+                        document.getElementById('data-display').innerHTML = 'No data found.';
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
     </script>
 
 </body>
