@@ -605,8 +605,10 @@ function submitForm() {
   formData.append('submission Name', NameSubmission);
   formData.append('UOM', UOMType);
 
-  const supplierName = document.getElementById('supplierNameHidden').value;
+  if (controllerText === 'Out') {
+    const supplierName = document.getElementById('supplierNameHidden').value;
     formData.append('Supplier Name', supplierName); // Include Supplier Name
+  }
 
   if (controllerText === 'Out') {
     const rackNumber = document.getElementById('item-details').querySelector('p:nth-child(2)').textContent.replace('Rack Number: ', '').trim();
