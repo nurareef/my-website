@@ -504,16 +504,15 @@ function fetchItemDetails() {
         });
 }
 
-
-
 document.getElementById('ItemDescription').addEventListener('input', (event) => {
   const input = event.target;
-  const validPattern = /^[A-Za-z0-9\- .]*$/; // Only allow alphanumeric and dash
+  const validPattern = /^[A-Za-z0-9\-\.]*$/; // Only allow alphanumeric characters, dashes, and periods (no spaces)
 
   if (!validPattern.test(input.value)) {
-    input.value = input.value.replace(/[^A-Za-z0-9\- .]/g, ''); // Remove invalid characters
+    input.value = input.value.replace(/[^A-Za-z0-9\-\.]/g, ''); // Remove invalid characters including spaces
   }
 });
+
 
 
 document.getElementById('item-id-input').addEventListener('input', (event) => {
