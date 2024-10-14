@@ -193,6 +193,24 @@
     .submit-button:hover {
       background-color: #2980b9;
     }
+
+    /* Button Styles */
+    #switchButton {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: block; /* Make it a block element */
+        margin: 10px auto; /* Center the button */
+    }
+    #switchButton:hover {
+            background-color: #0056b3;
+        }
+
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
@@ -204,6 +222,8 @@
 
 
   <h2>Warehouse Key-in System</h2>
+  <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/WarehouseProjectItemV3.0.html';">Go to Project key-in System</button>
+
   <button id="reset-button">Reset Scanner</button>
 
   <div id="scanner-container">
