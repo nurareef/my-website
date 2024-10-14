@@ -1,202 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IES Inventory Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-
-        /* Checkbox Styles */
-        .column-visibility-controls {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
-
-
-        input[type="text"], button {
-            padding: 10px;
-            width: calc(100% - 22px);
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: white;
-            border-radius: 5px;
-        }
-
-        th, td {
-            white-space: normal; /* Allow text to wrap */
-            word-wrap: break-word; /* Break long words if necessary */
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            position: relative;
-        }
-
-        th .resizer {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-            cursor: col-resize;
-            background-color: transparent; /* Make it invisible but it's still there */
-        }
-
-        th.resizing {
-            background-color: #f0f0f0;
-        }
-
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        tr.hidden {
-            display: none;
-        }
-
-        .filter-icon {
-            cursor: pointer;
-            font-size: 16px;
-            display: inline-block;
-            padding: 2px;
-            margin-left: 5px;
-            color: #007bff;
-        }
-
-        th select {
-            display: none;
-            width: 100px;
-            position: absolute;
-            z-index: 10;
-            right: 0;
-        }
-
-        th:hover select, .filter-icon:hover + select {
-            display: inline-block;
-        }
-
-        .clear-filters {
-            background-color: #ff4757;
-            color: white;
-            margin-left: 10px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .clear-filters:hover {
-            background-color: #ff6b81;
-        }
-
-        @media only screen and (max-width: 768px) {
-            th, td {
-                font-size: 10px; /* Font size adjustment */
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IES Inventory Dashboard</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f4f4f4;
             }
-
+    
+            h1 {
+                color: #333;
+                text-align: center;
+            }
+    
+            /* Checkbox Styles */
+            .column-visibility-controls {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+    
+            input[type="checkbox"] {
+                margin-right: 10px;
+            }
+    
+    
+    
+            input[type="text"], button {
+                padding: 10px;
+                width: calc(100% - 22px);
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+    
+            button {
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+    
+            button:hover {
+                background-color: #0056b3;
+            }
+    
             table {
-                width: 100%; /* Ensure it stays within its container */
-                max-width: 100%; /* Optional: prevent table from growing larger than the viewport */
-                overflow-x: auto; /* Allow horizontal scrolling */
-                display: block; /* Change to block to enable scrolling */
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                background-color: white;
+                border-radius: 5px;
             }
-
-            button, input[type="text"] {
-                font-size: 14px;
+    
+            th, td {
+                white-space: normal; /* Allow text to wrap */
+                word-wrap: break-word; /* Break long words if necessary */
+                padding: 12px;
+                text-align: left;
             }
-        }
-
-        .column-visibility-controls {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Create 8 equal columns */
-            gap: 15px; /* Space between checkboxes */
-        }
-
-        .checkbox-group label {
-            cursor: pointer;
-            font-size: 14px; /* Adjust font size as needed */
-            display: flex;
-            align-items: center; /* Center align checkbox with text */
-            padding: 5px; /* Padding around each label */
-            border: 1px solid #ccc; /* Optional: Border around each label */
-            border-radius: 4px; /* Optional: Rounded corners */
-            transition: background-color 0.3s; /* Smooth background transition */
-        }
-
-        .checkbox-group label:hover {
-            background-color: #f0f0f0; /* Change background on hover */
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 8px; /* Space between checkbox and label text */
-        }
-        
-                /* Button Styles */
-                #switchButton {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            display: block; /* Make it a block element */
-            margin: 10px auto; /* Center the button */
-        }
-
-        #switchButton:hover {
-            background-color: #0056b3;
-        }
-
-    </style>
-</head>
-<body>
+    
+            th {
+                position: relative;
+            }
+    
+            th .resizer {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 5px;
+                height: 100%;
+                cursor: col-resize;
+                background-color: transparent; /* Make it invisible but it's still there */
+            }
+    
+            th.resizing {
+                background-color: #f0f0f0;
+            }
+    
+    
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+    
+            tr:hover {
+                background-color: #f1f1f1;
+            }
+    
+            tr.hidden {
+                display: none;
+            }
+    
+            .filter-icon {
+                cursor: pointer;
+                font-size: 16px;
+                display: inline-block;
+                padding: 2px;
+                margin-left: 5px;
+                color: #007bff;
+            }
+    
+            th select {
+                display: none;
+                width: 100px;
+                position: absolute;
+                z-index: 10;
+                right: 0;
+            }
+    
+            th:hover select, .filter-icon:hover + select {
+                display: inline-block;
+            }
+    
+            .clear-filters {
+                background-color: #ff4757;
+                color: white;
+                margin-left: 10px;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            .clear-filters:hover {
+                background-color: #ff6b81;
+            }
+    
+            @media only screen and (max-width: 768px) {
+                th, td {
+                    font-size: 10px; /* Font size adjustment */
+                }
+    
+                table {
+                    width: 100%; /* Ensure it stays within its container */
+                    max-width: 100%; /* Optional: prevent table from growing larger than the viewport */
+                    overflow-x: auto; /* Allow horizontal scrolling */
+                    display: block; /* Change to block to enable scrolling */
+                }
+    
+                button, input[type="text"] {
+                    font-size: 14px;
+                }
+            }
+    
+            .column-visibility-controls {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+    
+            .checkbox-group {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); /* Create 8 equal columns */
+                gap: 15px; /* Space between checkboxes */
+            }
+    
+            .checkbox-group label {
+                cursor: pointer;
+                font-size: 14px; /* Adjust font size as needed */
+                display: flex;
+                align-items: center; /* Center align checkbox with text */
+                padding: 5px; /* Padding around each label */
+                border: 1px solid #ccc; /* Optional: Border around each label */
+                border-radius: 4px; /* Optional: Rounded corners */
+                transition: background-color 0.3s; /* Smooth background transition */
+            }
+    
+            .checkbox-group label:hover {
+                background-color: #f0f0f0; /* Change background on hover */
+            }
+    
+            .checkbox-group input[type="checkbox"] {
+                margin-right: 8px; /* Space between checkbox and label text */
+            }
+            
+                    /* Button Styles */
+                    #switchButton {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                display: block; /* Make it a block element */
+                margin: 10px auto; /* Center the button */
+            }
+    
+            #switchButton:hover {
+                background-color: #0056b3;
+            }
+    
+        </style>
+    </head>
+    <body>
 
     <h1>IES Inventory Dashboard</h1>
 
@@ -209,9 +209,9 @@
             <label><input type="checkbox" class="column-toggle" data-column="2" checked> Part Description</label>
             <label><input type="checkbox" class="column-toggle" data-column="3" checked> Expected Received Quantity</label>
             <label><input type="checkbox" class="column-toggle" data-column="4" checked> Total Supposed to Received</label>
+            <label><input type="checkbox" class="column-toggle" data-column="5"> Status</label> <!-- New Checkbox for Status -->
         </div>
-            </div>
-        
+    </div>
     
     <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
     <button onclick="downloadCsv()">Download CSV</button>
@@ -222,35 +222,38 @@
             <tr>
                 <th>Part Number <span class="filter-icon">🔽</span>
                     <select id="descriptionFilter" onchange="filterTableByDropdown(0)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
+                    <div class="resizer"></div>
                 </th>
                 <th>Image <span class="filter-icon">🔽</span>
                     <select id="rackFilter" onchange="filterTableByDropdown(1)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
+                    <div class="resizer"></div>
                 </th>
                 <th>Part Description <span class="filter-icon">🔽</span>
                     <select id="quantityFilter" onchange="filterTableByDropdown(2)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
+                    <div class="resizer"></div>
                 </th>
                 <th>Expected Received Quantity <span class="filter-icon">🔽</span>
                     <select id="uomFilter" onchange="filterTableByDropdown(3)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
+                    <div class="resizer"></div>
                 </th>
                 <th>Total Supposed to Received <span class="filter-icon">🔽</span>
                     <select id="supplierFilter" onchange="filterTableByDropdown(4)"></select>
-                    <div class="resizer"></div> <!-- Add resizer here -->
+                    <div class="resizer"></div>
+                </th>
+                <th>Status <span class="filter-icon">🔽</span> <!-- New Status column in the header -->
+                    <select id="statusFilter" onchange="filterTableByDropdown(5)"></select>
+                    <div class="resizer"></div>
                 </th>
             </tr>
         </thead>
         <tbody id="sheetData"></tbody>
     </table>
 
-
     <script>
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?gid=1563391707&single=true&timestamp=' + new Date().getTime();
 
         let allDataRows = [];
-        let activeFilters = Array(5).fill('');
+        let activeFilters = Array(6).fill(''); // Adjusted for 6 columns including "Status"
     
         async function fetchSheetData() {
             try {
@@ -277,12 +280,12 @@
                     allDataRows.push(newRow);
                 });
     
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 6; i++) { // Adjusted for 6 columns including "Status"
                     populateFilterOptions(i, `${getColumnFilterId(i)}Filter`);
                 }
             } catch (error) {
                 console.error('Error fetching the sheet:', error);
-                document.getElementById('sheetData').innerHTML = '<tr><td colspan="5">Failed to load sheet data.</td></tr>';
+                document.getElementById('sheetData').innerHTML = '<tr><td colspan="6">Failed to load sheet data.</td></tr>'; // Adjusted colspan to 6
             }
         }
     
@@ -306,16 +309,16 @@
                 }
             });
         }
-    
+
         function getColumnFilterId(index) {
             const filterIds = [
                 "description", "rack", "quantity", "uom",
-                "supplier", "project", "requestBy", 
-                "date"
+                "supplier", "status", "project", 
+                "requestBy", "date"
             ];
             return filterIds[index];
         }
-    
+
         function populateFilterOptions(colIndex, filterId, filtered = false) {
             const filterDropdown = document.getElementById(filterId);
             const uniqueValues = new Set();
@@ -454,49 +457,43 @@
             });
         });
 
-
         function downloadCsv() {
-    const headers = [
-        "Part Number", "Image", "Part Description", 
-        "Expected Received Quantity", "Total Supposed to Received"
-    ];
+            const headers = [
+                "Part Number", "Image", "Part Description", 
+                "Expected Received Quantity", "Total Supposed to Received", "Status" // Added "Status" to the headers
+            ];
 
-    const rows = Array.from(document.querySelectorAll('#inventoryTable tbody tr')).filter(row => {
-        return row.style.display !== 'none';
-    });
+            const rows = Array.from(document.querySelectorAll('#inventoryTable tbody tr')).filter(row => {
+                return row.style.display !== 'none';
+            });
 
-    // Get the indices of the visible columns
-    const visibleColumnIndices = [];
-    const tableHeaders = document.querySelectorAll('#inventoryTable th');
-    tableHeaders.forEach((th, index) => {
-        if (th.style.display !== 'none') {
-            visibleColumnIndices.push(index);
+            const visibleColumnIndices = [];
+            const tableHeaders = document.querySelectorAll('#inventoryTable th');
+            tableHeaders.forEach((th, index) => {
+                if (th.style.display !== 'none') {
+                    visibleColumnIndices.push(index);
+                }
+            });
+
+            const csvContent = [
+                headers.filter((_, index) => visibleColumnIndices.includes(index)).join(',')
+            ].concat(
+                rows.map(row => {
+                    const cols = Array.from(row.querySelectorAll('td'));
+                    return visibleColumnIndices.map(index => cols[index].innerText).join(',');
+                })
+            ).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'warehouse_inventory.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-    });
-
-    const csvContent = [
-        // Include only the visible headers
-        headers.filter((_, index) => visibleColumnIndices.includes(index)).join(',')
-    ].concat(
-        rows.map(row => {
-            const cols = Array.from(row.querySelectorAll('td'));
-            // Include only the visible columns' data
-            return visibleColumnIndices.map(index => cols[index].innerText).join(',');
-        })
-    ).join('\n');
-
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'warehouse_inventory.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
     </script>
-    
-    
+
 </body>
 </html>
