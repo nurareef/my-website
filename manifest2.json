@@ -7,12 +7,12 @@
     "theme_color": "#4285f4",
     "icons": [
         {
-            "src": "https://raw.githack.com/nurareef/my-website/main/icons/icon-192x192.png",
+            "src": "https://raw.githack.com/nurareef/my-website/main/logo192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "https://raw.githack.com/nurareef/my-website/main/icons/icon-512x512.png",
+            "src": "https://raw.githack.com/nurareef/my-website/main/logo512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
