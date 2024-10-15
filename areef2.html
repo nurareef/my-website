@@ -17,5 +17,19 @@
     <h1>Welcome to AAflower PWA</h1>
     <p>You can access the AAflower page directly.</p>
     <a href="https://raw.githack.com/nurareef/my-website/main/AAflower.html" target="_blank">Open AAflower</a>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('https://raw.githack.com/nurareef/my-website/main/service-worker4.js')
+                .then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('Service Worker registration failed:', error);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
