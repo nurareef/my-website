@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Your App Title">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+    <title>IES Stock Count</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+    <style>
+
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: 'poppins', sans-serif;
+            font-size: 18px;
+        }
+        body{
+            background-image: url('https://i.imgur.com/6QnL8Ms.png'); 
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 90vw; /* Adjust width as a percentage of the viewport width */
+            height: 90vh; /* Adjust height as a percentage of the viewport height */
+            padding: 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            position: relative;
+            overflow: auto; /* Handle overflow within the container */
+        }
+        .container1{
+            width: auto;
+            padding: 0px;
+            border-radius: 10px;
+            position: relative;
+            display: flex; 
+            margin-left: 0px; 
+        }
+        .container2{
+            width: auto;
+            padding: 0px;
+            border-radius: 10px;
+            position: relative;
+            display: flex; 
+            margin-left: 0px; 
+        }
+        h4 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #23408F; /* Change font color to #23408F */
+            text-align: center; /* Center the text horizontally */
+        }
+       
+        .urgency-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .names-container2 {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+
+
+        .name-block {
+            padding: 10px 25px;
+            background-color: #23408F; /* Red color for urgency */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center; /* Center the text */
+            display: flex;      /* Use flexbox for centering */
+            justify-content: center; /* Horizontally center the content */
+            align-items: center; /* Vertically center the content */
+        }
+
+        .name-block:hover {
+            background-color: #dd9c10;
+        }
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 10px;
+            border: 10px solid #dd9c10; /* Add border property */
+            border-radius: 10px;
+            width: 50%; /* Adjust the width here */
+        }
+
+        .options-container1 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 10px;
+            margin-bottom: 10px;
+            border: 10px solid #dd9c10; /* Add border property */
+            border-radius: 10px;
+            width: 50%; /* Adjust the width here */
+        }
+        .option-block {
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .option-block:hover {
+            background-color: #dd9c10;
+        }
+        #numbering-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        #submit{
+            border: none;
+            padding: 10px;
+            background-color: #23408F;
+            color: rgb(255, 255, 255);
+            width: 100%;
+            margin-top: 1px;
+            border-radius: 5px;
+        }
+        #submit:hover{
+            background-color: #333333;
+        }
+        /* Custom loading screen styles */
+
+        .selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+        .option-block.selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+        button[type="button"] {
+            background-color: #333333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button[type="button"]:hover {
+            background-color: #555555;
+        }
+
+        .project-selection-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 5px;
+            margin-bottom: 10px;
+            justify-content: center; /* Horizontally center the content */
+            align-items: center; /* Vertically center the content */
+
+        }
+
+        
+        .stock-input-box {
+            display: inline-block;
+            margin-right: 10px; /* Space between each input box */
+            margin-bottom: 10px; /* Space between rows */
+        }
+
+        .stock-input-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 100%;  /* Makes the input fields take up the full width of the grid cell */
+            height: auto; /* This can be adjusted for height */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+        }
+
+        .project-selection-button {
+            padding: 10px 20px;
+            background-color: #23408F; /* Button color */
+            color: white;              /* Text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            
+            display: flex;            /* Use flexbox for alignment */
+            justify-content: center;  /* Center text horizontally */
+            align-items: center;      /* Center text vertically */
+            text-align: center;       /* Center text (for inline elements) */
+        }
+
+        .project-selection-button:hover {
+            background-color: #dd9c10;
+        }
+        .project-selection-button.selected {
+            background-color: #dd9c10;
+        }
+
+        .project-selection-button.selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+        <h4>CONSUMABLES RESTOCK SYSTEM</h4>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <form onsubmit="submitForm(event)">
+            <div class="project-selection-container">
+                <div class="project-selection-button" onclick="toggleProjectType(this, '40kVA')">40kVA</div>
+                <div class="project-selection-button" onclick="toggleProjectType(this, 'M3')">M3</div>
+                <div class="project-selection-button" onclick="toggleProjectType(this, 'Deutz')">Deutz</div>
+                <div class="project-selection-button" onclick="toggleProjectType(this, 'PC100')">PC100</div>
+            </div>
+
+            <div class="urgency-container">
+                <div class="name-block" onclick="selectName(this, 'Urgent')">Urgent</div>
+                <div class="name-block" onclick="selectName(this, 'Not Urgent')">Not Urgent</div>
+            </div>
+
+            <div class="stock-input-container">
+                <input type="text" id="stockTypeInput" placeholder="Enter Stock Type"/>
+                <input type="text" id="stockTypeQuantity" placeholder="Enter Stock Type Quantity"/>
+                <input type="text" id="stockTypeInput2" placeholder="Enter Stock Type2"/>
+                <input type="text" id="stockTypeQuantity2" placeholder="Enter Stock Type2 Quantity"/>
+                <input type="text" id="stockTypeInput3" placeholder="Enter Stock Type3"/>
+                <input type="text" id="stockTypeQuantity3" placeholder="Enter Stock Type3 Quantity"/>
+            </div>
+
+            <input type="hidden" name="a-option-value" id="numbering-input" placeholder="Quantity" oninput="updateJobNumber()">
+            <input type="hidden" name="date" id="date">
+            <input type="hidden" name="day" id="day">
+            <input type="hidden" name="time-submission" id="time-submission">
+            <input type="hidden" name="Status-Item" id="Status-Item"> <!-- Status-Item for Urgent/Not Urgent -->
+            <input type="hidden" name="Project-Type" id="Project-Type">
+            <input type="hidden" name="Stock-Type" id="stock-type">
+            <input type="hidden" name="Stock-Type2" id="stock-type2">
+            <input type="hidden" name="Stock-Type3" id="stock-type3">
+            <input type="hidden" name="Stock-Quantity" id="stock-quantity">
+            <input type="hidden" name="Stock-Quantity2" id="stock-quantity2">
+            <input type="hidden" name="Stock-Quantity3" id="stock-quantity3">
+            <input type="submit" value="Submit" id="submit">
+        </form>
+        <button type="button" onclick="resetForm()">Reset</button>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById("loadingOverlay").style.display = "flex";
+        }
+
+        function hideLoading() {
+            document.getElementById("loadingOverlay").style.display = "none";
+        }
+
+        function submitForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+            showLoading();  // Shows the loading animation
+
+            addDateTime();  // Ensure hidden fields are populated
+
+            // Check if "Cancel" is selected and modify quantities accordingly
+            var isCancel = document.querySelector(".name-block.selected") && document.querySelector(".name-block.selected").textContent === 'Cancel';
+            adjustQuantities(isCancel); // Adjust quantities if "Cancel" is selected
+
+            // Get the value from the stock type input
+            const stockTypeInput = document.getElementById('stockTypeInput').value;
+            const stockTypeQuantity = document.getElementById('stockTypeQuantity').value;
+            const stockTypeInput2 = document.getElementById('stockTypeInput2').value;
+            const stockTypeQuantity2 = document.getElementById('stockTypeQuantity2').value;
+            const stockTypeInput3 = document.getElementById('stockTypeInput3').value;
+            const stockTypeQuantity3 = document.getElementById('stockTypeQuantity3').value;
+
+            
+            // Set the stock type in the hidden field
+            document.getElementById("stock-type").value = stockTypeInput;
+            document.getElementById("stock-quantity").value = stockTypeQuantity;
+            document.getElementById("stock-type2").value = stockTypeInput2;
+            document.getElementById("stock-quantity2").value = stockTypeQuantity2;
+            document.getElementById("stock-type3").value = stockTypeInput3;
+            document.getElementById("stock-quantity3").value = stockTypeQuantity3;
+
+            
+
+            const formData = new FormData(event.target);
+
+            fetch('https://script.google.com/macros/s/AKfycbyRJQNl6dQEIbhu8hYXKWTZZRkql8Xcy3zZfNgMJdqNv-UJL1YJHvXqgAj4-KrikLc8/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Form submitted successfully');
+                    alert('Form submitted successfully');
+                } else {
+                    console.error('Form submission failed');
+                    alert('Form submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error:', error);
+            })
+            .finally(hideLoading);  // Hides the loading animation after submission
+        }
+
+        function adjustQuantities(isCancel) {
+            if (isCancel) {
+                // Modify all stock quantity fields to be negative
+                var stockNumberFields = document.querySelectorAll('[id^="stock-number"]');
+                stockNumberFields.forEach(function(field) {
+                    if (field.value) {
+                        field.value = -Math.abs(field.value); // Ensure the value is negative
+                    }
+                });
+            }
+        }
+
+        function resetForm() {
+            // Clear the selected name block
+            var selectedNameBlock = document.querySelector(".name-block.selected");
+            if (selectedNameBlock) {
+                selectedNameBlock.classList.remove("selected");
+            }
+
+            // Clear the hidden input fields for stock types and numbers
+            var stockTypeFields = document.querySelectorAll('[id^="stock-type"]');
+            var stockQuantityFields = document.querySelectorAll('[id^="stock-quantity"]');
+            var stockTypeFields2 = document.querySelectorAll('[id^="stock-type2"]');
+            var stockQuantityFields2 = document.querySelectorAll('[id^="stock-quantity2"]');
+            var stockTypeFields3 = document.querySelectorAll('[id^="stock-type3"]');
+            var stockQuantityFields3 = document.querySelectorAll('[id^="stock-quantity3"]');
+
+            var stockNumberFields = document.querySelectorAll('[id^="stock-number"]');
+            stockTypeFields.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+            stockQuantityFields.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+            stockTypeFields2.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+            stockQuantityFields2.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+            stockTypeFields3.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+            stockQuantityFields3.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+
+            
+            stockNumberFields.forEach(function(field) {
+                field.value = ""; // Clear value
+            });
+
+            // Clear the stock type input
+            document.getElementById('stockTypeInput').value = '';
+
+            hideLoading(); // Ensure the loading screen is hidden when resetting
+        }
+
+        function addDateTime() {
+            var now = new Date();
+            var dateField = document.getElementById("date");
+            var dayField = document.getElementById("day");
+            var timeSubmissionField = document.getElementById("time-submission");
+            var projectTypeField = document.getElementById("Project-Type"); // Add this line to get the project type field
+
+            var selectedProjectType = document.querySelector(".project-selection-button.selected").textContent;
+            projectTypeField.value = selectedProjectType;
+
+            // Get the date in yyyy-mm-dd format
+            var dateString = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+            dateField.value = dateString;
+
+            // Get the day (e.g., Monday, Tuesday, etc.)
+            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var dayString = days[now.getDay()];
+            dayField.value = dayString;
+
+            // Get the current time in GMT+8
+            var timeZoneOffset = 8; // GMT+8
+            var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            var gmtPlus8Time = new Date(utc + (3600000 * timeZoneOffset));
+            var timeString = gmtPlus8Time.getHours().toString().padStart(2, '0') + ":" + gmtPlus8Time.getMinutes().toString().padStart(2, '0');
+            timeSubmissionField.value = timeString;
+
+            return true;
+        }
+
+        function selectName(element, name) {
+            // Set the selected name to the hidden input field
+            var nameInput = document.getElementById("Status-Item");
+            nameInput.value = name;
+
+            // Highlight the selected name block
+            var nameBlocks = document.querySelectorAll(".name-block");
+            nameBlocks.forEach(function(block) {
+                block.classList.remove("selected");
+            });
+            element.classList.add("selected"); // Highlight the selected block
+        }
+
+        function toggleProjectType(element, type) {
+            var buttons = document.querySelectorAll(".project-selection-button");
+            buttons.forEach(function(button) {
+                button.classList.remove("selected");
+            });
+
+            element.classList.add("selected"); // Highlight the selected project type
+
+            // Set the selected project type in the hidden input field
+            var projectTypeInput = document.getElementById("Project-Type");
+            projectTypeInput.value = type;
+        }
+
+        function selectOption(option) {
+            // Determine which Stock-Type field to set based on selected option
+            var stockTypeFields = [document.getElementById("stock-type"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+            var stockQuanitityFields = [document.getElementById("stock-quanitity"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+            var stockTypeFields2 = [document.getElementById("stock-type2"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+            var stockQuanitityFields2 = [document.getElementById("stock-quanitity2"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+            var stockTypeFields3 = [document.getElementById("stock-type3"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+            var stockQuanitityFields3 = [document.getElementById("stock-quanitity3"), document.getElementById("stock-type2"), document.getElementById("stock-type3")];
+
+            var stockNumberFields = [document.getElementById("stock-number"), document.getElementById("stock-number2"), document.getElementById("stock-number3")];
+
+            for (var i = 0; i < stockTypeFields.length; i++) {
+                if (!stockTypeFields[i].value) { // If this field is empty, set it
+                    stockTypeFields[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+
+            for (var i = 0; i < stockQuantityFields.length; i++) {
+                if (!stockQuantityFields[i].value) { // If this field is empty, set it
+                    stockQuantityFields[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+
+            for (var i = 0; i < stockTypeFields2.length; i++) {
+                if (!stockTypeFields2[i].value) { // If this field is empty, set it
+                    stockTypeFields2[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+
+            for (var i = 0; i < stockQuantityFields2.length; i++) {
+                if (!stockQuantityFields2[i].value) { // If this field is empty, set it
+                    stockQuantityFields2[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+            for (var i = 0; i < stockTypeFields3.length; i++) {
+                if (!stockTypeFields3[i].value) { // If this field is empty, set it
+                    stockTypeFields3[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+
+            for (var i = 0; i < stockQuantityFields3.length; i++) {
+                if (!stockQuantityFields3[i].value) { // If this field is empty, set it
+                    stockQuantityFields3[i].value = option;
+                    var stockNumber = prompt("Enter quantity for " + option + ":"); // Prompt for quantity
+                    if (stockNumber) {
+                        stockNumberFields[i].value = stockNumber; // Set stock number for this field
+                    }
+                    break; // Stop after setting the first empty field
+                }
+            }
+
+
+
+        }
+    </script>
+</body>
+
+
+</html>
