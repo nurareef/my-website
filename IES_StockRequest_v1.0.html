@@ -26,6 +26,24 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* Button Styles */
+        #switchButton {
+            padding: 10px 20px;
+            background-color: #23408F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block; /* Make it a block element */
+            margin: 10px auto; /* Center the button */
+        }
+
+        #switchButton:hover {
+            background-color: #007bff;
+        }
+
         .container {
             width: 90vw; /* Adjust width as a percentage of the viewport width */
             height: 90vh; /* Adjust height as a percentage of the viewport height */
@@ -299,6 +317,8 @@
             <input type="submit" value="Submit" id="submit">
         </form>
         <button type="button" onclick="resetForm()">Reset</button>
+        <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/IES_StockRequestMonitoring_v1.0.html';">Go to User Request Status</button>
+
     </div>
 
     <script>
