@@ -18,6 +18,23 @@
             color: #333; /* Text color */
         }
 
+        /* Button Styles */
+        #switchButton {
+            padding: 10px 20px;
+            background-color: #23408F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block; /* Make it a block element */
+            margin: 10px auto; /* Center the button */
+        }
+
+        #switchButton:hover {
+            background-color: #007bff;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -79,6 +96,8 @@
 <body>
 
 <h1>Request Monitoring Table</h1>
+
+<button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/IES_StockRequest_v1.0.html';">Go to User Request</button>
 
 <div class="checkbox-container">
     <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(0)"> Date</label>
