@@ -69,7 +69,7 @@
             }
 
             .dropdown-options div:hover {
-              background-color: #f0f0f0;
+              background-color: #fcb620;
             }
 
             #item-details {
@@ -104,14 +104,14 @@
               padding: 10px 20px;
               font-size: 16px;
               color: #fff;
-              background-color: #007bff;
+              background-color: #23408F;
               border: none;
               border-radius: 5px;
               cursor: pointer;
             }
 
             #reset-button:hover {
-              background-color: #0056b3;
+              background-color: #fcb620;
             }
             .container {
               width: 90%;
@@ -127,7 +127,7 @@
               display: block;
               width: 100%;
               padding: 10px;
-              background-color: #3498db;
+              background-color: #23408F;
               color: #fff;
               border: none;
               border-radius: 5px;
@@ -137,7 +137,7 @@
             }
 
             .submit-button:hover {
-              background-color: #2980b9;
+              background-color: #fcb620;
             }
 
             .form-label {
@@ -174,7 +174,7 @@
 
             .loading-spinner {
               border: 8px solid #f3f3f3;
-              border-top: 8px solid #3498db;
+              border-top: 8px solid #23408F;
               border-radius: 50%;
               width: 50px;
               height: 50px;
@@ -199,7 +199,7 @@
               display: block;
               width: 100%;
               padding: 10px;
-              background-color: #3498db;
+              background-color: #23408F;
               color: #fff;
               border: none;
               border-radius: 5px;
@@ -209,7 +209,7 @@
             }
 
             .submit-button:hover {
-              background-color: #2980b9;
+              background-color: #fcb620;
             }
 
             .box-selection {
@@ -229,13 +229,13 @@
             }
 
             .status-box:hover {
-            background-color: #e0e0e0;
+            background-color: #fcb620;
             }
 
             .status-box.selected {
-            border-color: #3498db;
-            background-color: #3498db;
-            color: white;
+            border-color: #23408F;
+            background-color: #23408F;
+            color: #fcb620;
             }
 
   </style>
@@ -339,7 +339,7 @@
     let allOptions = [];
 
 function fetchDropdownOptions() {
-  const sheetURL = 'https://docs.google.com/spreadsheets/d/11fIlJTeQgIFkmY3hm-fHYC_qnbQ8isL9swlThEjFHxM/pub?output=csv';
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pub?gid=0&single=true&output=csv';
 
   fetch(sheetURL)
     .then(response => response.text())
