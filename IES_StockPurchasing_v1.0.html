@@ -94,11 +94,30 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        #switchButton {
+            padding: 10px 20px;
+            background-color: #23408F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block; /* Make it a block element */
+            margin: 10px 0; /* Align it to the left with no auto margin */
+        }
+
+        #switchButton:hover {
+            background-color: #ffd310;
+        }
+
     </style>
 </head>
 <body>
 
-<h2>Interactive Data from Google Sheets</h2>
+<h2>Awaiting Purchasing</h2>
+<button id="switchButton" onclick="goBack()">Go Back</button>
+
 <table id="data-table">
     <thead>
         <tr id="header-row"></tr>
@@ -123,6 +142,10 @@
     let selectedRowData = [];
     let approvalStatus = ["", "", ""]; // Array to store approval statuses for Stock-Type1, Stock-Type2, Stock-Type3
 
+    function goBack() {
+        window.history.back();
+    }
+    
     fetch(sheetURL)
         .then(response => response.text())
         .then(csvData => {
