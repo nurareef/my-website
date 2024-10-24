@@ -97,7 +97,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        #backButton {
+        #switchButton {
             padding: 10px 20px;
             background-color: #23408F;
             color: white;
@@ -146,6 +146,10 @@
 
     function hideLoading() {
         document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    function goBack() {
+        window.history.back();
     }
 
     fetch(sheetURL)
