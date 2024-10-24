@@ -39,14 +39,14 @@
         }
 
         button {
-            background-color: #007bff;
+            background-color: #23408F;
             color: white;
             cursor: pointer;
             margin-top: 10px;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #fcb620;
         }
 
         table {
@@ -100,7 +100,7 @@
             display: inline-block;
             padding: 2px;
             margin-left: 5px;
-            color: #007bff;
+            color: #23408F;
         }
 
         th select {
@@ -179,7 +179,7 @@
                 /* Button Styles */
                 #switchButton {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #23408F;
             color: white;
             border: none;
             border-radius: 5px;
@@ -190,7 +190,7 @@
         }
 
         #switchButton:hover {
-            background-color: #0056b3;
+            background-color: #fcb620;
         }
 
     </style>
@@ -198,7 +198,8 @@
 <body>
 
     <h1>IES Inventory Dashboard</h1>
-    
+    <button id="switchButton" onclick="goBack()">Go Back</button>
+
     <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/WarehouseProjectItemV3.0.html';">Go to Project key-in System</button>
     <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/WarehouseProjectItemDashboardModedV2.6.html';">Go to Purchasing/Warehouse Mode</button>
 
@@ -321,6 +322,11 @@
                 }
             });
         }
+
+        function goBack() {
+            window.history.back();
+        }
+
     
         function getColumnFilterId(index) {
             const filterIds = [
