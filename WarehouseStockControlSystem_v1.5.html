@@ -112,6 +112,7 @@
         <div class="usage-buttons">
             <button id="warehouseBtn" onclick="showWarehouse()">Warehouse Use</button>
             <button id="officeBtn" onclick="showOffice()">Office Use</button>
+            <button id="productionBtn" onclick="showProduction()">Production Use</button>
         </div>
         
         <!-- Section for Warehouse Use -->
@@ -138,7 +139,24 @@
             <a href="https://raw.githack.com/nurareef/my-website/main/MainSupplierDashboardV1.0.html">
                 <button class="button-MainSupplier">Main Supplier Monitoring</button>
             </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockRequestMonitoring_v1.0.html">
+                <button class="button-MainSupplier">Stock Request Monitoring</button>
+            </a>
         </div>
+
+        <!-- Section for Production Use -->
+        <div class="button-container" id="production-buttons" style="display: none;">
+            <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockRequest_v1.0.html">
+                <button class="button-Consumables">Stock Request</button>
+            </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockApproval_v1.0.html">
+                <button class="button-ProjectItem">Stock Approval</button>
+            </a>
+            <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockPurchasing_v1.0.html">
+                <button class="button-MainSupplier">Stock Purchasing</button>
+            </a>
+        </div>
+        
     </div>
 
     <script>
@@ -146,21 +164,38 @@
         function showWarehouse() {
             document.getElementById('warehouse-buttons').style.display = 'flex';
             document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('production-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('warehouseBtn').classList.add('selected');
             document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.remove('selected');
         }
 
         // Show the Office Use buttons and set the active button
         function showOffice() {
             document.getElementById('warehouse-buttons').style.display = 'none';
             document.getElementById('office-buttons').style.display = 'flex';
+            document.getElementById('production-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('officeBtn').classList.add('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.remove('selected');
         }
+
+        // Show the Office Use buttons and set the active button
+        function showProduction() {
+            document.getElementById('warehouse-buttons').style.display = 'none';
+            document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('production-buttons').style.display = 'flex';
+
+            // Set active button style
+            document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('warehouseBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.add('selected');
+        }
+
     </script>
 </body>
 </html>
