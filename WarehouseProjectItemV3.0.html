@@ -62,7 +62,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #3498db; /* Highlight on focus */
+  border-color: #23408F; /* Highlight on focus */
 }
 
 button.submit-button {
@@ -74,7 +74,7 @@ button.submit-button {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #3498db;
+  background-color: #23408F;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -86,7 +86,7 @@ button.submit-button {
 
 
 .submit-button:hover {
-  background-color: #2980b9;
+  background-color: #fcb620;
 }
 
 .file-upload-container {
@@ -128,7 +128,7 @@ button.submit-button {
 
 .loading-spinner {
   border: 8px solid #f3f3f3;
-  border-top: 8px solid #3498db;
+  border-top: 8px solid #23408F;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -157,12 +157,12 @@ button.submit-button {
 }
 
 .status-box:hover {
-  background-color: #e0e0e0;
+  background-color: #fcb620;
 }
 
 .status-box.selected {
-  border-color: #3498db;
-  background-color: #3498db;
+  border-color: #23408F;
+  background-color: #23408F;
   color: white;
 }
 
@@ -211,7 +211,7 @@ button.submit-button {
 /* Button Styles */
 #switchButton {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #23408F;
   color: white;
   border: none;
   border-radius: 5px;
@@ -219,6 +219,11 @@ button.submit-button {
   cursor: pointer;
   display: block; /* Make it a block element */
   margin: 10px auto; /* Center the button */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+#switchButton:hover {
+    background-color: #fcb620;
 }
 
 
