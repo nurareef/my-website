@@ -44,6 +44,23 @@
             background-color: #007bff;
         }
 
+        #backButton {
+            padding: 5px 15px; /* Decrease the padding */
+            background-color: #23408F;
+            color: white;
+            border: none;
+            border-radius: 4px; /* Slightly smaller border-radius */
+            font-size: 14px; /* Decrease the font size */
+            cursor: pointer;
+            display: block;
+            margin: 10px 0;
+        }
+
+        #backButton:hover {
+            background-color: #dd9c10;
+        }
+
+
         .container {
             width: 90vw; /* Adjust width as a percentage of the viewport width */
             height: 90vh; /* Adjust height as a percentage of the viewport height */
@@ -272,10 +289,11 @@
 
 <body>
     <div class="container">
+        <button id="backButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/WarehouseStockControlSystem_v1.5.html';">Go Back</button>
+
         <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
         <h4>CONSUMABLES RESTOCK SYSTEM</h4>
 
-        <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/WarehouseStockControlSystem_v1.5.html';">Go Back</button>
 
         <div class="loading-overlay" id="loadingOverlay">
             <div class="loading-spinner"></div>
