@@ -413,49 +413,22 @@
         }
 
         function resetForm() {
-            // Clear the selected name block
-            var selectedNameBlock = document.querySelector(".name-block.selected");
-            if (selectedNameBlock) {
-                selectedNameBlock.classList.remove("selected");
-            }
-
-            // Clear the hidden input fields for stock types and numbers
-            var stockTypeFields = document.querySelectorAll('[id^="stock-type"]');
-            var stockQuantityFields = document.querySelectorAll('[id^="stock-quantity"]');
-            var stockTypeFields2 = document.querySelectorAll('[id^="stock-type2"]');
-            var stockQuantityFields2 = document.querySelectorAll('[id^="stock-quantity2"]');
-            var stockTypeFields3 = document.querySelectorAll('[id^="stock-type3"]');
-            var stockQuantityFields3 = document.querySelectorAll('[id^="stock-quantity3"]');
-
-            var stockNumberFields = document.querySelectorAll('[id^="stock-number"]');
-            stockTypeFields.forEach(function(field) {
-                field.value = ""; // Clear value
-            });
-            stockQuantityFields.forEach(function(field) {
-                field.value = ""; // Clear value
-            });
-            stockTypeFields2.forEach(function(field) {
-                field.value = ""; // Clear value
-            });
-            stockQuantityFields2.forEach(function(field) {
-                field.value = ""; // Clear value
-            });
-            stockTypeFields3.forEach(function(field) {
-                field.value = ""; // Clear value
-            });
-            stockQuantityFields3.forEach(function(field) {
-                field.value = ""; // Clear value
+            // Clear the selected project type and urgency selection
+            document.querySelectorAll(".project-selection-button, .name-block").forEach(button => {
+                button.classList.remove("selected");
             });
 
-            
-            stockNumberFields.forEach(function(field) {
-                field.value = ""; // Clear value
+            // Clear input fields in the form
+            const inputs = document.querySelectorAll("input[type='text']");
+            inputs.forEach(input => input.value = "");
+
+            // Reset hidden fields
+            document.querySelectorAll("input[type='hidden']").forEach(hiddenField => {
+                hiddenField.value = "";
             });
 
-            // Clear the stock type input
-            document.getElementById('stockTypeInput').value = '';
-
-            hideLoading(); // Ensure the loading screen is hidden when resetting
+            // Hide the loading overlay if it's visible
+            hideLoading();
         }
 
         function addDateTime() {
