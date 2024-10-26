@@ -113,6 +113,7 @@
             <button id="warehouseBtn" onclick="showWarehouse()">Warehouse Use</button>
             <button id="officeBtn" onclick="showOffice()">Office Use</button>
             <button id="productionBtn" onclick="showProduction()">Production Use</button>
+            <button id="purchasingBtn" onclick="showPurchasing()">Purchasing Use</button>
         </div>
         
         <!-- Section for Warehouse Use -->
@@ -152,10 +153,15 @@
             <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockApproval_v1.0.html">
                 <button class="button-ProjectItem">Stock Approval</button>
             </a>
+        </div>
+
+        <!-- Section for Purchasing Use -->
+        <div class="button-container" id="purchasing-buttons" style="display: none;">
             <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockPurchasing_v1.0.html">
                 <button class="button-MainSupplier">Stock Purchasing</button>
             </a>
         </div>
+        
         
     </div>
 
@@ -165,11 +171,13 @@
             document.getElementById('warehouse-buttons').style.display = 'flex';
             document.getElementById('office-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
+            document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('warehouseBtn').classList.add('selected');
             document.getElementById('officeBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
+            document.getElementById('purchasingBtn').classList.remove('selected');
         }
 
         // Show the Office Use buttons and set the active button
@@ -177,25 +185,40 @@
             document.getElementById('warehouse-buttons').style.display = 'none';
             document.getElementById('office-buttons').style.display = 'flex';
             document.getElementById('production-buttons').style.display = 'none';
+            document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('officeBtn').classList.add('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
+            document.getElementById('purchasingBtn').classList.remove('selected');
         }
 
-        // Show the Office Use buttons and set the active button
         function showProduction() {
             document.getElementById('warehouse-buttons').style.display = 'none';
             document.getElementById('office-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'flex';
+            document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('officeBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.add('selected');
+            document.getElementById('purchasingBtn').classList.remove('selected');
         }
 
+        function showPurchasing() {
+            document.getElementById('warehouse-buttons').style.display = 'none';
+            document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('production-buttons').style.display = 'none';
+            document.getElementById('purchasing-buttons').style.display = 'flex';
+
+            // Set active button style
+            document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('warehouseBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.remove('selected');
+            document.getElementById('purchasingBtn').classList.add('selected');
+        }
     </script>
 </body>
 </html>
