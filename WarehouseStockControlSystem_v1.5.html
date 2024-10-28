@@ -74,12 +74,15 @@
             color: #000; /* Change text color to black */
         }
 
-        /* Additional styling for "Warehouse Use" and "Office Use" buttons */
+        /* Additional styling for "Warehouse Use" and "Monitoring Use" buttons */
         .usage-buttons {
             display: flex;
+            flex-wrap: wrap; /* Allows the buttons to wrap into rows */
             gap: 10px;
+            justify-content: center;
         }
         .usage-buttons button {
+            width: calc(50% - 10px); /* Ensures each button takes up half the width, accounting for the gap */
             padding: 10px 20px;
             font-size: 18px;
             border-radius: 5px;
@@ -108,10 +111,10 @@
         <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" class="logo">
         <h1>Warehouse Stock Control System</h1>
         
-        <!-- New buttons to select between Warehouse Use and Office Use -->
+        <!-- New buttons to select between Warehouse Use and Monitoring Use -->
         <div class="usage-buttons">
             <button id="warehouseBtn" onclick="showWarehouse()">Warehouse Use</button>
-            <button id="officeBtn" onclick="showOffice()">Office Use</button>
+            <button id="monitoringBtn" onclick="showMonitoring()">Monitoring Use</button>
             <button id="productionBtn" onclick="showProduction()">Production Use</button>
             <button id="purchasingBtn" onclick="showPurchasing()">Purchasing Use</button>
         </div>
@@ -129,8 +132,8 @@
             </a>
         </div>
 
-        <!-- Section for Office Use -->
-        <div class="button-container" id="office-buttons" style="display: none;">
+        <!-- Section for Monitoring Use -->
+        <div class="button-container" id="monitoring-buttons" style="display: none;">
             <a href="">
                 <button class="button-Consumables">Consumables Monitoring</button>
             </a>
@@ -169,26 +172,26 @@
         // Show the Warehouse Use buttons and set the active button
         function showWarehouse() {
             document.getElementById('warehouse-buttons').style.display = 'flex';
-            document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('warehouseBtn').classList.add('selected');
-            document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
         }
 
-        // Show the Office Use buttons and set the active button
-        function showOffice() {
+        // Show the Monitoring Use buttons and set the active button
+        function showMonitoring() {
             document.getElementById('warehouse-buttons').style.display = 'none';
-            document.getElementById('office-buttons').style.display = 'flex';
+            document.getElementById('monitoring-buttons').style.display = 'flex';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
-            document.getElementById('officeBtn').classList.add('selected');
+            document.getElementById('monitoringBtn').classList.add('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
@@ -196,12 +199,12 @@
 
         function showProduction() {
             document.getElementById('warehouse-buttons').style.display = 'none';
-            document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'flex';
             document.getElementById('purchasing-buttons').style.display = 'none';
 
             // Set active button style
-            document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.add('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
@@ -209,12 +212,12 @@
 
         function showPurchasing() {
             document.getElementById('warehouse-buttons').style.display = 'none';
-            document.getElementById('office-buttons').style.display = 'none';
+            document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'flex';
 
             // Set active button style
-            document.getElementById('officeBtn').classList.remove('selected');
+            document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.add('selected');
