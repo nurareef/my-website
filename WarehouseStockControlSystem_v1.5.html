@@ -47,6 +47,7 @@
             flex-direction: column;
             gap: 10px;
         }
+
         .button-container a {
             display: block;
             width: 200px;
@@ -57,16 +58,16 @@
             height: 100%;
             padding: 0;
             font-size: 16px;
-            border: none;
             border-radius: 5px;
             cursor: pointer;
-            color: #fff;
-            background-color: #23408f;
-            transition: background-color 0.3s ease;
+            color: #23408f;
+            background-color: #f0f0f0; /* Lighter background for sub buttons */
+            border: 2px solid #23408f; /* Border to distinguish */
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .button-container button:hover {
-            background-color: #fcb620;
-            color: #000;
+            background-color: #e7d257a8; /* Subtle hover effect */
+            color: #23408f;
         }
         /* Active button indicator */
         .button-container .active {
@@ -82,7 +83,7 @@
             justify-content: center;
         }
         .usage-buttons button {
-            width: calc(50% - 10px); /* Ensures each button takes up half the width, accounting for the gap */
+            width: calc(50% - 10px);
             padding: 10px 20px;
             font-size: 18px;
             border-radius: 5px;
@@ -92,6 +93,7 @@
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+
         .usage-buttons button:hover {
             background-color: #fcb620;
             color: #000;
@@ -191,7 +193,7 @@
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
-            document.getElementById('inpsectionBtn').classList.remove('selected');
+            document.getElementById('inspectionBtn').classList.remove('selected');
         }
 
         // Show the Monitoring Use buttons and set the active button
@@ -207,7 +209,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
-            document.getElementById('inpsectionBtn').classList.remove('selected');
+            document.getElementById('inspectionBtn').classList.remove('selected');
         }
 
         // Show the Production Use buttons and set the active button
@@ -223,7 +225,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.add('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
-            document.getElementById('inpsectionBtn').classList.remove('selected');
+            document.getElementById('inspectionBtn').classList.remove('selected');
         }
         
         // Show the Purchasing Use buttons and set the active button
@@ -239,7 +241,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.add('selected');
-            document.getElementById('inpsectionBtn').classList.remove('selected');
+            document.getElementById('inspectionBtn').classList.remove('selected');
         }
 
         // Show the Inspection Use buttons and set the active button
@@ -255,7 +257,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
-            document.getElementById('inpsectionBtn').classList.add('selected');
+            document.getElementById('inspectionBtn').classList.add('selected');
         }
 
     </script>
