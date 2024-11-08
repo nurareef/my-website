@@ -113,10 +113,11 @@
         
         <!-- New buttons to select between Warehouse Use and Monitoring Use -->
         <div class="usage-buttons">
-            <button id="warehouseBtn" onclick="showWarehouse()">Warehouse Use</button>
-            <button id="monitoringBtn" onclick="showMonitoring()">Monitoring Use</button>
-            <button id="productionBtn" onclick="showProduction()">Production Use</button>
-            <button id="purchasingBtn" onclick="showPurchasing()">Purchasing Use</button>
+            <button id="warehouseBtn" onclick="showWarehouse()">Warehouse</button>
+            <button id="inspectionBtn" onclick="showInspection()">Inspection</button>
+            <button id="productionBtn" onclick="showProduction()">Production</button>
+            <button id="purchasingBtn" onclick="showPurchasing()">Purchasing</button>
+            <button id="monitoringBtn" onclick="showMonitoring()">Monitoring</button>
         </div>
         
         <!-- Section for Warehouse Use -->
@@ -164,6 +165,14 @@
                 <button class="button-MainSupplier">Stock Purchasing</button>
             </a>
         </div>
+
+        <!-- Section for Inspection Use -->
+        <div class="button-container" id="inspection-buttons" style="display: none;">
+            <a href="https://raw.githack.com/nurareef/my-website/main/40kVA_Checklist_form_v1.0.html">
+                <button class="button-MainSupplier">40kVA Electrical Inspection</button>
+            </a>
+        </div>
+        
         
         
     </div>
@@ -175,12 +184,14 @@
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('warehouseBtn').classList.add('selected');
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('inpsectionBtn').classList.remove('selected');
         }
 
         // Show the Monitoring Use buttons and set the active button
@@ -189,39 +200,64 @@
             document.getElementById('monitoring-buttons').style.display = 'flex';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('monitoringBtn').classList.add('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('inpsectionBtn').classList.remove('selected');
         }
 
+        // Show the Production Use buttons and set the active button
         function showProduction() {
             document.getElementById('warehouse-buttons').style.display = 'none';
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'flex';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.add('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('inpsectionBtn').classList.remove('selected');
         }
-
+        
+        // Show the Purchasing Use buttons and set the active button
         function showPurchasing() {
             document.getElementById('warehouse-buttons').style.display = 'none';
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'flex';
+            document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.add('selected');
+            document.getElementById('inpsectionBtn').classList.remove('selected');
         }
+
+        // Show the Inspection Use buttons and set the active button
+        function showInspection() {
+            document.getElementById('warehouse-buttons').style.display = 'none';
+            document.getElementById('monitoring-buttons').style.display = 'none';
+            document.getElementById('production-buttons').style.display = 'none';
+            document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('inspection-buttons').style.display = 'flex';
+
+            // Set active button style
+            document.getElementById('monitoringBtn').classList.remove('selected');
+            document.getElementById('warehouseBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.remove('selected');
+            document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('inpsectionBtn').classList.add('selected');
+        }
+
     </script>
 </body>
 </html>
