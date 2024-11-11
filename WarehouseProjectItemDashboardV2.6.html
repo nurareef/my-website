@@ -176,8 +176,8 @@
             margin-right: 8px; /* Space between checkbox and label text */
         }
         
-                /* Button Styles */
-                #switchButton {
+        /* Button Styles */
+        #switchButton {
             padding: 10px 20px;
             background-color: #23408F;
             color: white;
@@ -218,6 +218,7 @@
         
     
     <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
+    <div id="totalQuantityDisplay">Total Quantity: <span id="totalQuantity">0</span></div>
     <button onclick="downloadCsv()">Download CSV</button>
     <button class="clear-filters" onclick="clearAllFilters()">Clear Filters</button>
 
@@ -300,6 +301,8 @@
                 console.error('Error fetching the sheet:', error);
                 document.getElementById('sheetData').innerHTML = '<tr><td colspan="8">Failed to load sheet data.</td></tr>';
             }
+            await fetchDataAndInitializeFilters(); 
+            calculateTotalQuantity(); // Calculate total after data load
         }
     
         document.querySelectorAll('.column-toggle').forEach(checkbox => {
@@ -398,7 +401,27 @@
             });
     
             updateFilterDropdowns();
+            calculateTotalQuantity(); // Recalculate total after filtering
         }
+
+        function calculateTotalQuantity() {
+            let total = 0;
+            const quantityColumnIndex = 2; // Index of the Quantity column
+
+            // Sum only visible rows
+            allDataRows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const quantityCell = row.getElementsByTagName('td')[quantityColumnIndex];
+                    const quantity = parseFloat(quantityCell?.innerText || 0);
+                    if (!isNaN(quantity)) {
+                        total += quantity;
+                    }
+                }
+            });
+
+            document.getElementById('totalQuantity').textContent = total;
+        }
+
     
         function updateFilterDropdowns() {
             for (let i = 0; i < 8; i++) {
