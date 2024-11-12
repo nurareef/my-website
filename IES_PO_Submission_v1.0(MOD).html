@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order Template</title>
+
+    <style>
+        /* Standardize font for all elements */
+        * {
+            font-family: Arial, sans-serif;
+            font-size: 14px; /* Set your desired size */
+            color: #333; /* Set a uniform color */
+        }
+        
+        /* Existing styles */
+        .container {
+            width: 800px;
+            margin: 0 auto;
+        }
+    
+        .third-row {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .order-from, .deliver-to {
+            flex: 1;
+            margin-right: 0px;
+            line-height: 1.5; /* Adjust this value to increase/decrease spacing */
+        }
+
+        .po-details {
+            flex: 0 0 20%; /* Flex-grow: 0, Flex-shrink: 0, Flex-basis: 40% */
+            margin-right: 0px; /* Optional: keep your margin if needed */
+        }
+
+
+        .fourth-row {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        .ATTN-details {
+            margin-top: 20px;
+        }
+    
+        .fifth-row table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .fifth-row th, .fifth-row td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        .sixth-row table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .sixth-row th, .sixth-row td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        .sixth-row th {
+            background-color: #ffffff;
+        }
+    
+        .seventh-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    
+        .seventh-row .amounts table {
+            width: 201px;
+        }
+    
+        .seventh-row .amounts td {
+            width: 100%;
+        }
+    
+        .eight-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    
+        .ninth-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: lighter;
+            font-style: italic;
+        }
+    
+        .totals {
+            text-align: right;
+            margin-left: 300px;
+            line-height: 2.42;
+        }
+    
+        .amounts table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        .amounts td {
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: right;
+        }
+    
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid black;
+            padding-bottom: 10px;
+        }
+    
+        .header img {
+            width: 120px;
+            margin-right: 20px;
+        }
+    
+        .header .info {
+            flex-grow: 1;
+        }
+    
+        .header .brn {
+            text-align: right;
+        }
+    
+        .purchase-order {
+            text-align: right;
+            font-size: 35px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+    
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    
+        .right {
+            text-align: right;
+        }
+    </style>
+        
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.imgur.com/V1zQRS2.png" alt="Company Logo">
+            <div class="info">
+                <h2>INTEGRATED ENERGY SYSTEMS SDN BHD</h2>
+                <p>
+                    Lot 92, Jalan Industri 3/5<br>
+                    Rawang Integrated Park<br>
+                    48000 Rawang<br>
+                    Selangor Darul Ehsan<br>
+                    Tel: 03-60932828  Fax: 03-60915081
+                </p>
+            </div>
+            <div class="brn">
+                <p><strong>BRN:</strong> 202301022276</p>
+            </div>
+        </div>
+
+        <div class="purchase-order">
+            Purchase Order
+        </div>
+
+        <div class="third-row">
+            <div class="order-from">
+                <strong>Order From:</strong><br>
+                <input type="text" id="companyName" placeholder="Company Name" style="border: none; width: 100%;"><br>
+                <input type="text" id="addressLine1" placeholder="Address Line 1" style="border: none; width: 100%;"><br>
+                <input type="text" id="addressLine2" placeholder="Address Line 2" style="border: none; width: 100%;"><br>
+                <input type="text" id="cityPostalCode" placeholder="City, Postal Code" style="border: none; width: 100%;"><br>
+                <input type="text" id="State" placeholder="State" style="border: none; width: 100%;"><br>
+                <input type="text" id="phone" placeholder="Phone Number" style="border: none; width: 100%;">
+            </div>
+                                                
+            <div class="deliver-to">
+                <strong>Deliver and Invoice To:</strong><br>
+                <input type="text" id="deliverCompany" value="INTEGRATED ENERGY SYSTEMS SDN BHD" style="border: none; width: 100%; text-align: left;"><br>
+                <input type="text" id="deliverAddressLine1" value="Lot 92, Jalan Industri 3/5" style="border: none; width: 100%; text-align: left;"><br>
+                <input type="text" id="deliverAddressLine2" value="Rawang Integrated Park" style="border: none; width: 100%; text-align: left;"><br>
+                <input type="text" id="deliverAddressLine3" value="48000 Rawang" style="border: none; width: 100%; text-align: left;"><br>
+                <input type="text" id="deliverState" value="Selangor Darul Ehsan" style="border: none; width: 100%; text-align: left;"><br>
+                <input type="text" id="deliverTelFax" value="Tel: 03-60932828 Fax: 03-60915081" style="border: none; width: 100%; text-align: left;">
+            </div>
+                        
+            <div class="po-details" style="width: 30%;"> <!-- Adjust the width here -->
+                <div class="tax-no">
+                    Sales Tax No.: <input type="text" id="taxNo" value="77777" style="border: none; width: 40%; text-align: left;">
+                </div>
+                <table>
+                    <tr>
+                        <td>PO:</td>
+                        <td><input type="text" id="poNo" value="I-" style="border: none; width: 80px; text-align: left;">
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td><input type="date" id="date" name="date" value="2024-10-01"></td>
+                    </tr>
+                    <tr>
+                        <td>Page:</td>
+                        <td><input type="number" id="pageNo" value="1" style="border: none; width: 80px; text-align: left;">
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="fourth-row">
+            <div class="ATTN-details">
+                <strong>ATTN: Fanie (Ms)</strong>
+            </div>
+        </div>
+
+        <div class="fifth-row">
+            <table>
+                <tr>
+                    <td style="width: 33.33%;">SHIPPING DATE</td>
+                    <td style="width: 33.33%;">TERMS</td>
+                    <td style="width: 33.33%;">SHIP VIA</td>
+                </tr>
+                <tr>
+                    <td><input type="date" id="shippingDate" name="shippingDate"></td>
+                    <td><input type="text" id="terms" value="Net 30" style="border: none; width: 80px; text-align: left;">
+                    <td><input type="text" id="shipVia" value="Air/Sea Freight" style="border: none; width: 120px; text-align: left;">
+                </tr>
+            </table>
+        </div>
+        
+        <div class="sixth-row">
+            <table id="descriptionTable">
+                <tr>
+                    <th style="width: 50%;">DESCRIPTION</th>
+                    <th style="width: 25%;">ACCOUNTS</th>
+                    <th style="width: 25%;">AMOUNT</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="description1" style="border: none; width: 100%; text-align: left;"></td>
+                    <td>
+                        <input type="number" class="accounts" value="33333" style="border: none; width: 100%; text-align: left;">
+                    </td>
+                    <td>
+                        <span>RM</span>
+                        <input type="number" class="amount" value="5" style="border: none; width: 80px; text-align: left;" onchange="calculateTotals()">
+                    </td>
+                </tr>
+            </table>
+            <button type="button" onclick="addRow()">Add Row</button>
+            <button type="button" onclick="removeRow()">Remove Row</button>
+        </div>
+                        
+        <div class="seventh-row">
+            <div class="pr-no">
+                PR No: <input type="text" id="prNo" value="88888" style="border: none; width: 80px; text-align: right;">
+            </div>
+            <div class="totals">
+                TOTAL<br>
+                FREIGHT<br>
+                ADD: SST (<input type="number" id="sstRate" value="0" step="0.01" onchange="calculateTotals()" style="width: 50px; border: none; text-align: right;">%)<br>
+                TOTAL INC SST<br>
+                LESS: DEPOSIT<br>
+                BALANCE DUE
+            </div>
+            <div class="amounts">
+                <table>
+                    <tr>
+                        <td id="totalAmount" style="border: none; width: 80px; text-align: left;">RM0.00</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+                            <span>RM</span>
+                            <input type="number" id="freight" value="0" step="0.01" style="border: none; width: 80px; text-align: left;" onchange="calculateTotals()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="newRow" style="text-align: left;">RM0.00</td>
+                    </tr>
+                    <tr>
+                        <td id="totalIncSST" style="text-align: left;">RM0.00</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+                            <span>RM</span>
+                            <input type="number" id="deposit" value="0" step="0.01" style="border: none; width: 80px; text-align: left;" onchange="calculateTotals()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="balanceDue" style="text-align: left;">RM0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+                                
+        <div class="eight-row">
+            Applied Purchase Number and Purchase Date:
+        </div>
+
+        <div class="ninth-row">
+            E.&O.E
+        </div>
+
+        <div class="tenth-row">
+            <table>
+                <tr>
+                    <td>PREPARED BY</td>
+                    <td>ORDERED BY</td>
+                    <td>APPROVED BY</td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="preparedby" style="border: none; width: 100%; text-align: left;"></td>
+                    <td>
+                        <input type="text" name="orderedby" value="SELVI" style="border: none; width: 100%; text-align: left;">
+                    </td>
+                    <td>
+                        <input type="text" name="approvedby" value="RUTH YAP" style="border: none; width: 100%; text-align: left;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+
+function addRow() {
+    const table = document.getElementById("descriptionTable");
+    const newRow = table.insertRow(-1);
+    
+    const descriptionCell = newRow.insertCell(0);
+    const accountsCell = newRow.insertCell(1);
+    const amountCell = newRow.insertCell(2);
+    
+    descriptionCell.innerHTML = '<input type="text" name="description" style="border: none; width: 100%; text-align: left;">';
+    accountsCell.innerHTML = '<input type="number" class="accounts" value="33333" style="border: none; width: 100%; text-align: left;">';
+    amountCell.innerHTML = '<span>RM</span><input type="number" class="amount" value="0" style="border: none; width: 80px; text-align: left;" onchange="calculateTotals()">';
+    
+    calculateTotals();
+}
+
+function removeRow() {
+    const table = document.getElementById("descriptionTable");
+    const rowCount = table.rows.length;
+    
+    // Check if there are more than one row (the header row should not be removed)
+    if (rowCount > 2) { // 2 includes header row + at least one data row
+        table.deleteRow(rowCount - 1);
+        calculateTotals(); // Update totals after removing a row
+    } else {
+        alert("Cannot remove the last row."); // Optional: alert when no more rows can be removed
+    }
+}
+
+function calculateTotals() {
+    let totalAmount = 0;
+    const amountInputs = document.querySelectorAll('.amount');
+    amountInputs.forEach(input => {
+        totalAmount += parseFloat(input.value) || 0;
+    });
+
+    const freight = parseFloat(document.getElementById("freight").value) || 0;
+    const sstRate = parseFloat(document.getElementById("sstRate").value) || 0;
+    const deposit = parseFloat(document.getElementById("deposit").value) || 0;
+
+    document.getElementById("totalAmount").textContent = "RM" + totalAmount.toFixed(2);
+    const sstAmount = (totalAmount + freight) * (sstRate / 100);
+    const totalIncSST = totalAmount + freight + sstAmount;
+    document.getElementById("totalIncSST").textContent = "RM" + totalIncSST.toFixed(2);
+
+    const newRowValue = totalIncSST - (totalAmount + freight);
+    document.getElementById("newRow").textContent = "RM" + newRowValue.toFixed(2);
+
+    const balanceDue = totalIncSST - deposit;
+    document.getElementById("balanceDue").textContent = "RM" + balanceDue.toFixed(2);
+}
+
+// Call calculateTotals initially to ensure correct starting values
+window.onload = calculateTotals;
+
+// Call calculateTotals on load to ensure initial values are set correctly
+window.onload = calculateTotals;
+
+        // Initial calculation on page load
+        calculateTotals();
+
+        // Add event listeners to update totals when item amounts are changed
+        document.querySelectorAll('.amount').forEach(input => {
+            input.addEventListener('input', calculateTotals);
+        });
+    </script>
+</body>
+</html>
