@@ -301,8 +301,6 @@
                 console.error('Error fetching the sheet:', error);
                 document.getElementById('sheetData').innerHTML = '<tr><td colspan="8">Failed to load sheet data.</td></tr>';
             }
-            await fetchDataAndInitializeFilters(); 
-            calculateTotalQuantity(); // Calculate total after data load
         }
     
         document.querySelectorAll('.column-toggle').forEach(checkbox => {
@@ -339,6 +337,25 @@
             ];
             return filterIds[index];
         }
+
+        function calculateTotalQuantity() {
+            let total = 0;
+            const quantityColumnIndex = 2; // Index of the Quantity column
+
+            // Sum only visible rows
+            allDataRows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const quantityCell = row.getElementsByTagName('td')[quantityColumnIndex];
+                    const quantity = parseFloat(quantityCell?.innerText || 0);
+                    if (!isNaN(quantity)) {
+                        total += quantity;
+                    }
+                }
+            });
+
+            document.getElementById('totalQuantity').textContent = total;
+        }
+
     
         function populateFilterOptions(colIndex, filterId, filtered = false) {
             const filterDropdown = document.getElementById(filterId);
@@ -402,26 +419,8 @@
     
             updateFilterDropdowns();
             calculateTotalQuantity(); // Recalculate total after filtering
+
         }
-
-        function calculateTotalQuantity() {
-            let total = 0;
-            const quantityColumnIndex = 2; // Index of the Quantity column
-
-            // Sum only visible rows
-            allDataRows.forEach(row => {
-                if (row.style.display !== 'none') {
-                    const quantityCell = row.getElementsByTagName('td')[quantityColumnIndex];
-                    const quantity = parseFloat(quantityCell?.innerText || 0);
-                    if (!isNaN(quantity)) {
-                        total += quantity;
-                    }
-                }
-            });
-
-            document.getElementById('totalQuantity').textContent = total;
-        }
-
     
         function updateFilterDropdowns() {
             for (let i = 0; i < 8; i++) {
