@@ -209,6 +209,7 @@
             <label><input type="checkbox" class="column-toggle" data-column="3" checked> Expected Received Quantity</label>
             <label><input type="checkbox" class="column-toggle" data-column="4" checked> Total Supposed to Received</label>
             <label><input type="checkbox" class="column-toggle" data-column="5"> Status</label> <!-- New Checkbox for Status -->
+            <label><input type="checkbox" class="column-toggle" data-column="6"> DO No</label> <!-- New Checkbox for DO No -->
         </div>
     </div>
     
@@ -243,6 +244,10 @@
                     <select id="statusFilter" onchange="filterTableByDropdown(5)"></select>
                     <div class="resizer"></div>
                 </th>
+                <th>DO No <span class="filter-icon">🔽</span> <!-- New DO No column in the header -->
+                    <select id="DONoFilter" onchange="filterTableByDropdown(6)"></select>
+                    <div class="resizer"></div>
+                </th>
             </tr>
         </thead>
         <tbody id="sheetData"></tbody>
@@ -252,7 +257,7 @@
         const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?gid=1563391707&single=true&timestamp=' + new Date().getTime();
 
         let allDataRows = [];
-        let activeFilters = Array(6).fill(''); // Adjusted for 6 columns including "Status"
+        let activeFilters = Array(7).fill(''); // Adjusted for 7 columns including "Status"
     
         async function fetchSheetData() {
             try {
@@ -265,7 +270,7 @@
                 const tableRows = doc.querySelectorAll('table tbody tr');
                 const sheetData = document.getElementById('sheetData');
     
-                tableRows.forEach(row => {
+                Array.from(tableRows).slice(1).forEach(row => {
                     const columns = row.querySelectorAll('td');
                     const newRow = document.createElement('tr');
     
@@ -279,7 +284,7 @@
                     allDataRows.push(newRow);
                 });
     
-                for (let i = 0; i < 6; i++) { // Adjusted for 6 columns including "Status"
+                for (let i = 0; i < 6; i++) { // Adjusted to 6 for 7 columns including "DO No"
                     populateFilterOptions(i, `${getColumnFilterId(i)}Filter`);
                 }
             } catch (error) {
