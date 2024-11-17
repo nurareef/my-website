@@ -399,33 +399,37 @@
     
         function applyFilters() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    
+            const fragment = document.createDocumentFragment();
+            const tbody = document.querySelector('table tbody');
+            
+            tbody.innerHTML = ''; // Clear the table before appending filtered rows
+
             allDataRows.forEach(row => {
                 let isVisible = true;
-    
-                for (let i = 0; i < activeFilters.length; i++) {
-                    const filterValue = activeFilters[i];
+
+                // Check active filters
+                for (let i = 0; i < activeFilters.length && isVisible; i++) {
+                    const filterValue = activeFilters[i]?.toLowerCase();
                     const cellText = row.getElementsByTagName('td')[i]?.innerText.toLowerCase();
-    
                     if (filterValue && (!cellText || !cellText.includes(filterValue))) {
                         isVisible = false;
-                        break;
                     }
                 }
-    
-                if (isVisible) {
-                    const rowText = Array.from(row.getElementsByTagName('td'))
-                        .map(td => td.innerText.toLowerCase())
-                        .join(' ');
-    
-                    if (searchInput && !rowText.includes(searchInput)) {
+
+                // Check search input
+                if (isVisible && searchInput) {
+                    const rowText = row.innerText.toLowerCase();
+                    if (!rowText.includes(searchInput)) {
                         isVisible = false;
                     }
                 }
-    
-                row.style.display = isVisible ? '' : 'none';
+
+                if (isVisible) {
+                    fragment.appendChild(row); // Add visible rows to the fragment
+                }
             });
-    
+
+            tbody.appendChild(fragment); // Append filtered rows to the table in one operation
             updateFilterDropdowns();
         }
     
@@ -462,6 +466,19 @@
                 th.style.width = originalColumnWidths[index];
             });
         }
+
+        function debounce(func, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        const debouncedApplyFilters = debounce(applyFilters, 300);
+        document.getElementById('searchInput').addEventListener('input', debouncedApplyFilters);
+
+
     
         function makeColumnsResizable() {
             const tableHeaders = document.querySelectorAll('th');
