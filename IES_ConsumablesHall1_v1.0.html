@@ -36,22 +36,7 @@
             position: relative;
             overflow: auto; /* Handle overflow within the container */
         }
-        .container1{
-            width: auto;
-            padding: 0px;
-            border-radius: 10px;
-            position: relative;
-            display: flex; 
-            margin-left: 0px; 
-        }
-        .container2{
-            width: auto;
-            padding: 0px;
-            border-radius: 10px;
-            position: relative;
-            display: flex; 
-            margin-left: 0px; 
-        }
+        
         h4 {
             margin-bottom: 10px;
             font-size: 24px;
@@ -135,15 +120,12 @@
             transform: translateY(-3px); /* Lift effect */
         }
 
-       
-
         .names-container2 {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
             grid-gap: 5px;
             margin-bottom: 10px;
         }
-
 
         .name-block {
             padding: 20px;
@@ -155,25 +137,22 @@
         .name-block:hover {
             background-color: #dd9c10;
         }
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-gap: 10px;
-            margin-bottom: 10px;
-            border: 10px solid #dd9c10; /* Add border property */
-            border-radius: 10px;
-            width: 50%; /* Adjust the width here */
+
+        .container1, .container2 {
+            display: flex; /* Makes the children (options-containers) align side by side */
+            justify-content: space-between; /* Adds space between the containers */
+            gap: 10px; /* Optional: Adds some space between the containers */
         }
 
-        .options-container1 {
+        .options-container, .options-container1 {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust columns */
             grid-gap: 10px;
-            margin-bottom: 10px;
-            border: 10px solid #dd9c10; /* Add border property */
+            border: 10px solid #dd9c10;
             border-radius: 10px;
-            width: 50%; /* Adjust the width here */
+            width: 48%; /* Adjust width for two containers side by side */
         }
+
         .option-block {
             padding: 10px;
             border: 1px solid #000000;
@@ -181,6 +160,17 @@
             cursor: pointer;
             text-align: center;
         }
+
+        /* Optional: Media query for smaller screens */
+        @media (max-width: 768px) {
+            .container1, .container2 {
+                flex-direction: column; /* Stack vertically on small screens */
+            }
+            .options-container, .options-container1 {
+                width: 100%; /* Full width on smaller screens */
+            }
+        }
+
         .option-block:hover {
             background-color: #dd9c10;
         }
