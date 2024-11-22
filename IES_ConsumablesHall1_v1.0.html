@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Your App Title">
     <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
-    <title>IES Stock Count</title>
+    <title>Stock Request Hall 1</title>
     <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
     <style>
 
@@ -19,7 +19,7 @@
             font-size: 18px;
         }
         body{
-            background-image: url('https://i.imgur.com/6QnL8Ms.png'); 
+            background-image: url('https://i.imgur.com/Fdqj8sy.png'); 
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -58,13 +58,84 @@
             color: #23408F; /* Change font color to #23408F */
             text-align: center; /* Center the text horizontally */
         }
+
+        /* Project Selection Section */
+.project-selection-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-left: 6px solid #ccc; /* Light gray border */
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.project-selection-container .project-heading {
+    grid-column: span 2; /* Make the heading span both columns */
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #333; /* Dark gray text */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.project-selection-container button {
+    background-color: #333; /* Dark gray button background */
+    color: #ffffff;
+    padding: 16px 28px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+.project-selection-container button:hover {
+    background-color: #555; /* Lighter gray on hover */
+    transform: translateY(-3px); /* Lift effect */
+}
+
+/* Names Selection Section */
+.names-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 3 equal columns */
+    gap: 20px;
+    margin-bottom: 30px;
+    padding: 30px;
+    border-left: 6px solid #ccc; /* Light gray border */
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.names-container .names-heading {
+    grid-column: span 3; /* Make the heading span all three columns */
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #333; /* Dark gray text */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.names-container button {
+    background-color: #555; /* Medium gray button background */
+    color: #ffffff;
+    padding: 14px 24px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+.names-container button:hover {
+    background-color: #777; /* Lighter gray on hover */
+    transform: translateY(-3px); /* Lift effect */
+}
+
        
-        .names-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 5px;
-            margin-bottom: 10px;
-        }
 
         .names-container2 {
             display: grid;
@@ -153,12 +224,7 @@
             background-color: #555555;
         }
 
-        .project-selection-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 5px;
-            margin-bottom: 10px;
-        }
+
 
         .project-selection-button {
             padding: 20px;
@@ -219,19 +285,15 @@
 
         <form onsubmit="submitForm(event)">
             <div class="project-selection-container">
-                <div class="project-selection-button" onclick="toggleProjectType(this, '40kVA')">40kVA</div>
-                <div class="project-selection-button" onclick="toggleProjectType(this, 'M3 ')">M3 </div>
-                <div class="project-selection-button" onclick="toggleProjectType(this, 'Deutz ')">Deutz </div>
-                <div class="project-selection-button" onclick="toggleProjectType(this, 'Not sure')">Not sure</div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, '40kVA')">40kVA</div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'Deutz ')">Deutz </div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'PC 100')">PC 100</div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'RESTOCK')">RESTOCK</div>
             </div>
 
             <div class="names-container">
-                <div class="name-block" onclick="selectName('Urgent')">Urgent</div>
-                <div class="name-block" onclick="selectName('Not Urgent')">Not Urgent</div>
-            </div>
-
-            <div class="names-container2">
-                <div class="name-block" onclick="selectName('Cancel')">Cancel</div>
+                    <div class="name-block" onclick="selectName('Urgent')">Urgent</div>
+                    <div class="name-block" onclick="selectName('Not Urgent')">Not Urgent</div>
             </div>
 
             <div class="container1">
@@ -285,9 +347,6 @@
 
     addDateTime();  // Ensure hidden fields are populated
 
-    // Check if "Cancel" is selected and modify quantities accordingly
-    var isCancel = document.querySelector(".name-block.selected") && document.querySelector(".name-block.selected").textContent === 'Cancel';
-    adjustQuantities(isCancel); // Adjust quantities if "Cancel" is selected
 
     const formData = new FormData(event.target);
 
@@ -310,19 +369,6 @@
     })
     .finally(hideLoading);  // Hides the loading animation after submission
 }
-
-function adjustQuantities(isCancel) {
-    if (isCancel) {
-        // Modify all stock quantity fields to be negative
-        var stockNumberFields = document.querySelectorAll('[id^="Stock-Quantity"]');
-        stockNumberFields.forEach(function(field) {
-            if (field.value) {
-                field.value = -Math.abs(field.value); // Ensure the value is negative
-            }
-        });
-    }
-}
-
 
         function resetForm() {
     // Clear the selected name block
