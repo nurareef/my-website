@@ -146,11 +146,12 @@
 
         .options-container, .options-container1 {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Adjust columns */
-            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Dynamic column resizing */
+            grid-gap: 10px; /* Space between blocks */
             border: 10px solid #dd9c10;
             border-radius: 10px;
-            width: 48%; /* Adjust width for two containers side by side */
+            width: 100%; /* Ensure container is responsive */
+            max-width: 100%; /* Prevent overflow */
         }
 
         .option-block {
@@ -167,8 +168,14 @@
                 flex-direction: column; /* Stack vertically on small screens */
             }
             .options-container, .options-container1 {
-                width: 100%; /* Full width on smaller screens */
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Reduce minimum size of option blocks */
             }
+
+            .option-block {
+                font-size: 12px; /* Adjust font size */
+                padding: 5px; /* Reduce padding for smaller blocks */
+            }
+
         }
 
         .option-block:hover {
