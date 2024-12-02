@@ -407,7 +407,7 @@ fetch(sheetURL, { cache: 'no-store' })
     const rows = table.querySelectorAll('tr');
     for (let i = 1; i < rows.length; i++) {
         const cells = rows[i].querySelectorAll('td');
-        if (cells.length === 4 && cells[0].textContent.trim() === selectedItemID) {
+        if (cells.length === 3 && cells[0].textContent.trim() === selectedItemID) {
         let imageUrl = '';
         const imgElement = cells[1].querySelector('img');
         if (imgElement) {
