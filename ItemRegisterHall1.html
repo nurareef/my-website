@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Warehouse Check-in">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Warehouse Stock Hall 1 Register</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+            body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://i.imgur.com/aofHitA.png');
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            }
+
+	          .container{
+            width: auto;
+            padding: 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            position: relative;
+            display: inline-block; /* Display inline to stay side by side */
+            margin-right: 20px; /* Add some margin between containers */
+            }
+
+            label {
+              font-weight: bold;
+            }
+
+            .dropdown-container {
+              position: relative;
+              width: 100%;
+            }
+
+            input[type="text"] {
+              width: 100%;
+              padding: 10px;
+              margin-bottom: 10px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+            }
+
+            .dropdown-options {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              width: 100%;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              background-color: #fff;
+              max-height: 200px;
+              overflow-y: auto;
+              z-index: 1000;
+              display: none;
+            }
+
+            .dropdown-options div {
+              padding: 10px;
+              cursor: pointer;
+            }
+
+            .dropdown-options div:hover {
+              background-color: #fcb620;
+            }
+
+            #item-details {
+              border: 1px solid #ccc;
+              padding: 10px;
+              border-radius: 5px;
+              background-color: #fff;
+              margin-bottom: 20px;
+            }
+
+            #scanner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 140px;
+            margin: auto;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            background-color: white; /* Optional: Add a background color */
+            }
+
+            #scanner-video {
+            width: 640px;
+            height: 240px;
+            }
+
+            .container {
+              width: 90%;
+              max-width: 800px;
+              margin: 0 auto;
+              padding: 20px;
+              background: #fff;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .submit-button {
+              display: block;
+              width: 100%;
+              padding: 10px;
+              background-color: #23408F;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              font-size: 1em;
+              cursor: pointer;
+              text-align: center;
+            }
+
+            .submit-button:hover {
+              background-color: #fcb620;
+            }
+
+            .form-label {
+              margin-bottom: 5px;
+              display: block;
+              font-weight: bold;
+            }
+
+            .input-box {
+              margin-bottom: 15px;
+            }
+
+            .input-box input, 
+            .input-box select {
+              width: 100%;
+              padding: 8px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              font-size: 1em;
+            }
+
+            .loading-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.5);
+              display: none;
+              justify-content: center;
+              align-items: center;
+              z-index: 9999;
+            }
+
+            .loading-spinner {
+              border: 8px solid #f3f3f3;
+              border-top: 8px solid #23408F;
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+              animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+
+            .submit-button {
+              display: block;
+              width: 100%;
+              padding: 10px;
+              background-color: #23408F;
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              font-size: 1em;
+              cursor: pointer;
+              text-align: center;
+            }
+
+            .submit-button:hover {
+              background-color: #fcb620;
+            }
+
+            .box-selection {
+            display: flex;
+            gap: 10px;
+            }
+
+            .status-box {
+            padding: 10px 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s, border-color 0.3s;
+            flex: 1;
+            }
+
+            .status-box:hover {
+            background-color: #fcb620;
+            }
+
+            .status-box.selected {
+            border-color: #23408F;
+            background-color: #23408F;
+            color: #fcb620;
+            }
+
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+	
+	    <div class="container">
+
+            <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+
+
+  <h2>Stock Hall 1 Register</h2>
+
+  <div class="container">
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <form id="checklistForm" method="post">
+      <input type="hidden" id="partNumber" name="Rack Number">
+      <input type="hidden" id="partDescription" name="Item Description">
+      <input type="hidden" id="partNo" name="Part Number">
+      <input type="hidden" id="controllerValue" name="Status">
+      <input type="hidden" id="NameSupplier" name="Description Name">
+
+      <table>
+        <tr>
+            <td>
+                <label for="Status" class="form-label">Status</label>
+                <div class="box-selection">
+                  <div class="status-box" id="restock-box" onclick="selectStatus('1')">ADD</div>
+                  <div class="status-box" id="refill-box" onclick="selectStatus('-1')">REMOVE</div>
+                </div>
+                <input type="hidden" id="Status" name="Status" value="-1">
+            </td>
+          </tr>
+        
+          <tr id="supplierRow" style="display: none;">
+            <td>
+                <label for="DescriptionName" class="form-label">Description Name</label>
+                <input type="text" id="DescriptionName" name="Description Name" placeholder="Enter Description Name">
+            </td>
+        </tr>
+                  
+        <tr id="partnumberRow" style="display: none;">
+            <td>
+                <label for="PartnumberName" class="form-label">Part Number</label>
+                <input type="text" id="PartnumberName" name="Part number Name" placeholder="Enter Part Number Name">
+            </td>
+        </tr>
+        
+
+          <label for="item-id-input">Enter Rack Number:</label>
+          <div class="dropdown-container">
+            <input type="text" id="item-id-input" placeholder="Type to search or enter Rack Number" 
+                   oninput="formatInput(this)">
+            <div class="dropdown-options" id="dropdown-options"></div>
+          </div>
+                  
+      </table>
+
+      <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+
+
+  <div id="item-details"></div>
+
+
+    <div class="loading-overlay" id="uploadLoadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+			
+</div>
+
+  
+  <script>
+    let allOptions = [];
+
+function fetchDropdownOptions() {
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pub?gid=635342094&single=true&output=csv';
+
+  fetch(sheetURL)
+    .then(response => response.text())
+    .then(data => {
+      const rows = data.split('\n');
+      allOptions = rows.slice(0).map(row => row.split(',')[0]).filter(itemID => itemID);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}
+
+function formatInput(input) {
+    // Remove spaces and convert to uppercase
+    input.value = input.value.replace(/\s+/g, '').toUpperCase();
+  }
+
+
+function selectStatus(status) {
+  document.getElementById('Status').value = status;
+
+  const refillBox = document.getElementById('refill-box');
+  const restockBox = document.getElementById('restock-box');
+
+  if (status === '-1') {
+    refillBox.classList.add('selected');
+    restockBox.classList.remove('selected');
+    document.getElementById('supplierRow').style.display = 'none';
+    document.getElementById('partnumberRow').style.display = 'none';
+  } else {
+    restockBox.classList.add('selected');
+    refillBox.classList.remove('selected');
+    document.getElementById('supplierRow').style.display = 'table-row';
+    document.getElementById('partnumberRow').style.display = 'table-row';
+  }
+}
+
+
+function updateDropdownOptions(filterText) {
+  const dropdown = document.getElementById('dropdown-options');
+  dropdown.innerHTML = '';
+
+  const filteredOptions = allOptions.filter(option => option.toLowerCase().includes(filterText.toLowerCase()));
+  
+  filteredOptions.forEach(option => {
+    const div = document.createElement('div');
+    div.textContent = option;
+    div.onclick = () => selectOption(option);
+    dropdown.appendChild(div);
+  });
+
+  dropdown.style.display = filteredOptions.length > 0 ? 'block' : 'none';
+}
+
+function selectOption(option) {
+  document.getElementById('item-id-input').value = option;
+  document.getElementById('partNumber').value = option; 
+  document.getElementById('dropdown-options').style.display = 'none';
+  fetchItemDetails();
+}
+
+function fetchItemDetails() {
+const selectedItemID = document.getElementById('item-id-input').value;
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pubhtml?gid=635342094&single=true";
+
+	
+fetch(sheetURL, { cache: 'no-store' })
+    .then(response => response.text())
+    .then(data => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, 'text/html');
+    const table = doc.querySelector('table');
+
+    const rows = table.querySelectorAll('tr');
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].querySelectorAll('td');
+        if (cells.length === 3 && cells[0].textContent.trim() === selectedItemID) {
+        let imageUrl = '';
+        
+        const itemDetails = `
+            <p><strong>Rack Number:</strong> ${cells[0].textContent.trim()}</p>
+            <p><strong>Part Number:</strong> ${cells[2].textContent.trim()}</p>
+            <p><strong>Item Description:</strong> ${cells[1].textContent.trim()}</p>
+        `;
+        document.getElementById('item-details').innerHTML = itemDetails;
+        document.getElementById('partDescription').value = cells[1].textContent.trim(); // Set hidden field
+        document.getElementById('partNo').value = cells[2].textContent.trim(); // Set hidden field
+        return;
+        }
+    }
+
+    document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
+    })
+    .catch(error => {
+    console.error('Error fetching data:', error);
+    });
+}
+
+document.getElementById('item-id-input').addEventListener('input', (event) => {
+  updateDropdownOptions(event.target.value);
+});
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+document.getElementById("Status").addEventListener("change", function() {
+  const statusValue = this.value;
+  const supplierRow = document.getElementById("supplierRow");
+  const partnumberRow = document.getElementById("partnumberRow");
+
+  
+
+  if (statusValue === "1") {
+    supplierRow.style.display = "table-row";
+    partnumberRow.style.display = "table-row";
+  } else {
+    supplierRow.style.display = "none";
+    partnumberRow.style.display = "none";
+  }
+});
+
+window.onload = function() {
+  const statusValue = document.getElementById("Status").value;
+  const supplierRow = document.getElementById("supplierRow");
+  const partnumberRow = document.getElementById("partnumberRow");
+
+  
+
+  if (statusValue !== "1") {
+    supplierRow.style.display = "none";
+    partnumberRow.style.display = "none";
+  }
+};
+
+
+function submitForm() {
+  showLoading(); // Display loading spinner
+
+  const controllerText = document.getElementById("Status").value;
+  const partNumber = document.getElementById("item-id-input").value;
+  const partDescription = document.getElementById("partDescription").value;
+  const partNo = document.getElementById("partNo").value;
+
+  const formData = new FormData();
+  formData.append('Status', controllerText);
+  formData.append('Rack Number', partNumber);
+
+  if (controllerText === '1') {
+    const DescriptionName = document.getElementById("DescriptionName").value;
+    const PartnumberName = document.getElementById("PartnumberName").value;
+    formData.append('Item Description', DescriptionName);
+    formData.append('Part Number', PartnumberName);
+  }
+
+  if (controllerText === '-1') {
+    const DescriptionName = document.getElementById("DescriptionName").value;
+    const PartnumberName = document.getElementById("PartnumberName").value;
+    formData.append('Item Description', partDescription);
+    formData.append('Part Number', partNo);  
+  }
+
+
+  // Submit the form
+  fetch('https://script.google.com/macros/s/AKfycbzwWQzqeTuvKmVgmgWgmatUEk7s4BRadDK0XIOk98FV82oWC3vM2VzfBIC5plRCseUK/exec', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Submission successful:', data);
+      hideLoading(); // Hide loading spinner
+      alert('Form submitted successfully'); // Optional user feedback
+    })
+    .catch(error => {
+      console.error('Error submitting form:', error);
+      hideLoading(); // Hide loading spinner even if an error occurs
+      alert('Error submitting form. Please try again.');
+    });
+}
+
+fetchDropdownOptions();
+startScanner();
+
+function uploadFile() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const uploadLoadingOverlay = document.getElementById('uploadLoadingOverlay');
+  const reader = new FileReader();
+
+  // Show loading spinner
+  uploadLoadingOverlay.style.display = 'flex';
+
+  reader.onload = function() {
+    const fileContent = reader.result;
+    const filename = file.name;
+
+    const formData = new FormData();
+    formData.append('fileContent', fileContent);
+    formData.append('filename', filename);
+
+    fetch('https://script.google.com/macros/s/AKfycbzwWQzqeTuvKmVgmgWgmatUEk7s4BRadDK0XIOk98FV82oWC3vM2VzfBIC5plRCseUK/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('File uploaded successfully');
+        alert('File uploaded successfully');
+      } else {
+        console.error('File upload failed');
+        alert('File upload failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error:', error);
+    })
+    .finally(() => {
+      // Hide loading spinner
+      uploadLoadingOverlay.style.display = 'none';
+    });
+  };
+
+  reader.readAsDataURL(file);
+}
+
+    // Start the scanner and fetch dropdown options
+    fetchDropdownOptions();
+    startScanner();
+  </script>
+</body>
+</html>|
