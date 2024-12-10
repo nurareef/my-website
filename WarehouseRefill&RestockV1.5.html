@@ -80,39 +80,6 @@
               margin-bottom: 20px;
             }
 
-            #scanner-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 140px;
-            margin: auto;
-            border-radius: 5px;
-            overflow: hidden;
-            position: relative;
-            background-color: white; /* Optional: Add a background color */
-            }
-
-            #scanner-video {
-            width: 640px;
-            height: 240px;
-            }
-
-            #reset-button {
-              display: block;
-              margin: 20px auto;
-              padding: 10px 20px;
-              font-size: 16px;
-              color: #fff;
-              background-color: #23408F;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-            }
-
-            #reset-button:hover {
-              background-color: #fcb620;
-            }
             .container {
               width: 90%;
               max-width: 800px;
@@ -249,13 +216,6 @@
 
 
   <h2>Refill & Restock System</h2>
-
-  <button id="reset-button">Reset Scanner</button>
-
-  <div id="scanner-container">
-    <div id="scanner-video"></div>
-  </div>
-
 
   <div class="container">
     <div class="loading-overlay" id="loadingOverlay">
@@ -554,74 +514,7 @@ function submitForm() {
   }
 }
 
-
-
-
-function startScanner() {
-  Quagga.init({
-    inputStream: {
-      type: "LiveStream",
-      target: document.querySelector('#scanner-video')
-    },
-    decoder: {
-      readers: ["code_128_reader"]
-    }
-  }, function(err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    Quagga.start();
-  });
-
-  Quagga.onDetected(function(data) {
-    const code = data.codeResult.code;
-    document.getElementById('item-id-input').value = code;
-    document.getElementById('partNumber').value = code; // Set hidden field
-    Quagga.stop();
-
-    // Hide the scanner container after detection
-    document.getElementById('scanner-container').style.display = 'none';
-
-    fetchItemDetails();
-  });
-}
-
-function onBarcodeDetected(data) {
-  const code = data.codeResult.code;
-  document.getElementById('item-id-input').value = code;
-  document.getElementById('partNumber').value = code; // Set hidden field
-  Quagga.stop();
-  
-  // Hide the scanner container
-  document.getElementById('scanner-container').style.display = 'none';
-  
-  // Fetch item details
-  fetchItemDetails();
-}
-
-Quagga.onDetected(onBarcodeDetected);
-
-
-
-function resetScanner() {
-  // Show the scanner container
-  document.getElementById('scanner-container').style.display = 'flex';
-  
-  // Stop any existing scanner and clear values
-  Quagga.stop();
-  document.getElementById('item-id-input').value = '';
-  document.getElementById('partNumber').value = ''; // Clear hidden field
-  document.getElementById('item-details').innerHTML = '';
-  
-  // Restart the scanner
-  startScanner();
-}
-
-document.getElementById('reset-button').addEventListener('click', resetScanner);
-
 fetchDropdownOptions();
-startScanner();
 
 function uploadFile() {
   const fileInput = document.getElementById('fileInput');
