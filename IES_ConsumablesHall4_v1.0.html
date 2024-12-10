@@ -300,6 +300,9 @@
                 <div class="options-container" id="options-container-green" style="display: none;">
                     <!-- Options will be populated dynamically -->
                 </div>
+                <div class="options-container" id="options-container-red" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
             </div>
 
             <div class="container2">
@@ -307,6 +310,9 @@
                     <!-- Options will be populated dynamically -->
                 </div>
                 <div class="options-container1" id="options-container-blue" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+                <div class="options-container1" id="options-container-yellow" style="display: none;">
                     <!-- Options will be populated dynamically -->
                 </div>
             </div>
@@ -434,13 +440,17 @@
 function selectName(name) {
     var optionsContainer = document.getElementById("options-container");
     var optionsContainerGreen = document.getElementById("options-container-green");
+    var optionsContainerRed = document.getElementById("options-container-red");
     var optionsContainerWhite = document.getElementById("options-container-white");
     var optionsContainerBlue = document.getElementById("options-container-blue");
+    var optionsContainerYellow = document.getElementById("options-container-yellow");
 
     optionsContainer.innerHTML = ""; // Clear previous options
     optionsContainerGreen.innerHTML = ""; // Clear previous options for the green container
-    optionsContainerWhite.innerHTML = ""; // Clear previous options for the red container
-    optionsContainerBlue.innerHTML = ""; // Clear previous options for the red container
+    optionsContainerRed.innerHTML = ""; // Clear previous options for the red container
+    optionsContainerWhite.innerHTML = ""; // Clear previous options for the white container
+    optionsContainerBlue.innerHTML = ""; // Clear previous options for the blue container
+    optionsContainerYellow.innerHTML = ""; // Clear previous options for the Yellow container
 
     var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     var lettersGreen = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -451,11 +461,14 @@ function selectName(name) {
 
     optionsContainer.style.whiteSpace = "nowrap";
     optionsContainerGreen.style.whiteSpace = "nowrap";
+    optionsContainerRed.style.whiteSpace = "nowrap";
     optionsContainerWhite.style.whiteSpace = "nowrap";
     optionsContainerBlue.style.whiteSpace = "nowrap";
+    optionsContainerYellow.style.whiteSpace = "nowrap";
+
 
     for (var k = 0; k < 4; k++) { // Loop through letters 'A' to 'D' for the red container
-        for (var i = 1; i <= 6; i++) {
+        for (var i = 13; i <= 18; i++) {
             var optionBlock = document.createElement("div");
             optionBlock.classList.add("option-block");
             optionBlock.textContent = letters[k] + i;
@@ -467,7 +480,7 @@ function selectName(name) {
     }
 
     for (var k = 0; k < 4; k++) { // Loop through letters 'E' to 'H' for the green container
-        for (var i = 7; i <= 12; i++) {
+        for (var i = 1; i <= 6; i++) {
             var optionBlock = document.createElement("div");
             optionBlock.classList.add("option-block");
             optionBlock.textContent = lettersGreen[k] + i;
@@ -478,8 +491,21 @@ function selectName(name) {
         }
     }
 
+    for (var k = 0; k < 4; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 7; i <= 12; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerRed.appendChild(optionBlock);
+        }
+    }
+
+
     for (var k = 4; k < 8; k++) { // Loop through letters 'A' to 'D' for the red container
-        for (var i = 1; i <= 6; i++) {
+        for (var i = 13; i <= 18; i++) {
             var optionBlock = document.createElement("div");
             optionBlock.classList.add("option-block");
             optionBlock.textContent = letters[k] + i;
@@ -491,7 +517,7 @@ function selectName(name) {
     }
 
     for (var k = 4; k < 8; k++) { // Loop through letters 'E' to 'H' for the green container
-        for (var i = 7; i <= 12; i++) {
+        for (var i = 1; i <= 6; i++) {
             var optionBlock = document.createElement("div");
             optionBlock.classList.add("option-block");
             optionBlock.textContent = lettersGreen[k] + i;
@@ -502,17 +528,37 @@ function selectName(name) {
         }
     }
 
+    for (var k = 4; k < 8; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 7; i <= 12; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerYellow.appendChild(optionBlock);
+        }
+    }
+
+
     optionsContainer.style.display = "grid"; // Show the options container
     optionsContainer.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns
 
     optionsContainerGreen.style.display = "grid"; // Show the options container for the green container
     optionsContainerGreen.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the green container
 
+    optionsContainerRed.style.display = "grid"; // Show the options container for the green container
+    optionsContainerRed.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the green container
+
     optionsContainerWhite.style.display = "grid"; // Show the options container for the red container
     optionsContainerWhite.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the red container
 
     optionsContainerBlue.style.display = "grid"; // Show the options container for the blue container
     optionsContainerBlue.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the blue container
+
+    optionsContainerYellow.style.display = "grid"; // Show the options container for the blue container
+    optionsContainerYellow.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the blue container
+
 
     // Set the selected name to the hidden input field
     var nameInput = document.getElementById("Status-Item");
