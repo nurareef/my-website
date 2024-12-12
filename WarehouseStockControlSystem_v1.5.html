@@ -120,6 +120,7 @@
             <button id="inspectionBtn" onclick="showInspection()">Inspection</button>
             <button id="productionBtn" onclick="showProduction()">Production</button>
             <button id="purchasingBtn" onclick="showPurchasing()">Purchasing</button>
+            <button id="managementBtn" onclick="showManagement()">Management</button>
             <button id="monitoringBtn" onclick="showMonitoring()">Monitoring</button>
         </div>
         
@@ -179,7 +180,7 @@
                 <button class="button-Consumables">Rack Hall 4 Request</button>
             </a>
             <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockRequest_v1.0.html">
-                <button class="button-Consumables">Stock Request</button>
+                <button class="button-Consumables">Purchase Requisition</button>
             </a>
             <a href="https://raw.githack.com/nurareef/my-website/main/IES_StockApproval_v1.0.html">
                 <button class="button-ProjectItem">Stock Approval</button>
@@ -209,6 +210,23 @@
             </a>
         </div>
 
+        <!-- Section for Management Use -->
+        <div class="button-container" id="management-buttons" style="display: none;">
+            <a href="">
+                <button class="button-MainSupplier">test</button>
+            </a>
+            <a href="">
+                <button class="button-MainSupplier">test2</button>
+            </a>
+            <a href="">
+                <button class="button-ropsystem">test3</button>
+            </a>
+            <a href="">
+                <button class="button-ropsystem">test4</button>
+            </a>
+        </div>
+        
+
         <!-- Section for Inspection Use -->
         <div class="button-container" id="inspection-buttons" style="display: none;">
             <a href="https://raw.githack.com/nurareef/my-website/main/40kVA_Checklist_form_v1.0.html">
@@ -230,6 +248,7 @@
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('management-buttons').style.display = 'none';
             document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
@@ -237,6 +256,7 @@
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('managementBtn').classList.remove('selected');
             document.getElementById('inspectionBtn').classList.remove('selected');
         }
 
@@ -246,6 +266,7 @@
             document.getElementById('monitoring-buttons').style.display = 'flex';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('management-buttons').style.display = 'none';
             document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
@@ -253,6 +274,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('managementBtn').classList.remove('selected');
             document.getElementById('inspectionBtn').classList.remove('selected');
         }
 
@@ -262,6 +284,7 @@
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'flex';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('management-buttons').style.display = 'none';
             document.getElementById('inspection-buttons').style.display = 'none';
 
             // Set active button style
@@ -269,6 +292,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.add('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('managementBtn').classList.remove('selected');
             document.getElementById('inspectionBtn').classList.remove('selected');
         }
         
@@ -278,14 +302,34 @@
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'flex';
+            document.getElementById('management-buttons').style.display = 'none';
             document.getElementById('inspection-buttons').style.display = 'none';
 
             document.getElementById('monitoringBtn').classList.remove('selected');
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.add('selected');
+            document.getElementById('managementBtn').classList.remove('selected');
             document.getElementById('inspectionBtn').classList.remove('selected');
         }
+
+        // Show the Management Use buttons and set the active button
+        function showManagement() {
+            document.getElementById('warehouse-buttons').style.display = 'none';
+            document.getElementById('monitoring-buttons').style.display = 'none';
+            document.getElementById('production-buttons').style.display = 'none';
+            document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('management-buttons').style.display = 'flex';
+            document.getElementById('inspection-buttons').style.display = 'none';
+
+            document.getElementById('monitoringBtn').classList.remove('selected');
+            document.getElementById('warehouseBtn').classList.remove('selected');
+            document.getElementById('productionBtn').classList.remove('selected');
+            document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('managementBtn').classList.add('selected');
+            document.getElementById('inspectionBtn').classList.remove('selected');
+        }
+
 
         // Show the Inspection Use buttons and set the active button
         function showInspection() {
@@ -293,6 +337,7 @@
             document.getElementById('monitoring-buttons').style.display = 'none';
             document.getElementById('production-buttons').style.display = 'none';
             document.getElementById('purchasing-buttons').style.display = 'none';
+            document.getElementById('management-buttons').style.display = 'none';
             document.getElementById('inspection-buttons').style.display = 'flex';
 
             // Set active button style
@@ -300,6 +345,7 @@
             document.getElementById('warehouseBtn').classList.remove('selected');
             document.getElementById('productionBtn').classList.remove('selected');
             document.getElementById('purchasingBtn').classList.remove('selected');
+            document.getElementById('managementBtn').classList.remove('selected');
             document.getElementById('inspectionBtn').classList.add('selected');
         }
 
