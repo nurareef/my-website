@@ -239,7 +239,7 @@
     <form id="checklistForm" method="post">
       <input type="hidden" id="partNumber" name="Part Number">
       <input type="hidden" id="partDescription" name="Part Description">
-      <input type="hidden" id="controllerValue" name="DO No.">
+      <input type="hidden" id="controllerValue" name="DN No.">
       <input type="hidden" id="poValue" name="PO No.">
       <input type="hidden" id="projectValue" name="Quantity Received">
       <input type="hidden" id="submissionDate" name="Submission Date">
@@ -256,8 +256,8 @@
               </td>
             </tr>    
           <td>
-            <label for="DO No." class="form-label">DO No.</label>
-            <input type="text" id="DO No." placeholder="Unique identifier">
+            <label for="DN No." class="form-label">DN No.</label>
+            <input type="text" id="DN No." placeholder="Unique identifier">
           </td>
         </tr>
         <tr>
@@ -392,7 +392,7 @@ function submitForm() {
   showLoading();
   
   const poText = document.getElementById("PO No.").value;
-  const controllerText = document.getElementById("DO No.").value;
+  const controllerText = document.getElementById("DN No.").value;
   const quantityText = document.getElementById("Quantity Received").value;
   const partNumber = document.getElementById("item-id-input").value;
   const partDescription = document.getElementById("partDescription").value;
@@ -409,7 +409,7 @@ function submitForm() {
 
   const formData = new FormData();
   formData.append('PO No.', poText);
-  formData.append('DO No.', controllerText);
+  formData.append('DN No.', controllerText);
   formData.append('Quantity Received', quantityText);
   formData.append('Part Number', partNumber);
   formData.append('Part Description', partDescription);
