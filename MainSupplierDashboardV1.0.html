@@ -211,7 +211,7 @@
             <label><input type="checkbox" class="column-toggle" data-column="3" checked> Expected Received Quantity</label>
             <label><input type="checkbox" class="column-toggle" data-column="4" checked> Total Supposed to Received</label>
             <label><input type="checkbox" class="column-toggle" data-column="5"> Status</label> <!-- New Checkbox for Status -->
-            <label><input type="checkbox" class="column-toggle" data-column="6"> DO No</label> <!-- New Checkbox for DO No -->
+            <label><input type="checkbox" class="column-toggle" data-column="6"> DN No</label> <!-- New Checkbox for DN No -->
         </div>
     </div>
     
@@ -246,7 +246,7 @@
                     <select id="statusFilter" onchange="filterTableByDropdown(5)"></select>
                     <div class="resizer"></div>
                 </th>
-                <th>DO No <span class="filter-icon">🔽</span> <!-- New DO No column in the header -->
+                <th>DN No <span class="filter-icon">🔽</span> <!-- New DN No column in the header -->
                     <select id="DONoFilter" onchange="filterTableByDropdown(6)"></select>
                     <div class="resizer"></div>
                 </th>
@@ -286,7 +286,7 @@
                     allDataRows.push(newRow);
                 });
     
-                for (let i = 0; i < 6; i++) { // Adjusted to 6 for 7 columns including "DO No"
+                for (let i = 0; i < 6; i++) { // Adjusted to 6 for 7 columns including "DN No"
                     populateFilterOptions(i, `${getColumnFilterId(i)}Filter`);
                 }
             } catch (error) {
