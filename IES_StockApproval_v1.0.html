@@ -255,8 +255,14 @@
 
                 const formData = new FormData();
                 formData.append('Date', selectedRowData[0].trim());
-                formData.append('Day', selectedRowData[1].trim());
-                formData.append('time-submission', selectedRowData[2].trim());
+                
+                const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' }); // Get the current day (e.g., "Monday")
+                formData.append('Day', currentDay);
+
+                const currentTime = new Date().toLocaleTimeString(); // Get the current time in a readable format
+                formData.append('time-submission', currentTime);
+
+                
                 formData.append('Status-Item', selectedRowData[3].trim());
                 formData.append('Project-Type', selectedRowData[4].trim());
                 formData.append('Stock-Type', selectedRowData[5].trim());
