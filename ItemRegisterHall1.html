@@ -466,7 +466,7 @@ function submitForm() {
     method: 'POST',
     body: formData,
   })
-    .then(response => response.json())
+    .then(response => response.text()) // Handle plain text response
     .then(data => {
       console.log('Submission successful:', data);
       hideLoading(); // Hide loading spinner
@@ -482,48 +482,6 @@ function submitForm() {
 fetchDropdownOptions();
 startScanner();
 
-function uploadFile() {
-  const fileInput = document.getElementById('fileInput');
-  const file = fileInput.files[0];
-  const uploadLoadingOverlay = document.getElementById('uploadLoadingOverlay');
-  const reader = new FileReader();
-
-  // Show loading spinner
-  uploadLoadingOverlay.style.display = 'flex';
-
-  reader.onload = function() {
-    const fileContent = reader.result;
-    const filename = file.name;
-
-    const formData = new FormData();
-    formData.append('fileContent', fileContent);
-    formData.append('filename', filename);
-
-    fetch('https://script.google.com/macros/s/AKfycbzwWQzqeTuvKmVgmgWgmatUEk7s4BRadDK0XIOk98FV82oWC3vM2VzfBIC5plRCseUK/exec', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('File uploaded successfully');
-        alert('File uploaded successfully');
-      } else {
-        console.error('File upload failed');
-        alert('File upload failed');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Error:', error);
-    })
-    .finally(() => {
-      // Hide loading spinner
-      uploadLoadingOverlay.style.display = 'none';
-    });
-  };
-
-  reader.readAsDataURL(file);
-}
 
     // Start the scanner and fetch dropdown options
     fetchDropdownOptions();
