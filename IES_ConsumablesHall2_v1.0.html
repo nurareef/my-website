@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Your App Title">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+    <title>Stock Request Hall 4</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+    <style>
+
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: 'poppins', sans-serif;
+            font-size: 18px;
+        }
+        body{
+            background-image: url('https://i.imgur.com/Fdqj8sy.png'); 
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            width: 90vw; /* Adjust width as a percentage of the viewport width */
+            height: 90vh; /* Adjust height as a percentage of the viewport height */
+            padding: 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            position: relative;
+            overflow: auto; /* Handle overflow within the container */
+        }
+        
+        h4 {
+            margin-bottom: 10px;
+            font-size: 24px;
+            color: #23408F; /* Change font color to #23408F */
+            text-align: center; /* Center the text horizontally */
+        }
+
+        /* Project Selection Section */
+        .project-selection-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-left: 6px solid #ccc; /* Light gray border */
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+        
+        .project-selection-container .project-heading {
+            grid-column: span 2; /* Make the heading span both columns */
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #333; /* Dark gray text */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .project-selection-container button {
+            background-color: #333; /* Dark gray button background */
+            color: #ffffff;
+            padding: 16px 28px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+        }
+        
+        .project-selection-container button:hover {
+            background-color: #555; /* Lighter gray on hover */
+            transform: translateY(-3px); /* Lift effect */
+        }
+        
+        /* Names Selection Section */
+        .names-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 3 equal columns */
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-left: 6px solid #ccc; /* Light gray border */
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+        
+        .names-container .names-heading {
+            grid-column: span 3; /* Make the heading span all three columns */
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #333; /* Dark gray text */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .names-container button {
+            background-color: #555; /* Medium gray button background */
+            color: #ffffff;
+            padding: 14px 24px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+        }
+        
+        .names-container button:hover {
+            background-color: #777; /* Lighter gray on hover */
+            transform: translateY(-3px); /* Lift effect */
+        }
+
+        .names-container2 {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .name-block {
+            padding: 20px;
+            border: 1px solid #000000;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .name-block:hover {
+            background-color: #dd9c10;
+        }
+
+        .container1, .container2 {
+            display: flex; /* Makes the children (options-containers) align side by side */
+            justify-content: space-between; /* Adds space between the containers */
+            gap: 10px; /* Optional: Adds some space between the containers */
+        }
+
+        .options-container, .options-container1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Dynamic column resizing */
+            grid-gap: 10px; /* Space between blocks */
+            border: 10px solid #dd9c10;
+            border-radius: 10px;
+            width: 100%; /* Ensure container is responsive */
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        .option-block {
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Optional: Media query for smaller screens */
+        @media (max-width: 768px) {
+            .container1, .container2 {
+                flex-direction: column; /* Stack vertically on small screens */
+            }
+            .options-container, .options-container1 {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Reduce minimum size of option blocks */
+            }
+
+            .option-block {
+                font-size: 12px; /* Adjust font size */
+                padding: 5px; /* Reduce padding for smaller blocks */
+            }
+
+        }
+
+        .option-block:hover {
+            background-color: #dd9c10;
+        }
+        #numbering-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        #submit{
+            border: none;
+            padding: 10px;
+            background-color: #23408F;
+            color: rgb(255, 255, 255);
+            width: 100%;
+            margin-top: 1px;
+            border-radius: 5px;
+        }
+        #submit:hover{
+            background-color: #333333;
+        }
+        /* Custom loading screen styles */
+
+        .selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+        .option-block.selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+        button[type="button"] {
+            background-color: #333333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button[type="button"]:hover {
+            background-color: #555555;
+        }
+
+
+
+        .project-selection-button {
+            padding: 20px;
+            border: 1px solid #000000;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .project-selection-button:hover {
+            background-color: #dd9c10;
+        }
+        .project-selection-button.selected {
+            background-color: #dd9c10;
+        }
+
+        .project-selection-button.selected {
+            background-color: #dd9c10; /* Change to the desired color */
+        }
+
+        .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        }
+
+        .loading-spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+        <h4>Hall 4 CONSUMABLES REQUEST STOCK SYSTEM</h4>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <form onsubmit="submitForm(event)">
+            <div class="project-selection-container">
+                    <div class="project-selection-button" onclick="toggleProjectType(this, '40kVA')">40kVA</div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'Deutz ')">Deutz </div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'PC 100')">PC 100</div>
+                    <div class="project-selection-button" onclick="toggleProjectType(this, 'RESTOCK')">RESTOCK</div>
+            </div>
+
+            <div class="names-container">
+                    <div class="name-block" onclick="selectName('Urgent')">Urgent</div>
+                    <div class="name-block" onclick="selectName('Not Urgent')">Not Urgent</div>
+            </div>
+
+            <div class="container1">
+                <div class="options-container" id="options-container" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+                <div class="options-container" id="options-container-green" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+                <div class="options-container" id="options-container-red" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+            </div>
+
+            <div class="container2">
+                <div class="options-container1" id="options-container-white" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+                <div class="options-container1" id="options-container-blue" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+                <div class="options-container1" id="options-container-yellow" style="display: none;">
+                    <!-- Options will be populated dynamically -->
+                </div>
+            </div>
+
+            <input type="hidden" name="a-option-value" id="numbering-input" placeholder="Quantity" oninput="updateJobNumber()">
+            <input type="hidden" name="date" id="date">
+            <input type="hidden" name="day" id="day">
+            <input type="hidden" name="time-submission" id="time-submission">
+            <input type="hidden" name="Status-Item" id="Status-Item">
+            <input type="hidden" name="Project-Type" id="Project-Type">
+            <input type="hidden" name="Stock-Type" id="stock-type">
+            <input type="hidden" name="Stock-Type2" id="stock-type2">
+            <input type="hidden" name="Stock-Type3" id="stock-type3">
+            <input type="hidden" name="Stock-Quantity" id="Stock-Quantity">
+            <input type="hidden" name="Stock-Quantity2" id="Stock-Quantity2">
+            <input type="hidden" name="Stock-Quantity3" id="Stock-Quantity3">
+            <input type="submit" value="Submit" id="submit">
+        </form>
+        <button type="button" onclick="resetForm()">Reset</button>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById("loadingOverlay").style.display = "flex";
+        }
+
+        function hideLoading() {
+            document.getElementById("loadingOverlay").style.display = "none";
+        }
+
+
+        function submitForm(event) {
+    event.preventDefault(); // Prevent the default form submission
+    showLoading();  // Shows the loading animation
+
+    addDateTime();  // Ensure hidden fields are populated
+
+
+    const formData = new FormData(event.target);
+
+    fetch('https://script.google.com/macros/s/AKfycbwgZmibLIUr4QpOVivnF2I9x9LsNR-PUTijdirXlJK4olZRG18S8mEZuuwKSdMkCSvR/exec', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Form submitted successfully');
+            alert('Form submitted successfully');
+        } else {
+            console.error('Form submission failed');
+            alert('Form submission failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error:', error);
+    })
+    .finally(hideLoading);  // Hides the loading animation after submission
+}
+
+        function resetForm() {
+    // Clear the selected name block
+    var selectedNameBlock = document.querySelector(".name-block.selected");
+    if (selectedNameBlock) {
+        selectedNameBlock.classList.remove("selected");
+    }
+
+    // Clear the stock count options
+    var optionsContainers = document.querySelectorAll(".options-container, .options-container1");
+    optionsContainers.forEach(function(container) {
+        container.innerHTML = ""; // Clear inner HTML
+        container.style.display = "none"; // Hide the container
+    });
+
+    // Clear the input fields for stock numbers
+    var inputBoxes = document.querySelectorAll(".numbering-input");
+    inputBoxes.forEach(function(input) {
+        input.parentNode.removeChild(input); // Remove the input element
+    });
+
+    // Clear the hidden input fields for stock types and numbers
+    var stockTypeFields = document.querySelectorAll('[id^="stock-type"]');
+    var stockNumberFields = document.querySelectorAll('[id^="Stock-Quantity"]');
+    stockTypeFields.forEach(function(field) {
+        field.value = ""; // Clear value
+    });
+    stockNumberFields.forEach(function(field) {
+        field.value = ""; // Clear value
+    });
+            hideLoading(); // Ensure the loading screen is hidden when resetting
+        }
+        
+        function addDateTime() {
+    var now = new Date();
+    var dateField = document.getElementById("date");
+    var dayField = document.getElementById("day");
+    var timeSubmissionField = document.getElementById("time-submission");
+    var projectTypeField = document.getElementById("Project-Type"); // Add this line to get the project type field
+
+
+    var selectedProjectType = document.querySelector(".project-selection-button.selected").textContent;
+    projectTypeField.value = selectedProjectType;
+
+    // Get the date in yyyy-mm-dd format
+    var dateString = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+    dateField.value = dateString;
+
+    // Get the day (e.g., Monday, Tuesday, etc.)
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var dayString = days[now.getDay()];
+    dayField.value = dayString;
+
+    // Get the current time in GMT+8
+    var timeZoneOffset = 8; // GMT+8
+    var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    var gmtPlus8Time = new Date(utc + (3600000 * timeZoneOffset));
+    var timeString = gmtPlus8Time.getHours().toString().padStart(2, '0') + ":" + gmtPlus8Time.getMinutes().toString().padStart(2, '0');
+    timeSubmissionField.value = timeString;
+    
+
+    return true;
+}
+
+
+function selectName(name) {
+    var optionsContainer = document.getElementById("options-container");
+    var optionsContainerGreen = document.getElementById("options-container-green");
+    var optionsContainerRed = document.getElementById("options-container-red");
+    var optionsContainerWhite = document.getElementById("options-container-white");
+    var optionsContainerBlue = document.getElementById("options-container-blue");
+    var optionsContainerYellow = document.getElementById("options-container-yellow");
+
+    optionsContainer.innerHTML = ""; // Clear previous options
+    optionsContainerGreen.innerHTML = ""; // Clear previous options for the green container
+    optionsContainerRed.innerHTML = ""; // Clear previous options for the red container
+    optionsContainerWhite.innerHTML = ""; // Clear previous options for the white container
+    optionsContainerBlue.innerHTML = ""; // Clear previous options for the blue container
+    optionsContainerYellow.innerHTML = ""; // Clear previous options for the Yellow container
+
+    var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var lettersGreen = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var lettersRed = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var lettersWhite = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var lettersBlue = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    var lettersYellow = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+    optionsContainer.style.whiteSpace = "nowrap";
+    optionsContainerGreen.style.whiteSpace = "nowrap";
+    optionsContainerRed.style.whiteSpace = "nowrap";
+    optionsContainerWhite.style.whiteSpace = "nowrap";
+    optionsContainerBlue.style.whiteSpace = "nowrap";
+    optionsContainerYellow.style.whiteSpace = "nowrap";
+
+
+    for (var k = 0; k < 4; k++) { // Loop through letters 'A' to 'D' for the red container
+        for (var i = 1; i <= 6; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = letters[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainer.appendChild(optionBlock);
+        }
+    }
+
+    for (var k = 0; k < 4; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 7; i <= 12; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerGreen.appendChild(optionBlock);
+        }
+    }
+
+    for (var k = 0; k < 4; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 13; i <= 18; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerRed.appendChild(optionBlock);
+        }
+    }
+
+
+    for (var k = 4; k < 8; k++) { // Loop through letters 'A' to 'D' for the red container
+        for (var i = 1; i <= 6; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = letters[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerWhite.appendChild(optionBlock);
+        }
+    }
+
+    for (var k = 4; k < 8; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 7; i <= 12; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerBlue.appendChild(optionBlock);
+        }
+    }
+
+    for (var k = 4; k < 8; k++) { // Loop through letters 'E' to 'H' for the green container
+        for (var i = 13; i <= 18; i++) {
+            var optionBlock = document.createElement("div");
+            optionBlock.classList.add("option-block");
+            optionBlock.textContent = lettersGreen[k] + i;
+            optionBlock.onclick = function () {
+                selectOption(this.textContent);
+            };
+            optionsContainerYellow.appendChild(optionBlock);
+        }
+    }
+
+
+    optionsContainer.style.display = "grid"; // Show the options container
+    optionsContainer.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns
+
+    optionsContainerGreen.style.display = "grid"; // Show the options container for the green container
+    optionsContainerGreen.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the green container
+
+    optionsContainerRed.style.display = "grid"; // Show the options container for the green container
+    optionsContainerRed.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the green container
+
+    optionsContainerWhite.style.display = "grid"; // Show the options container for the red container
+    optionsContainerWhite.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the red container
+
+    optionsContainerBlue.style.display = "grid"; // Show the options container for the blue container
+    optionsContainerBlue.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the blue container
+
+    optionsContainerYellow.style.display = "grid"; // Show the options container for the blue container
+    optionsContainerYellow.style.gridTemplateColumns = "repeat(6, 1fr)"; // Set the grid layout for columns for the blue container
+
+
+    // Set the selected name to the hidden input field
+    var nameInput = document.getElementById("Status-Item");
+    nameInput.value = name;
+
+    // Highlight the selected name block
+    var selectedNameBlock = document.querySelector(".name-block.selected");
+    if (selectedNameBlock) {
+        selectedNameBlock.classList.remove("selected");
+    }
+    var clickedNameBlock = event.target;
+    clickedNameBlock.classList.add("selected");
+
+    var numberingInput = document.getElementById("numbering-input");
+    numberingInput.style.display = "none"; // Hide the input box
+}
+
+
+        function selectOption(option) {
+    var numberingInput = document.getElementById("numbering-input");
+    numberingInput.style.display = "block"; // Show the input box
+
+    // Get the hidden input fields for stock types and numbers
+    var stockTypeField = document.getElementById("stock-type");
+    var stockNumberField = document.getElementById("Stock-Quantity");
+    var stockTypeField2 = document.getElementById("stock-type2");
+    var stockNumberField2 = document.getElementById("Stock-Quantity2");
+    var stockTypeField3 = document.getElementById("stock-type3");
+    var stockNumberField3 = document.getElementById("Stock-Quantity3");
+    var stockTypeField4 = document.getElementById("stock-type4");
+    var stockNumberField4 = document.getElementById("Stock-Quantity4");
+
+    // Check if the option is already selected
+    var isSelected = stockTypeField.value.includes(option);
+
+    // If the option is not selected, add it to the array and create a new input box
+    if (!isSelected) {
+        if (!stockTypeField.value) {
+            stockTypeField.value = option;
+        } else if (!stockTypeField2.value) {
+            stockTypeField2.value = option;
+        } else if (!stockTypeField3.value) {
+            stockTypeField3.value = option;
+        } else if (!stockTypeField4.value) {
+            stockTypeField4.value = option;
+        }
+        var newInput = document.createElement("input");
+        newInput.type = "text";
+        newInput.name = "Stock-Quantity-" + option; // Assign a unique name for each input
+        newInput.placeholder = "Quantity for " + option;
+        newInput.classList.add("numbering-input");
+        newInput.dataset.option = option; // Store the corresponding option with the input
+        newInput.addEventListener("input", updateJobNumber); // Listen for input changes
+
+        numberingInput.parentNode.insertBefore(newInput, numberingInput.nextSibling);
+    }
+
+    // Highlight or unhighlight the clicked option block
+    var clickedOptionBlock = event.target;
+    clickedOptionBlock.classList.toggle("selected");
+}
+
+function updateJobNumber() {
+    // Initialize empty arrays to store options and quantities
+    var options = [];
+    var quantities = [];
+
+    // Get all input boxes with class "numbering-input"
+    var inputBoxes = document.querySelectorAll(".numbering-input");
+
+    // Loop through each input box
+    inputBoxes.forEach(function(input) {
+        // Get the corresponding option for the input
+        var option = input.dataset.option;
+        
+        // Get the entered quantity
+        var quantity = input.value;
+
+        // If the quantity is not empty, store the option and quantity
+        if (quantity !== "") {
+            options.push(option);
+            quantities.push(quantity);
+        }
+    });
+
+    // Update the hidden fields with the collected options and quantities
+    var stockTypeField = document.getElementById("stock-type");
+    var stockNumberField = document.getElementById("Stock-Quantity");
+    var stockTypeField2 = document.getElementById("stock-type2");
+    var stockNumberField2 = document.getElementById("Stock-Quantity2");
+    var stockTypeField3 = document.getElementById("stock-type3");
+    var stockNumberField3 = document.getElementById("Stock-Quantity3");
+    var stockTypeField4 = document.getElementById("stock-type4");
+    var stockNumberField4 = document.getElementById("Stock-Quantity4");
+    
+    // Store the options and quantities in the respective hidden fields
+    if (options.length >= 1) {
+        stockTypeField.value = options[0];
+        stockNumberField.value = quantities[0] || "";
+    }
+
+    if (options.length >= 2) {
+        stockTypeField2.value = options[1];
+        stockNumberField2.value = quantities[1] || "";
+    }
+
+    if (options.length >= 3) {
+        stockTypeField3.value = options[2];
+        stockNumberField3.value = quantities[2] || "";
+    }
+
+    if (options.length >= 4) {
+        stockTypeField4.value = options[3];
+        stockNumberField4.value = quantities[3] || "";
+    }
+}
+
+function toggleProjectType(element, projectType) {
+    var projectButtons = document.querySelectorAll(".project-selection-button");
+    projectButtons.forEach(function(button) {
+        button.classList.remove("selected"); // Remove the selected class from all buttons
+    });
+    element.classList.add("selected"); // Add the selected class to the clicked button
+    
+    // Here you can add any other logic you need for handling the selected project type
+}
+    </script>
+</body>
+</html>
