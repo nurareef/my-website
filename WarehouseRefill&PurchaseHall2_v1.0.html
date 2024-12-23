@@ -172,7 +172,7 @@
             });
 
             // Populate table rows
-            rows.slice(2).forEach(row => {
+            rows.slice(1).forEach(row => {
                 const tr = document.createElement('tr');
                 row.forEach(cell => {
                     const td = document.createElement('td');
@@ -273,6 +273,7 @@
                 formData.append('Stock-Type3', selectedRowData[9].trim());
                 formData.append('Stock-Quantity3', selectedRowData[10].trim());
                 formData.append('Approval Status3', approvalStatus[2] || ""); // Approval Status for Stock-Type3
+                formData.append('Running No', selectedRowData[11].trim());
 
                 fetch(submitURL, {
                     method: 'POST',
