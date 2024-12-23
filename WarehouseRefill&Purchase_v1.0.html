@@ -137,7 +137,7 @@
 </div>
 
 <script>
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pub?gid=600013025&single=true&output=csv';
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pub?gid=1656909942&single=true&output=csv';
     const submitURL = 'https://script.google.com/macros/s/AKfycbxLhxdYqhaWg3tfZyv83JiImDrD7X7EtdKeq-Z8IfPu-IjKaLcDuWnlxNncARU9oMGf/exec';
 
     function showLoading() {
@@ -172,7 +172,7 @@
             });
 
             // Populate table rows
-            rows.slice(2).forEach(row => {
+            rows.slice(1).forEach(row => {
                 const tr = document.createElement('tr');
                 row.forEach(cell => {
                     const td = document.createElement('td');
@@ -273,6 +273,7 @@
                 formData.append('Stock-Type3', selectedRowData[9].trim());
                 formData.append('Stock-Quantity3', selectedRowData[10].trim());
                 formData.append('Approval Status3', approvalStatus[2] || ""); // Approval Status for Stock-Type3
+                formData.append('Running No', selectedRowData[11].trim());
 
                 fetch(submitURL, {
                     method: 'POST',
