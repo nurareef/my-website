@@ -253,7 +253,7 @@
           <tr id="supplierRow" style="display: none;">
             <td>
                 <label for="DescriptionName" class="form-label">Description Name</label>
-                <input type="text" id="DescriptionName" name="Description Name" placeholder="Enter Description Name">
+                <input type="text" id="DescriptionName" name="Description Name" placeholder="Enter Description Name" oninput="formatInp(this)" style="text-transform: uppercase;">
             </td>
         </tr>
                   
@@ -310,6 +310,14 @@ function formatInput(input) {
     // Remove spaces and convert to uppercase
     input.value = input.value.replace(/\s+/g, '').toUpperCase();
   }
+
+function formatInp(element) {
+    // Convert to uppercase
+    element.value = element.value.toUpperCase();
+    
+    // Replace multiple spaces with a single space
+    element.value = element.value.replace(/\s+/g, ' ');
+}
 
 
 function selectStatus(status) {
