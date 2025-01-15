@@ -10,6 +10,9 @@
             margin: 20px;
             background-color: #f5f7fa;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
@@ -20,7 +23,6 @@
             margin-bottom: 25px;
         }
 
-        /* Button Styles */
         #switchButton {
             padding: 12px 24px;
             background-color: #23408F;
@@ -29,8 +31,7 @@
             border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
-            display: block;
-            margin: 0 auto 20px;
+            margin-bottom: 20px;
             transition: background-color 0.3s;
         }
 
@@ -38,7 +39,6 @@
             background-color: #1a306b;
         }
 
-        /* Checkbox container styling */
         .checkbox-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -49,35 +49,33 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
-        .checkbox-container label {
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 15px;
-            color: #333;
-            transition: color 0.2s;
-        }
 
-        /* Style for checkboxes */
-        .column-toggle {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: #23408F;
-            transition: box-shadow 0.3s;
+        .search-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
-
-        .column-toggle:focus {
+        .search-container:focus {
+            border-color: #23408F;
+            box-shadow: 0 0 5px rgba(35, 64, 143, 0.5);
             outline: none;
-            box-shadow: 0 0 5px #23408F;
         }
 
-        /* Table styling */
         table {
             width: 100%;
+            max-width: 800px;
             border-collapse: collapse;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -98,13 +96,27 @@
         }
 
         tbody tr:hover {
-            background-color: #f1f5fc;
+            background-color: #6a83f35b;
         }
 
-        /* Subtle hover effect for checkbox labels */
-        .checkbox-container label:hover {
-            color: #23408F;
+        /* Style for the search input field without border or box */
+        #searchInput {
+            width: 100%;
+            padding: 2px;
+            border: none; /* Remove the border */
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: transparent; /* Optional: Transparent background */
+            box-shadow: none; /* Remove any shadow */
+            outline: none; /* Remove default outline on focus */
+            transition: background-color 0.3s;
         }
+
+        /* Focus style for the search input */
+        #searchInput:focus {
+            outline: none;
+        }
+
 
     </style>
 </head>
@@ -118,6 +130,10 @@
     <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(0)"> Rack No</label>
     <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(1)"> Item Description</label>
     <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(2)"> Part No.</label>
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
 </div>
 
 <table id="monitoringTable">
@@ -146,18 +162,20 @@
 
         monitoringTable.innerHTML = '';
 
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].querySelectorAll('td');
-            const newRow = document.createElement('tr');
+        rows.forEach((row, index) => {
+            if (index > 0) {
+                const cells = row.querySelectorAll('td');
+                const newRow = document.createElement('tr');
 
-            cells.forEach((cell, index) => {
-                const newCell = document.createElement('td');
-                newCell.textContent = cell.textContent;
-                newRow.appendChild(newCell);
-            });
+                cells.forEach((cell) => {
+                    const newCell = document.createElement('td');
+                    newCell.textContent = cell.textContent;
+                    newRow.appendChild(newCell);
+                });
 
-            monitoringTable.appendChild(newRow);
-        }
+                monitoringTable.appendChild(newRow);
+            }
+        });
 
         updateInitialColumnVisibility();
     }
@@ -170,13 +188,14 @@
         const table = document.getElementById('monitoringTable');
         const headers = table.querySelectorAll('th');
         const rows = table.querySelectorAll('tr');
-
-        headers[index].style.display = headers[index].style.display === 'none' ? '' : 'none';
+        
+        const displayStyle = headers[index].style.display === 'none' ? '' : 'none';
+        headers[index].style.display = displayStyle;
 
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             if (cells[index]) {
-                cells[index].style.display = cells[index].style.display === 'none' ? '' : 'none';
+                cells[index].style.display = displayStyle;
             }
         });
     }
@@ -187,6 +206,16 @@
             if (!checkbox.checked) {
                 toggleColumn(index);
             }
+        });
+    }
+
+    function filterTableBySearch() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const tableRows = document.querySelectorAll('#monitoringTable tbody tr');
+
+        tableRows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchInput) ? '' : 'none';
         });
     }
 
