@@ -310,12 +310,15 @@ function formatInput(input) {
     input.value = input.value.replace(/\s+/g, '').toUpperCase();
   }
 
-function formatInp(element) {
+  function formatInp(element) {
     // Convert to uppercase
-    element.value = element.value.toUpperCase();
-    
+    let currentValue = element.value.toUpperCase();
+
     // Replace multiple spaces with a single space
-    element.value = element.value.replace(/\s+/g, ' ');
+    currentValue = currentValue.replace(/\s+/g, ' ');
+
+    // Update the value in the input field
+    element.value = currentValue;
 }
 
 
@@ -364,39 +367,34 @@ function selectOption(option) {
 }
 
 function fetchItemDetails() {
-const selectedItemID = document.getElementById('item-id-input').value;
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pubhtml?gid=1603078649&single=true";
+  const selectedItemID = document.getElementById('item-id-input').value;
+  const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBuIYdDSRcuA0JnZYZgsvwUq6eWiqLpCaaJWeB29lSG2ASDHtDwhHk7k3xjLZ6AHd1U_NGqCzl6BWH/pubhtml?gid=1603078649&single=true";
 
-	
-fetch(sheetURL, { cache: 'no-store' })
+  fetch(sheetURL, { cache: 'no-store' })
     .then(response => response.text())
     .then(data => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data, 'text/html');
-    const table = doc.querySelector('table');
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, 'text/html');
+      const table = doc.querySelector('table');
 
-    const rows = table.querySelectorAll('tr');
-    for (let i = 1; i < rows.length; i++) {
+      const rows = table.querySelectorAll('tr');
+      for (let i = 1; i < rows.length; i++) {
         const cells = rows[i].querySelectorAll('td');
         if (cells.length === 3 && cells[0].textContent.trim() === selectedItemID) {
-        let imageUrl = '';
-        
-        const itemDetails = `
+          let imageUrl = cells[2].querySelector('img') ? cells[2].querySelector('img').src : ''; 
+          const itemDetails = `
+            <div>
             <p><strong>Rack Number:</strong> ${cells[0].textContent.trim()}</p>
             <p><strong>Part Number:</strong> ${cells[2].textContent.trim()}</p>
             <p><strong>Item Description:</strong> ${cells[1].textContent.trim()}</p>
-        `;
-        document.getElementById('item-details').innerHTML = itemDetails;
-        document.getElementById('partDescription').value = cells[1].textContent.trim(); // Set hidden field
-        document.getElementById('partNo').value = cells[2].textContent.trim(); // Set hidden field
-        return;
+            </div>`;
+          
+          document.getElementById('item-details').innerHTML = itemDetails;
         }
-    }
-
-    document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
+      }
     })
     .catch(error => {
-    console.error('Error fetching data:', error);
+      console.error('Error fetching item details:', error);
     });
 }
 
@@ -445,29 +443,30 @@ window.onload = function() {
 function submitForm() {
   showLoading(); // Display loading spinner
 
-  const controllerText = document.getElementById("Status").value;
-  const partNumber = document.getElementById("item-id-input").value;
-  const partDescription = document.getElementById("partDescription").value;
-  const partNo = document.getElementById("partNo").value;
+  // Get values and trim any extra spaces
+  const controllerText = document.getElementById("Status").value.trim();
+  const partNumber = document.getElementById("item-id-input").value.trim();
+  const partDescription = document.getElementById("partDescription").value.trim();
+  const partNo = document.getElementById("partNo").value.trim();
 
+  // Create FormData object
   const formData = new FormData();
   formData.append('Status', controllerText);
   formData.append('Rack Number', partNumber);
 
   if (controllerText === '1') {
-    const DescriptionName = document.getElementById("DescriptionName").value;
-    const PartnumberName = document.getElementById("PartnumberName").value;
+    const DescriptionName = document.getElementById("DescriptionName").value.trim();
+    const PartnumberName = document.getElementById("PartnumberName").value.trim();
     formData.append('Item Description', DescriptionName);
     formData.append('Part Number', PartnumberName);
   }
 
   if (controllerText === '-1') {
-    const DescriptionName = document.getElementById("DescriptionName").value;
-    const PartnumberName = document.getElementById("PartnumberName").value;
+    const DescriptionName = document.getElementById("DescriptionName").value.trim();
+    const PartnumberName = document.getElementById("PartnumberName").value.trim();
     formData.append('Item Description', partDescription);
-    formData.append('Part Number', partNo);  
+    formData.append('Part Number', partNo);
   }
-
 
   // Submit the form
   fetch('https://script.google.com/macros/s/AKfycbworARLSB0lLFd_odZSAKIyel-h4jfDAq-Noh2Bc1IO7F0cW7gYOLr735Y8lrDZEujV/exec', {
