@@ -277,13 +277,13 @@ button.submit-button {
             <tr id="supplierRow" style="display: none;">
                 <td>
                     <label for="ItemDescription" class="form-label">Hall or Rack Location:</label>
-                    <input type="text" id="ItemDescription" name="Item Description" placeholder="Enter Hall or Specific Rack Location X-X-X-X">
+                    <input type="text" id="ItemDescription" name="Item Description" placeholder="Enter Hall or Specific Rack Location X-X-X-X" oninput="this.value = this.value.toUpperCase();">
                 </td>
             </tr>    
             <tr id="supplierNameRow" style="display: none;">
                 <td>
                     <label for="SupplierName" class="form-label">Supplier Name</label>
-                    <input type="text" id="SupplierName" name="Supplier Name" placeholder="Enter Supplier Name">
+                    <input type="text" id="SupplierName" name="Supplier Name" placeholder="Enter Supplier Name" oninput="this.value = this.value.toUpperCase();">
                 </td>
             </tr>
             <tr id="DONoRow" style="display: none;">
@@ -295,7 +295,7 @@ button.submit-button {
             <tr id="PONoRow" style="display: none;">
                 <td>
                     <label for="PONo" class="form-label">PO No</label>
-                    <input type="text" id="PONo" name="PO No" placeholder="Enter PO No">
+                    <input type="text" id="PONo" name="PO No" placeholder="Enter PO No" oninput="this.value = this.value.toUpperCase().replace(/\s+/g, '');">
                 </td>
             </tr>
             <tr id="PRNoRow" style="display: none;">
