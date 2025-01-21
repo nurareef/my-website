@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Monitoring</title>
+    <title>IES 40kVA INSPECTION STATUS & MONITORING</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #f5f7fa;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
@@ -20,7 +23,6 @@
             margin-bottom: 25px;
         }
 
-        /* Button Styles */
         #switchButton {
             padding: 12px 24px;
             background-color: #23408F;
@@ -29,8 +31,7 @@
             border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
-            display: block;
-            margin: 0 auto 20px;
+            margin-bottom: 20px;
             transition: background-color 0.3s;
         }
 
@@ -38,7 +39,6 @@
             background-color: #1a306b;
         }
 
-        /* Checkbox container styling */
         .checkbox-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -49,35 +49,27 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
-        .checkbox-container label {
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 15px;
-            color: #333;
-            transition: color 0.2s;
+        .search-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
-        /* Style for checkboxes */
-        .column-toggle {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: #23408F;
-            transition: box-shadow 0.3s;
-        }
-
-        .column-toggle:focus {
-            outline: none;
-            box-shadow: 0 0 5px #23408F;
-        }
-
-        /* Table styling */
         table {
             width: 100%;
+            max-width: 800px;
             border-collapse: collapse;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -98,33 +90,88 @@
         }
 
         tbody tr:hover {
-            background-color: #f1f5fc;
+            background-color: #6a83f35b;
         }
 
-        /* Subtle hover effect for checkbox labels */
-        .checkbox-container label:hover {
-            color: #23408F;
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9); /* Black with opacity */
         }
 
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 2px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: transparent;
+            box-shadow: none;
+            outline: none;
+            transition: background-color 0.3s;
+        }
     </style>
 </head>
 <body>
 
-<h1>Request Monitoring Table</h1>
+<h1>IES 40kVA INSPECTION STATUS & MONITORING</h1>
 
 <button id="switchButton" onclick="goBack()">Go Back</button>
 
 <div class="checkbox-container">
     <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(0)"> Controller (DSE7410 MKII)</label>
     <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(1)"> Production Assembly</label>
-    <label><input type="checkbox" class="column-toggle" checked onchange="toggleColumn(2)"> Inspection Date</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(3)"> Picture 1</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(4)"> Picture 2</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(5)"> Picture 3</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(6)"> Picture 4</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(7)"> Picture 5</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(8)">Picture 6</label>
-    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(9)"> Picture 7</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(2)"> Submission Time</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(3)"> Pic 1</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(4)"> Pic 2</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(5)"> Pic 3</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(6)"> Pic 4</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(7)"> Pic 5</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(8)"> Pic 6</label>
+    <label><input type="checkbox" class="column-toggle" onchange="toggleColumn(9)"> Pic 7</label>
+
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search items..." onkeyup="filterTableBySearch()">
 </div>
 
 <table id="monitoringTable">
@@ -132,14 +179,14 @@
         <tr>
             <th>Controller (DSE7410 MKII)</th>
             <th>Production Assembly</th>
-            <th>Inspection Date</th>
-            <th>Picture 1</th>
-            <th>Picture 2</th>
-            <th>Picture 3</th>
-            <th>Picture 4</th>
-            <th>Picture 5</th>
-            <th>Picture 6</th>
-            <th>Picture 7</th>
+            <th>Submission Time</th>
+            <th>Pic 1</th>
+            <th>Pic 2</th>
+            <th>Pic 3</th>
+            <th>Pic 4</th>
+            <th>Pic 5</th>
+            <th>Pic 6</th>
+            <th>Pic 7</th>
         </tr>
     </thead>
     <tbody>
@@ -147,66 +194,131 @@
     </tbody>
 </table>
 
+<!-- Modal for image preview -->
+<div id="imageModal" class="modal">
+    <span class="modal-close">&times;</span>
+    <div class="modal-content">
+        <img id="modalImage" src="" alt="Enlarged Image">
+    </div>
+</div>
+
 <script>
-    async function fetchData() {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCIZbxcqKYG2U2HKZlEZXn4az7fYhv9mKVoBynjGYuoFBth0UyCzz5nPBIXWK5ZL9MjKBvexFKEvK/pubhtml?gid=1385172105&single=true');
-                                      
+async function fetchData() {
+    const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQJCIZbxcqKYG2U2HKZlEZXn4az7fYhv9mKVoBynjGYuoFBth0UyCzz5nPBIXWK5ZL9MjKBvexFKEvK/pubhtml?gid=1385172105&single=true');        
+    const text = await response.text();
 
-        const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
+    const rows = doc.querySelectorAll('table tbody tr');
+    const monitoringTable = document.getElementById('monitoringTable').querySelector('tbody');
 
-        const rows = doc.querySelectorAll('table tbody tr');
-        const monitoringTable = document.getElementById('monitoringTable').querySelector('tbody');
+    monitoringTable.innerHTML = '';
 
-        monitoringTable.innerHTML = '';
-
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].querySelectorAll('td');
+    rows.forEach((row, index) => {
+        if (index > 0) {
+            const cells = row.querySelectorAll('td');
             const newRow = document.createElement('tr');
 
-            cells.forEach((cell, index) => {
+            cells.forEach((cell, cellIndex) => {
                 const newCell = document.createElement('td');
-                newCell.textContent = cell.textContent;
+
+                if (cellIndex >= 3 && cellIndex <= 9) { 
+                    const imgElement = cell.querySelector('img');
+                    if (imgElement) {
+                        const img = document.createElement('img');
+                        img.src = imgElement.src;
+                        img.alt = "Part Image";
+                        img.style.maxWidth = "100%";
+                        img.style.height = "auto";
+
+                        // Add event listener to open the image in a modal
+                        img.addEventListener('click', function() {
+                            const modal = document.getElementById('imageModal');
+                            const modalImg = document.getElementById('modalImage');
+                            modal.style.display = 'block';
+                            modalImg.src = this.src;
+                        });
+
+                        newCell.appendChild(img);
+                    } else {
+                        newCell.textContent = cell.textContent.trim();
+                    }
+                } else {
+                    newCell.textContent = cell.textContent.trim();
+                }
+
                 newRow.appendChild(newCell);
             });
 
             monitoringTable.appendChild(newRow);
         }
+    });
 
-        updateInitialColumnVisibility();
-    }
+    updateInitialColumnVisibility();
+}
 
-    function goBack() {
-        window.history.back();
-    }
+function goBack() {
+    window.history.back();
+}
 
-    function toggleColumn(index) {
-        const table = document.getElementById('monitoringTable');
-        const headers = table.querySelectorAll('th');
-        const rows = table.querySelectorAll('tr');
+function toggleColumn(index) {
+    const table = document.getElementById('monitoringTable');
+    const headers = table.querySelectorAll('th');
+    const rows = table.querySelectorAll('tr');
+    
+    // Get the checkbox corresponding to the column index
+    const checkbox = document.querySelectorAll('.column-toggle')[index];
+    
+    // Determine display style based on checkbox state
+    const displayStyle = checkbox.checked ? '' : 'none';
+    
+    // Apply the display style to the header and each cell in the column
+    headers[index].style.display = displayStyle;
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells[index]) {
+            cells[index].style.display = displayStyle;
+        }
+    });
+}
 
-        headers[index].style.display = headers[index].style.display === 'none' ? '' : 'none';
+function updateInitialColumnVisibility() {
+    const checkboxes = document.querySelectorAll('.column-toggle');
+    checkboxes.forEach((checkbox, index) => {
+        toggleColumn(index);
+    });
+}
 
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            if (cells[index]) {
-                cells[index].style.display = cells[index].style.display === 'none' ? '' : 'none';
+
+function filterTableBySearch() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#monitoringTable tbody tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let match = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(searchInput)) {
+                match = true;
             }
         });
-    }
 
-    function updateInitialColumnVisibility() {
-        const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
-        checkboxes.forEach((checkbox, index) => {
-            if (!checkbox.checked) {
-                toggleColumn(index);
-            }
-        });
-    }
+        if (match) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
 
-    window.onload = fetchData;
+// Close modal when the user clicks the close button
+document.querySelector('.modal-close').onclick = function() {
+    document.getElementById('imageModal').style.display = 'none';
+};
+
+fetchData();
 </script>
 
 </body>
