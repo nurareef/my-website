@@ -67,13 +67,6 @@
     .dropdown-options div:hover {
       background-color: #fcb620;
     }
-    #item-details {
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-      background-color: #fff;
-      margin-bottom: 20px;
-    }
     #scanner-container {
       width: 100%;
       height: 140px;
@@ -238,7 +231,6 @@
 
     <form id="checklistForm" method="post">
       <input type="hidden" id="partNumber" name="Part Number">
-      <input type="hidden" id="partDescription" name="Part Description">
       <input type="hidden" id="controllerValue" name="DN No.">
       <input type="hidden" id="poValue" name="PO No.">
       <input type="hidden" id="projectValue" name="Quantity Received">
@@ -251,10 +243,11 @@
       <table>
         <tr>
             <td>
-                <label for="po-no" class="form-label">PO No.</label>
-                <input type="text" id="po-no" placeholder="Unique identifier" oninput="this.value = this.value.replace(/\s+/g, '')">
+                <label for="PO No." class="form-label">PO No.</label>
+                <input type="text" id="PO No." placeholder="Unique identifier" oninput="this.value = this.value.replace(/\s+/g, '')">
             </td>
         </tr>    
+
           <td>
             <label for="DN No." class="form-label">DN No.</label>
             <input type="text" id="DN No." placeholder="Unique identifier">
@@ -273,13 +266,12 @@
   </div>
 
   <label for="item-id-input">Enter Part No:</label>
-  <input type="text" id="item-id-input" oninput="this.value = this.value.replace(/\s+/g, '')">
-    <div class="dropdown-container">
-    <input type="text" id="item-id-input" placeholder="Type to search or enter Part No">
+  <input type="text" id="item-id-input" placeholder="Type to search or enter Part No" oninput="this.value = this.value.replace(/\s+/g, '')">
+  <div class="dropdown-container">
     <div class="dropdown-options" id="dropdown-options"></div>
   </div>
+  
 
-  <div id="item-details"></div>
 
   <div class="file-upload-container">
     <form id="photoUploadForm" method="post">
@@ -338,14 +330,12 @@ function selectOption(option) {
 function fetchItemDetails() {
     const selectedItemID = document.getElementById('item-id-input').value;
     const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?timestamp=${new Date().getTime()}`;
-
     fetch(sheetURL, { cache: 'no-store' })
         .then(response => response.text())
         .then(data => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(data, 'text/html');
             const table = doc.querySelector('table');
-
             const rows = table.querySelectorAll('tr');
             for (let i = 1; i < rows.length; i++) {
                 const cells = rows[i].querySelectorAll('td');
@@ -354,17 +344,14 @@ function fetchItemDetails() {
                         <p><strong>Part Number:</strong> ${cells[0].textContent.trim()}</p>
                         <p><strong>Part Description:</strong> ${cells[1].textContent.trim()}</p>
                     `;
-                    document.getElementById('item-details').innerHTML = itemDetails;
-                    document.getElementById('partDescription').value = cells[1].textContent.trim(); // Set hidden field
                     return;
                 }
             }
-
-            document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+
 }
 
 document.getElementById('item-id-input').addEventListener('input', (event) => {
@@ -386,7 +373,6 @@ function submitForm() {
   const controllerText = document.getElementById("DN No.").value;
   const quantityText = document.getElementById("Quantity Received").value;
   const partNumber = document.getElementById("item-id-input").value;
-  const partDescription = document.getElementById("partDescription").value;
 
   const now = new Date();
   const malaysiaTime = now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
@@ -403,7 +389,6 @@ function submitForm() {
   formData.append('DN No.', controllerText);
   formData.append('Quantity Received', quantityText);
   formData.append('Part Number', partNumber);
-  formData.append('Part Description', partDescription);
   formData.append('Submission Date', submissionDate);
   formData.append('Submission Clock', submissionClock);
   formData.append('submission Name', NameSubmission);
@@ -520,7 +505,6 @@ function resetScanner() {
   Quagga.stop();
   document.getElementById('item-id-input').value = '';
   document.getElementById('partNumber').value = ''; // Clear hidden field
-  document.getElementById('item-details').innerHTML = '';
   
   // Restart the scanner
   startScanner();
