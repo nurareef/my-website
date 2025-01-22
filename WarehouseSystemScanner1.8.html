@@ -251,10 +251,10 @@
       <table>
         <tr>
             <td>
-                <label for="PO No." class="form-label">PO No.</label>
-                <input type="text" id="PO No." placeholder="Unique identifier">
-              </td>
-            </tr>    
+                <label for="po-no" class="form-label">PO No.</label>
+                <input type="text" id="po-no" placeholder="Unique identifier" oninput="this.value = this.value.replace(/\s+/g, '')">
+            </td>
+        </tr>    
           <td>
             <label for="DN No." class="form-label">DN No.</label>
             <input type="text" id="DN No." placeholder="Unique identifier">
@@ -273,7 +273,8 @@
   </div>
 
   <label for="item-id-input">Enter Part No:</label>
-  <div class="dropdown-container">
+  <input type="text" id="item-id-input" oninput="this.value = this.value.replace(/\s+/g, '')">
+    <div class="dropdown-container">
     <input type="text" id="item-id-input" placeholder="Type to search or enter Part No">
     <div class="dropdown-options" id="dropdown-options"></div>
   </div>
@@ -335,45 +336,35 @@ function selectOption(option) {
 }
 
 function fetchItemDetails() {
-const selectedItemID = document.getElementById('item-id-input').value;
-const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?timestamp=${new Date().getTime()}`;
+    const selectedItemID = document.getElementById('item-id-input').value;
+    const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pubhtml?timestamp=${new Date().getTime()}`;
 
-fetch(sheetURL, { cache: 'no-store' })
-    .then(response => response.text())
-    .then(data => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(data, 'text/html');
-    const table = doc.querySelector('table');
+    fetch(sheetURL, { cache: 'no-store' })
+        .then(response => response.text())
+        .then(data => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data, 'text/html');
+            const table = doc.querySelector('table');
 
-    const rows = table.querySelectorAll('tr');
-    for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].querySelectorAll('td');
-        if (cells.length === 4 && cells[0].textContent.trim() === selectedItemID) {
-        let imageUrl = '';
-        const imgElement = cells[1].querySelector('img');
-        if (imgElement) {
-            imageUrl = imgElement.src;
-        } else {
-            imageUrl = cells[1].textContent.trim();
-        }
-        
-        const itemDetails = `
-            <p><strong>Part Number:</strong> ${cells[0].textContent.trim()}</p>
-            <p><strong>Image:</strong> <img src="${imageUrl}" alt="Part Image" style="max-width: 100%; height: auto;"></p>
-            <p><strong>Part Description:</strong> ${cells[2].textContent.trim()}</p>
-            <p><strong>Expected Received Quantity:</strong> ${cells[3].textContent.trim()}</p>
-        `;
-        document.getElementById('item-details').innerHTML = itemDetails;
-        document.getElementById('partDescription').value = cells[2].textContent.trim(); // Set hidden field
-        return;
-        }
-    }
+            const rows = table.querySelectorAll('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].querySelectorAll('td');
+                if (cells.length >= 1 && cells[0].textContent.trim() === selectedItemID) {
+                    const itemDetails = `
+                        <p><strong>Part Number:</strong> ${cells[0].textContent.trim()}</p>
+                        <p><strong>Part Description:</strong> ${cells[1].textContent.trim()}</p>
+                    `;
+                    document.getElementById('item-details').innerHTML = itemDetails;
+                    document.getElementById('partDescription').value = cells[1].textContent.trim(); // Set hidden field
+                    return;
+                }
+            }
 
-    document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
-    })
-    .catch(error => {
-    console.error('Error fetching data:', error);
-    });
+            document.getElementById('item-details').innerHTML = '<p>No data found for the selected Part No.</p>';
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 }
 
 document.getElementById('item-id-input').addEventListener('input', (event) => {
