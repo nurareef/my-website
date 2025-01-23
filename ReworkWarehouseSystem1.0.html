@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Warehouse Check-in">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/V1zQRS2.png">
+  <title>Warehouse Rework System</title>
+  <link rel="icon" type="image/png" href="https://i.imgur.com/V1zQRS2.png">
+  <link rel="stylesheet" href="Google Sheet.css">
+  <style>
+    body {
+		
+            background-image: url('https://i.imgur.com/aofHitA.png'); 
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    }
+	  
+	          .container{
+            width: auto;
+            padding: 30px;
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+            position: relative;
+            display: inline-block; /* Display inline to stay side by side */
+            margin-right: 20px; /* Add some margin between containers */
+        }
+
+	  
+    label {
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .submit-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #23408F;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      text-align: center;
+    }
+    .submit-button:hover {
+      background-color: #fcb620;
+    }
+    .form-label {
+      margin-bottom: 5px;
+      display: block;
+      font-weight: bold;
+    }
+    .input-box {
+      margin-bottom: 15px;
+    }
+    .input-box input, 
+    .input-box select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #23408F;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .file-upload-container {
+      position: relative;
+    }
+
+    .file-upload-container input[type="file"] {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .submit-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #23408F;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .submit-button:hover {
+      background-color: #fcb620;
+    }
+
+    /* Button Styles */
+    #switchButton {
+        padding: 10px 20px;
+        background-color: #23408F;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        display: block; /* Make it a block element */
+        margin: 10px auto; /* Center the button */
+    }
+    #switchButton:hover {
+            background-color: #fcb620;
+        }
+
+
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+	
+	    <div class="container">
+
+            <img src="https://i.imgur.com/XZvd1fv.png" alt="Sample Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+
+
+  <h2>Warehouse Rework System</h2>
+  <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/MainSupplierDashboardV1.0.html';">Go to Main Supplier Inventory</button>
+
+  <div class="container">
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+  
+    <form id="checklistForm" method="post">
+      <input type="hidden" id="partNumber" name="Part Number">
+      <input type="hidden" id="remark" name="Remark">
+      <input type="hidden" id="doValue" name="DO No.">
+      <input type="hidden" id="projectValue" name="Quantity Sent">
+      <input type="hidden" id="submissionDate" name="Submission Date">
+      <input type="hidden" id="submissionClock" name="Submission Clock">      
+      <input type="hidden" id="submissionName" name="submission Name">
+      <input type="hidden" id="NameSupplier" name="Supplier Name">
+      <input type="hidden" id="TypeUOM" name="UOM">
+  
+      <table>
+        <tr>
+          <td>
+            <label for="DO No." class="form-label">DO No.</label>
+            <input type="text" id="DO No." placeholder="IES DO NUMBER" oninput="this.value = this.value.replace(/\s+/g, '')">
+          </td>
+        </tr>    
+  
+        <tr>
+          <td>
+            <label for="Quantity Sent" class="form-label">Quantity Sent</label>
+            <input type="number" id="Quantity Sent" placeholder="Enter quantity">
+          </td>
+        </tr>
+  
+        <!-- Add the Enter Part No. section here -->
+        <tr>
+          <td>
+            <label for="item-id-input">Enter Part No:</label>
+            <input type="text" id="item-id-input" placeholder="Type to search or enter Part No" oninput="this.value = this.value.replace(/\s+/g, '')">
+          </td>
+        </tr>
+
+        <tr>
+            <td>
+              <label for="remarkinput">Remark:</label>
+              <input type="text" id="remarkinput" placeholder="Remark which project">
+            </td>
+          </tr>  
+  
+      </table>
+  
+      <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+  </div>
+    
+
+
+  <div class="file-upload-container">
+    <form id="photoUploadForm" method="post">
+      <label for="file" class="form-label">Photo Attachments</label>
+      <input type="file" id="fileInput" required>
+      <button type="button" class="submit-button" onclick="uploadFile()">Upload Photo</button>
+    </form>
+    <div class="loading-overlay" id="uploadLoadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+			
+</div>
+
+  
+  <script>
+    let allOptions = [];
+
+function fetchDropdownOptions() {
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSppf_VcYsXn8aZN0-rt1OeYFP--328TUAs1nR2HDE-Sd4PrCE2O4l1lKWDIlpgE0RxVDeiriGKp2cg/pub?output=csv';
+
+  fetch(sheetURL)
+    .then(response => response.text())
+    .then(data => {
+      const rows = data.split('\n');
+      allOptions = rows.slice(1).map(row => row.split(',')[0]).filter(itemID => itemID);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+}
+
+
+
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+function submitForm() {
+  showLoading();
+  
+  const poText = document.getElementById("DO No.").value;
+  const quantityText = document.getElementById("Quantity Sent").value;
+  const partNumber = document.getElementById("item-id-input").value;
+  const remark = document.getElementById("remarkinput").value;
+
+  
+  const now = new Date();
+  const malaysiaTime = now.toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+  const submissionDate = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+  const submissionClock = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+  const NameSubmission = 'Viknesh';
+  const SupplierName = 'TOYOMI ENGINEERING SDN BHD';
+  const UOMType = 'PCS';
+
+  const formData = new FormData();
+  formData.append('DO No.', poText);
+  formData.append('Quantity Sent', quantityText);
+  formData.append('Part Number', partNumber);
+  formData.append('Remark', remark);
+  formData.append('Submission Date', submissionDate);
+  formData.append('Submission Clock', submissionClock);
+  formData.append('submission Name', NameSubmission);
+  formData.append('Supplier Name', SupplierName);
+  formData.append('UOM', UOMType);
+
+  // File upload handling and submission remains the same...
+
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function() {
+      const fileContent = reader.result;
+      formData.append('fileContent', fileContent);
+      formData.append('filename', file.name);
+
+      fetch('https://script.google.com/macros/s/AKfycbztU7vmnR8XobWDeURZyUOJJ4e_RrPfdlXOrX9e1TquALa871SqYHlVz-BVb3ekoDcu/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Form submitted successfully');
+          alert('Form submitted successfully');
+        } else {
+          console.error('Form submission failed');
+          alert('Form submission failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error:', error);
+      })
+      .finally(hideLoading);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // Submit without file if no file is selected
+    fetch('https://script.google.com/macros/s/AKfycbztU7vmnR8XobWDeURZyUOJJ4e_RrPfdlXOrX9e1TquALa871SqYHlVz-BVb3ekoDcu/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Form submitted successfully');
+        alert('Form submitted successfully');
+      } else {
+        console.error('Form submission failed');
+        alert('Form submission failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error:', error);
+    })
+    .finally(hideLoading);
+  }
+}
+
+Quagga.onDetected(onBarcodeDetected);
+
+
+
+
+fetchDropdownOptions();
+startScanner();
+
+function uploadFile() {
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const uploadLoadingOverlay = document.getElementById('uploadLoadingOverlay');
+  const reader = new FileReader();
+
+  // Show loading spinner
+  uploadLoadingOverlay.style.display = 'flex';
+
+  reader.onload = function() {
+    const fileContent = reader.result;
+    const filename = file.name;
+
+    const formData = new FormData();
+    formData.append('fileContent', fileContent);
+    formData.append('filename', filename);
+    formData.append('Submission Time', new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
+
+    fetch('https://script.google.com/macros/s/AKfycbztU7vmnR8XobWDeURZyUOJJ4e_RrPfdlXOrX9e1TquALa871SqYHlVz-BVb3ekoDcu/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('File uploaded successfully');
+        alert('File uploaded successfully');
+      } else {
+        console.error('File upload failed');
+        alert('File upload failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error:', error);
+    })
+    .finally(() => {
+      // Hide loading spinner
+      uploadLoadingOverlay.style.display = 'none';
+    });
+  };
+
+  reader.readAsDataURL(file);
+}
+
+    // Start the scanner and fetch dropdown options
+    fetchDropdownOptions();
+    startScanner();
+  </script>
+</body>
+</html>
