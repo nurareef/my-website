@@ -216,6 +216,8 @@
 
   <h2>Warehouse Key-in System</h2>
   <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/MainSupplierDashboardV1.0.html';">Go to Main Supplier Inventory</button>
+  
+  <button id="switchButton" onclick="window.location.href='https://raw.githack.com/nurareef/my-website/main/ReworkWarehouseSystem1.0.html';">Sending for Rework</button>
 
   <button id="reset-button">Reset Scanner</button>
 
@@ -261,17 +263,16 @@
         </tr>
       </table>
 
+      <label for="item-id-input">Enter Part No:</label>
+      <input type="text" id="item-id-input" placeholder="Type to search or enter Part No" oninput="this.value = this.value.replace(/\s+/g, '')">
+      <div class="dropdown-container">
+        <div class="dropdown-options" id="dropdown-options"></div>
+      </div>
+    
+
       <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
     </form>
   </div>
-
-  <label for="item-id-input">Enter Part No:</label>
-  <input type="text" id="item-id-input" placeholder="Type to search or enter Part No" oninput="this.value = this.value.replace(/\s+/g, '')">
-  <div class="dropdown-container">
-    <div class="dropdown-options" id="dropdown-options"></div>
-  </div>
-  
-
 
   <div class="file-upload-container">
     <form id="photoUploadForm" method="post">
