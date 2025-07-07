@@ -706,7 +706,7 @@ function submitForm() {
       formData.append('fileContent', fileContent);
       formData.append('filename', file.name);
 
-      fetch('https://script.google.com/macros/s/AKfycbyqeMQVSarU3rHxciY0amB2msQEI3J1a4VaGLnCxprIujU15h_M_ANHAFNQgUGmZTrf/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbzMhNOfROPK3V8-8koqo5IEebowD8Actcp7oL80jnsWiwLbZ-RXSkjekoTL4iREKOLp/exec', {
         method: 'POST',
         body: formData
       })
@@ -727,7 +727,7 @@ function submitForm() {
     };
     reader.readAsDataURL(file);
   } else {
-    fetch('https://script.google.com/macros/s/AKfycbyqeMQVSarU3rHxciY0amB2msQEI3J1a4VaGLnCxprIujU15h_M_ANHAFNQgUGmZTrf/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzMhNOfROPK3V8-8koqo5IEebowD8Actcp7oL80jnsWiwLbZ-RXSkjekoTL4iREKOLp/exec', {
       method: 'POST',
       body: formData
     })
@@ -812,7 +812,7 @@ function uploadFile() {
     formData.append('filename', filename);
     formData.append('Submission Time', new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }));
 
-    fetch('https://script.google.com/macros/s/AKfycbyqeMQVSarU3rHxciY0amB2msQEI3J1a4VaGLnCxprIujU15h_M_ANHAFNQgUGmZTrf/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzMhNOfROPK3V8-8koqo5IEebowD8Actcp7oL80jnsWiwLbZ-RXSkjekoTL4iREKOLp/exec', {
       method: 'POST',
       body: formData
     })
