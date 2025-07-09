@@ -376,7 +376,7 @@ let allOptions = [];
 let currentStatus = 'Out'; // Default value
 
 function fetchDropdownOptions() {
-  const sheetURL = 'https://docs.google.com/spreadsheets/d/1SzStT_2JBdUXsrWDVUuc9UKFbrLWAmQUpTBNEPHcceM/pub?gid=1410534708&single=true&output=csv';
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQQzurTDNK5CnmiFqy1nwvmsPPP12BzgzQmWlN7Z-WCSnkg4UH7LnvsI2XKiMeK1J2l6st7iHElgy48/pub?gid=1410534708&single=true&output=csv';
 
   fetch(sheetURL)
     .then(response => response.text())
@@ -471,7 +471,7 @@ function selectOption(option) {
 
 function fetchItemDetails() {
     const selectedItemID = document.getElementById('item-id-input').value;
-    const sheetURL = `https://docs.google.com/spreadsheets/d/1SzStT_2JBdUXsrWDVUuc9UKFbrLWAmQUpTBNEPHcceM/pubhtml?gid=1410534708&single=true&timestamp=${new Date().getTime()}`;
+    const sheetURL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQQzurTDNK5CnmiFqy1nwvmsPPP12BzgzQmWlN7Z-WCSnkg4UH7LnvsI2XKiMeK1J2l6st7iHElgy48/pubhtml?gid=1410534708&single=true&timestamp=${new Date().getTime()}`;
 
     fetch(sheetURL, { cache: 'no-store' })
         .then(response => response.text())
