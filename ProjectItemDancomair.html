@@ -253,10 +253,10 @@ button.submit-button {
         <input type="hidden" id="projectValue" name="Quantity">
         <input type="hidden" id="submissionDate" name="Submission Date">
         <input type="hidden" id="submissionClock" name="Submission Clock">      
-        <input type="hidden" id="SupplierNa" name="Supplier Name">
+        <input type="hidden" id="SupplierNa" name="Item Number">
         <input type="hidden" id="DNo" name="DO No">
         <input type="hidden" id="PNo" name="PO No">
-        <input type="hidden" id="RPNo" name="PR No">
+        <input type="hidden" id="RemarkNotes" name="Remark">
         <input type="hidden" id="SerialNo" name="Serial Number">
         <input type="hidden" id="RelatedPro" name="Related Project">
         <input type="hidden" id="RequestBy" name="Request by">
@@ -282,8 +282,8 @@ button.submit-button {
             </tr>    
             <tr id="supplierNameRow" style="display: none;">
                 <td>
-                    <label for="SupplierName" class="form-label">Supplier Name</label>
-                    <input type="text" id="SupplierName" name="Supplier Name" placeholder="Enter Supplier Name" oninput="this.value = this.value.toUpperCase();">
+                    <label for="ItemNumber" class="form-label">Item Number</label>
+                    <input type="text" id="ItemNumber" name="Item Number" placeholder="Enter Item Number" oninput="this.value = this.value.toUpperCase();">
                 </td>
             </tr>
             <tr id="DONoRow" style="display: none;">
@@ -300,8 +300,8 @@ button.submit-button {
             </tr>
             <tr id="PRNoRow" style="display: none;">
                 <td>
-                    <label for="PRNo" class="form-label">PR No</label>
-                    <input type="text" id="PRNo" name="PR No" placeholder="Enter PR No">
+                    <label for="PRNo" class="form-label">Remark</label>
+                    <input type="text" id="PRNo" name="Remark" placeholder="Enter Remark">
                 </td>
             </tr>
             <tr id="supplierRelatedProRow" style="display: none;">
@@ -351,7 +351,7 @@ button.submit-button {
             </tr>
         </table>
 
-        <input type="hidden" id="supplierNameHidden" name="supplierName" /> <!-- Move this inside the form -->
+        <input type="hidden" id="supplierNameHidden" name="ItemNumber" /> <!-- Move this inside the form -->
 
         <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
     </form>
@@ -402,10 +402,10 @@ function selectStatus(status) {
   const refillBox = document.getElementById('refill-box');
   const restockBox = document.getElementById('restock-box');
   const supplierRow = document.getElementById('supplierRow');
-  const supplierNameRow = document.getElementById('supplierNameRow'); // New row for Supplier Name
+  const supplierNameRow = document.getElementById('supplierNameRow'); // New row for Item Number
   const DONoRow = document.getElementById('DONoRow'); // New row for DO No
   const PONoRow = document.getElementById('PONoRow'); // New row for PO No
-  const PRNoRow = document.getElementById('PRNoRow'); // New row for PR No
+  const PRNoRow = document.getElementById('PRNoRow'); // New row for Remark
   const serialNumberRow = document.getElementById('serialNumberRow'); // New row for Serial Number
   const supplierRelatedProRow = document.getElementById('supplierRelatedProRow'); // New row for Related Project
   const requestByRow = document.getElementById('requestByRow'); // New row for request By
@@ -417,10 +417,10 @@ function selectStatus(status) {
     refillBox.classList.add('selected');
     restockBox.classList.remove('selected');
     supplierRow.style.display = 'none';
-    supplierNameRow.style.display = 'none'; // Hide the "Supplier Name" row for Out
+    supplierNameRow.style.display = 'none'; // Hide the "Item Number" row for Out
     DONoRow.style.display = 'none'; // Hide the "DO No" row for Out
     PONoRow.style.display = 'none'; // Hide the "PO No" row for Out
-    PRNoRow.style.display = 'none'; // Hide the "PR No" row for Out
+    PRNoRow.style.display = 'none'; // Hide the "Remark" row for Out
     serialNumberRow.style.display = 'none'; // Hide the "Serial Number" row for Out
     supplierRelatedProRow.style.display = 'none'; // Hide the "Related Project" row for Out
     requestByRow.style.display = 'none'; // Hide the "request By" row for Out
@@ -431,10 +431,10 @@ function selectStatus(status) {
     restockBox.classList.add('selected');
     refillBox.classList.remove('selected');
     supplierRow.style.display = 'table-row'; // Show the "Item Description" row
-    supplierNameRow.style.display = 'table-row'; // Show the "Supplier Name" row for In
+    supplierNameRow.style.display = 'table-row'; // Show the "Item Number" row for In
     DONoRow.style.display = 'table-row'; // Show the "DO No" row for In
     PONoRow.style.display = 'table-row'; // Show the "PO No" row for In
-    PRNoRow.style.display = 'table-row'; // Show the "PR No" row for In
+    PRNoRow.style.display = 'table-row'; // Show the "Remark" row for In
     serialNumberRow.style.display = 'table-row'; // Show the "Serial Number" row for In
     supplierRelatedProRow.style.display = 'table-row'; // Show the "Related Project" row for In
     requestByRow.style.display = 'table-row'; // Show the "request By" row for In
@@ -492,18 +492,18 @@ function fetchItemDetails() {
                         imageUrl = cells[1].textContent.trim();
                     }
 
-                    // Extract the Supplier Name from the row
-                    const supplierName = cells[5].textContent.trim(); // Assuming Supplier Name is in the 6th column (index 5)
+                    // Extract the Item Number from the row
+                    const ItemNumber = cells[5].textContent.trim(); // Assuming Item Number is in the 6th column (index 5)
 
-                    // Store Supplier Name in a hidden input field
-                    document.getElementById('supplierNameHidden').value = supplierName; // Create this hidden field in HTML
+                    // Store Item Number in a hidden input field
+                    document.getElementById('supplierNameHidden').value = ItemNumber; // Create this hidden field in HTML
 
                     const itemDetails = `
                         <p><strong>Item Description:</strong> ${cells[0].textContent.trim()}</p>
                         <p><strong>Rack Number:</strong> ${cells[1].textContent.trim()}</p>
                         <p><strong>Quantity:</strong> ${cells[2].textContent.trim()}</p>
                         <p><strong>UOM:</strong> ${cells[3].textContent.trim()}</p>
-                        <p><strong>Supplier Name:</strong> ${supplierName}</p>
+                        <p><strong>Item Number:</strong> ${ItemNumber}</p>
                         <p><strong>Related Project:</strong> ${cells[6].textContent.trim()}</p>
                         <p><strong>Request by:</strong> ${cells[7].textContent.trim()}</p>
                         <p><strong>Submission Name:</strong> ${cells[8].textContent.trim()}</p>
@@ -572,10 +572,10 @@ document.getElementById("Status").addEventListener("change", function() {
 window.onload = function() {
   const statusValue = document.getElementById("Status").value;
   const supplierRow = document.getElementById("supplierRow");
-  const supplierNameRow = document.getElementById("supplierNameRow"); // New Supplier Name row
+  const supplierNameRow = document.getElementById("supplierNameRow"); // New Item Number row
   const DONoRow = document.getElementById("supplierNameRow"); // New DO No row
   const PONoRow = document.getElementById("supplierNameRow"); // New PO No row
-  const PRNoRow = document.getElementById("supplierNameRow"); // New PR No row
+  const PRNoRow = document.getElementById("supplierNameRow"); // New Remark row
   const serialNumberRow = document.getElementById("supplierNameRow"); // New Serial Number row
   const supplierRelatedProRow = document.getElementById("supplierNameRow"); // New Related Project row
   const requestByRow = document.getElementById("supplierNameRow"); // New request By row
@@ -583,10 +583,10 @@ window.onload = function() {
   
   if (statusValue !== "In") {
     supplierRow.style.display = "none";
-    supplierNameRow.style.display = "none"; // Hide the "Supplier Name" row initially
+    supplierNameRow.style.display = "none"; // Hide the "Item Number" row initially
     DONoRow.style.display = "none"; // Hide the "DO No" row initially
     PONoRow.style.display = "none"; // Hide the "PO No" row initially
-    PRNoRow.style.display = "none"; // Hide the "PR No" row initially
+    PRNoRow.style.display = "none"; // Hide the "Remark" row initially
     serialNumberRow.style.display = "none"; // Hide the "Serial Number" row initially
     supplierRelatedProRow.style.display = "none"; // Hide the "Related Project" row initially
     requestByRow.style.display = "none"; // Hide the "request By" row initially
@@ -624,8 +624,8 @@ function submitForm() {
   formData.append('UOM', UOMType);
 
   if (controllerText === 'Out') {
-    const supplierName = document.getElementById('supplierNameHidden').value;
-    formData.append('Supplier Name', supplierName); // Include Supplier Name
+    const ItemNumber = document.getElementById('supplierNameHidden').value;
+    formData.append('Item Number', ItemNumber); // Include Item Number
   }
 
   if (controllerText === 'Out') {
@@ -661,8 +661,8 @@ function submitForm() {
 
   const supplierNameRow = document.getElementById("supplierNameRow");
   if (supplierNameRow.style.display !== "none") {
-    const SupplierName = document.getElementById("SupplierName").value;
-    formData.append('Supplier Name', SupplierName);
+    const ItemNumber = document.getElementById("ItemNumber").value;
+    formData.append('Item Number', ItemNumber);
   }
 
   const DONoRow = document.getElementById("DONoRow");
@@ -679,7 +679,7 @@ function submitForm() {
   const PRNoRow = document.getElementById("PRNoRow");
   if (PRNoRow.style.display !== "none") {
     const PRNo = document.getElementById("PRNo").value;
-    formData.append('PR No', PRNo);
+    formData.append('Remark', PRNo);
   }
 
 
@@ -768,7 +768,7 @@ function handleFormSubmit() {
     if (document.getElementById('status').value === 'Out') {
         const additionalData = {
             rackNumber: document.getElementById('rackNumber').textContent.trim(),
-            supplierName: document.getElementById('supplierName').textContent.trim(),
+            ItemNumber: document.getElementById('ItemNumber').textContent.trim(),
             relatedProject: document.getElementById('relatedProject').textContent.trim(),
             requestBy: document.getElementById('requestBy').textContent.trim()
         };
