@@ -192,7 +192,7 @@
 </head>
 <body>
     <a href="https://raw.githack.com/nurareef/my-website/main/WarehouseStockControlSystem_v1.5.html">
-        <img src="https://i.imgur.com/XZvd1fv.png" alt="IES Logo" style="display:block; margin:auto; width: auto; height: 150px;">
+        <img src="https://dancomair.com/wp-content/uploads/2022/07/LOGO-HEADER3.png" alt="DME Logo" style="display:block; margin:auto; width: auto; height: 150px;">
     </a>
     <h1>Inventory (Purchasing/Warehouse use)</h1>
 
@@ -206,12 +206,12 @@
             <label><input type="checkbox" class="column-toggle" data-column="3" checked> Quantity</label>
             <label><input type="checkbox" class="column-toggle" data-column="4" > UOM</label>
             <label><input type="checkbox" class="column-toggle" data-column="5" checked> Status</label>
-            <label><input type="checkbox" class="column-toggle" data-column="6" checked> Supplier Name</label>
+            <label><input type="checkbox" class="column-toggle" data-column="6" checked> Item Number</label>
             <label><input type="checkbox" class="column-toggle" data-column="7" checked> Related Project</label>
             <label><input type="checkbox" class="column-toggle" data-column="8" checked> Request by</label>
             <label><input type="checkbox" class="column-toggle" data-column="9" checked> DO No</label>
             <label><input type="checkbox" class="column-toggle" data-column="10" checked> PO No</label>
-            <label><input type="checkbox" class="column-toggle" data-column="11" checked> PR No</label>
+            <label><input type="checkbox" class="column-toggle" data-column="11" checked> Remark</label>
             <label><input type="checkbox" class="column-toggle" data-column="12" > Submission Name</label>
             <label><input type="checkbox" class="column-toggle" data-column="13" > Submission Clock</label>
             <label><input type="checkbox" class="column-toggle" data-column="14" checked> Date</label>
@@ -251,7 +251,7 @@
                     <select id="statusFilter" onchange="filterTableByDropdown(5)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
-                <th>Supplier Name <span class="filter-icon">🔽</span>
+                <th>Item Number <span class="filter-icon">🔽</span>
                     <select id="supplierFilter" onchange="filterTableByDropdown(6)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
@@ -271,7 +271,7 @@
                     <select id="PONoFilter" onchange="filterTableByDropdown(10)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
-                <th>PR No <span class="filter-icon">🔽</span>
+                <th>Remark <span class="filter-icon">🔽</span>
                     <select id="PRNoFilter" onchange="filterTableByDropdown(11)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
@@ -525,8 +525,8 @@
         function downloadCsv() {
     const headers = [
         "Serial Number", "Item Description", "Rack Number", "Quantity", 
-        "UOM", "Status", "Supplier Name", "Related Project", 
-        "Request by", "DO No", "PO No", "PR No", 
+        "UOM", "Status", "Item Number", "Related Project", 
+        "Request by", "DO No", "PO No", "Remark", 
         "Submission Name", "Submission Clock", "Date", "File"
     ];
 
