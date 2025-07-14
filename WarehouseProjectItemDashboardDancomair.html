@@ -211,7 +211,7 @@
             <label><input type="checkbox" class="column-toggle" data-column="1" checked> Rack Number</label>
             <label><input type="checkbox" class="column-toggle" data-column="2" checked> Quantity</label>
             <label><input type="checkbox" class="column-toggle" data-column="3"> UOM</label>
-            <label><input type="checkbox" class="column-toggle" data-column="4"> Supplier Name</label>
+            <label><input type="checkbox" class="column-toggle" data-column="4"> Item Number</label>
             <label><input type="checkbox" class="column-toggle" data-column="5"> Related Project</label>
             <label><input type="checkbox" class="column-toggle" data-column="6"> Request by</label>
             <label><input type="checkbox" class="column-toggle" data-column="7"> Date</label>
@@ -243,7 +243,7 @@
                     <select id="uomFilter" onchange="filterTableByDropdown(3)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
-                <th>Supplier Name <span class="filter-icon">🔽</span>
+                <th>Item Number <span class="filter-icon">🔽</span>
                     <select id="supplierFilter" onchange="filterTableByDropdown(4)"></select>
                     <div class="resizer"></div> <!-- Add resizer here -->
                 </th>
@@ -503,7 +503,7 @@
         function downloadCsv() {
     const headers = [
         "Item Description", "Rack Number", "Quantity", 
-        "UOM", "Supplier Name", "Related Project", 
+        "UOM", "Item Number", "Related Project", 
         "Request by", "Date"
     ];
 
